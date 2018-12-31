@@ -1,0 +1,91 @@
+
+<div class="row" [@fadeIn]>
+  <div class="col-md-8 offset-md-2">
+    <nb-card >
+      <nb-tabset fullWidth>
+        <nb-tab tabTitle="¿Quienes Somos?">
+          <!-- CONTENIDO -->
+          <div>
+  <ngb-carousel>
+    <ng-template ngbSlide>
+      <img src="assets/images/Slider_1.jpg" height="300px" width="100%" >
+      <div class="carousel-caption">
+        <h3>Unete a la Hidroponia</h3>
+        <p id="Shadow_White" align="justify">Los cultivos hidropónicos o hidroponía son plantaciones basadas en un método que prescinde de la tierra para sustituirla por sustratos varios o, sin más, por ninguno de ellos</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <img src="assets/images/Slider_3.jpg"  height="300px" width="100%">
+      <div class="carousel-caption">
+        <h3>AUTOMATIZAR</h3>
+        <p id="Shadow_White" align="justify">simplemente es mejorar y simplificar los procesos, ahorrar tiempo y dinero a través de los sistemas de información. Haciendo el uso de una máquina o mecanismo diseñado para seguir un patrón determinado.</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <img src="assets/images/Slider_2.jpg" height="300px" width="100%">
+      <div class="carousel-caption">
+        <h3>AGRICULTURA DEL FUTURO</h3>
+        <p id="Shadow_White" align="justify">Con esta técnica se busca contrarrestar de alguna maneras las sequias, heladas y
+                problemas por efectos naturales y mejorar el proceso de la cadena productiva</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+  <br><br><br>
+			<div class="col-md-10 offset-md-1 " >
+            <h2>AUTOMATIZACIÓN DE INVERNADEROS</h2>
+            <p align="justify">Haciendo el uso de la hidroponia se puede sacar mas ventaja y provecho al espacio de cultivo, como tambien gracias a la aumatizacion podemos tener un mejor control de produccion y calidad.</p>
+            <br><br>
+
+            <h2> Pa-Telecom</h2>
+           <h4>&middot; Visión</h4>
+			<p align="justify">Ser la empresa líder en el sector de servicios de telecomunicación, formadora de elementos humanos con calidad, prestos a colaborar en el progreso, personal, social y nacional.</p><br>
+			<h4>&middot; Misión </h4>
+			<p align="justify">Otorgar un servicio con calidad.
+			Preparar y capacitar a personal humano para brindar un servicio efectivo y profesional.
+			La mejora continua, constante aprendizaje, creativos, innovadores proyectados al progreso.
+			Demostrar valores para una sociedad justa</p><br>
+			<h4>&middot; Valores</h4>
+			<p align="justify">Respeto, profesionalismo, perseverancia.</p><br>
+          </div>
+
+</div>
+          <!-- FIN CONTENIDO -->
+          
+        </nb-tab>
+     <nb-tab tabTitle="Iniciar Sesion">
+         <!-- CONTENIDO -->
+        <div class="col-md-10 offset-md-2 ">
+			<br>
+		<!-- Inicia el Formulario -->
+		<form class="form-horizontal" (submit)="loginUser($event)">
+
+  		<div class="form-group row">
+      <label  class="col-sm-3 form-control-label">Correo Electronico:</label>
+    	 	<div class="col-sm-6">
+  		    <input type="text" class="form-control" required >
+  		  </div>
+      </div>
+      <div class="form-group row">
+      <label  class="col-sm-3 form-control-label">Contraseña:</label>
+        <div class="col-sm-6">
+  		    <input type="password" class="form-control" required>
+  		  </div>
+		  </div>
+
+ <div class="col-md-9">
+		<input type="submit" class="btn btn-success btn-block" value="Conectarse">
+    <br>
+    <br>
+  </div>
+		
+
+		</form>
+		<!-- Inicia el Formulario -->	
+		
+		</div>
+
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>

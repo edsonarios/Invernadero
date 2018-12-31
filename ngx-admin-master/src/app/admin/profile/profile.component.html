@@ -1,0 +1,53 @@
+
+<div class="col-lg-8 offset-md-2" [@fadeIn]>
+    <nb-card>
+      <nb-card-header><span align="center"><h1>Bienvenido a su Perfil</h1></span></nb-card-header>
+      <nb-card-body>
+       <b>Puede Cambiar Cualquiero dato que guste</b>
+       
+       <form class="form-container" (submit)="change($event)">
+        <div class="row full-name-inputs">
+          <div class="col-sm-4 form-group">
+            <label>Nombre :</label>
+            <input type="text" placeholder="Nombres" value="{{nombre}}" class="form-control"  />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label>Apellido Paterno :</label>
+            <input type="text" placeholder="Ap_paterno" value="{{ap_paterno}}" class="form-control" />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label>Apellido Materno</label>
+            <input type="text" placeholder="Ap_materno" value="{{ap_materno}}" class="form-control" />
+          </div>
+        </div>
+         <div class="form-group">
+          <label>Direccion :</label>
+          <input type="text"  placeholder="Direccion" value="{{direccion}}" class="form-control" />
+        </div>
+         <div class="form-group">
+          <label>Telefono-Celular :</label>
+          <input type="text"  placeholder="Telefono-Celular" value="{{telefono}}" class="form-control" />
+        </div>
+         <div class="form-group">
+          <label>Correo Electronico :</label>
+          <input type="text"  placeholder="Correo Electronico" value="{{correo}}" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Contraseña :</label>
+          <input type="text" placeholder="Contraseña" value="{{password}}" class="form-control" />
+            </div>
+        <br>
+            <div class="col-md-12">
+              <div class="btn-group  btn-group-full-width ">
+                <button class="btn btn-info btn-tn" type="submit"  >Guardar <br>Cambios </button>
+                  <button class="btn btn-success btn-md" type="button" (click)="volver()" > VOLVER </button>
+                  
+              </div>
+          </div>
+
+         </form>
+
+      </nb-card-body>
+    </nb-card>
+
+  </div>

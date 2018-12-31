@@ -1,0 +1,98 @@
+<div class="col-md-12" [@fadeIn]>
+  <div class="row">
+  
+
+<div class="col-lg-8 offset-md-2">
+    <nb-card>
+      <nb-card-header>
+        <span align="center"><h1>Informacion del Invernadero</h1></span>
+      </nb-card-header>
+      <nb-card-body>   
+
+      <form class="form-container" (submit)="CambiarDatos($event)">
+          <div class="row full-name-inputs">
+          <div class="col-sm-6 form-group">
+            <label>Departamento:</label>
+            <input type="text" name="departamento"  value="{{departamento}}" class="form-control"  disabled />
+          </div>
+           <div class="col-sm-6 form-group">
+          <label>Provincia:</label>
+          <input type="text" name="provincia"  value="{{provincia}}" class="form-control"  disabled />
+        </div>
+        </div>
+        <div class="form-group">
+          <label>Ubicacion:</label>
+          <input type="text" name="ubicacion" value="{{ubicacion}}" class="form-control"  disabled />
+        </div>
+        <table  class="table-bordered">
+          
+            <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+              <label>Minuto:</label>
+          <input type="text" name="min" value="{{minuto}}" class="form-control">
+            </div>
+            <div class="col-sm-3  form-group">
+              <label>Segundo:</label>
+          <input type="text" name="sec" value="{{segundo}}"  class="form-control">
+            </div>
+        </div>
+
+
+     <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+              <label>Minuto:</label>
+          <input type="text" name="min" value="{{minuto}}" class="form-control">
+            </div>
+            <div class="col-sm-3  form-group">
+              <label>Segundo:</label>
+          <input type="text" name="sec" value="{{segundo}}"  class="form-control">
+            </div>
+        </div>
+
+         <div class="row full-name-inputs">
+          <div class="col-sm-4 form-group">
+            <label>Temperatura Maxima:</label>
+            <input type="text" name="tempMaxima"  value="{{tempMax}}" class="form-control"  />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label>Temperatura Media:</label>
+            <input type="text" name="tempMaxima"  value="{{tempMedia}}" class="form-control"  />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label>Temperatura Minima:</label>
+            <input type="text"  name="tempMinima"  value="{{tempMin}}" class="form-control"  />
+          </div>
+        </div>
+        <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+              <label>Minuto:</label>
+          <input type="text" name="min" value="{{minuto}}" class="form-control">
+            </div>
+            <div class="col-sm-3  form-group">
+              <label>Segundo:</label>
+          <input type="text" name="sec" value="{{segundo}}"  class="form-control">
+            </div>
+            <div class="col-sm-6  form-group">
+              <label></label>
+         <input type="submit"  class="btn btn-success btn-lg btn-block" value="Cambiar Datos" >
+            </div>
+        </div>
+        </table>
+         <br>
+         <br>
+
+         <br>
+       </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
+</div>
+
+
+

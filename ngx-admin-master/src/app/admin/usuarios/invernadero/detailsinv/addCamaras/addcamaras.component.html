@@ -1,0 +1,41 @@
+<ol class="breadcrumb">
+  <li><a href="/#/admin/user">Control de Cuentas</a></li><b>/</b>
+    <li><a href="/#/admin/details">Detalles de Cuenta</a></li><b>/</b>
+    <li><a href="/#/admin/detailsinv">Invernadero</a></li><b>/</b>
+  <li>añadir Camara</li>
+  </ol>
+<button class="btn btn-success " type="button" (click)="volver()" [@fadeIn]> VOLVER </button>
+<br>
+<br>
+<nb-card>
+      <nb-card-header><span align="center"><h1>Añadir Nueva Camara</h1></span></nb-card-header>
+      <nb-card-body>
+
+  <!--begin-->
+      <form class="form-container" (submit)="AddAnalogico($event)">
+        
+
+           <div class="row full-name-inputs">
+            <div class="col-sm-6  form-group">
+              <label>Nombre :</label>
+              <input type="text"  placeholder="Nombre" class="form-control"/>
+            </div>
+            <div class="col-sm-6 form-group">
+              <label>Direccion IP :</label>
+              <input type="text"  placeholder="Ip" class="form-control" />
+            </div>
+        </div>
+
+             
+       <div class="col-md-12">
+           <div class="btn-group  btn-group-full-width ">
+            <input type="submit"  class="btn btn-success " value="Agregar" >
+            <input type="button" class="btn btn-danger " value="Cancelar" (click)="volver()">
+          </div>
+        </div>
+         <br>
+       </form>
+  <!--end-->
+
+      </nb-card-body>
+    </nb-card>
