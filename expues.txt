@@ -1,0 +1,95 @@
+DIAGRAMA DE CLASES 
+- Diagrama de clases explicado mediante descripcion de cada clase por presentacion
+- Concluyendo con el diagrama final
+- relacion por clases, multiplicidad
+- luego es atributos y metodos
+
+
+- Nombre para cada relacion 
+- Claves primarias para cada relacion 
+- tabla lista_invernadero
+    cambiar listar por mostrar
+- Composicion - Agregacion
+    tiempo de vida
+
+- Controlador
+    Diferencia mostrar, listar
+    Tiempo inicio y final
+- Horario
+    adicionar insertar nuevo horario
+- Producto
+    diferentes sensores(conductibilidad, ph)
+- Usar libreria de plc para conectarse al sistema (nodejs) 
+- Ver funciones de conectado y desconectado de plc o sensores y actuadores
+
+
+
+- Camara IP(para varias camaras)
+    grabar solo por periodos de tiempo
+- Alarmas para ver si funciona breackers, ac, etc
+    Añadir una nueva tabla en la base de datos, para sistema 
+    de notificaciones para diferentes dispositivos(alarmas)
+
+Martes 23 de Enero de 2018
+- Enviar proyecto de nuevo hardware para sensores y actuadores 
+- Usar template gratuitos para el front
+
+Viernes 26 de Enero de 2018
+PRESENTACION PLANTILLAS PARA FRONTEND
+- Pagina de presentacion a un usuario sin registrar
+- Mediante loguin acceder al sistema de un usuario registrado
+- Crear cronograma de fechas
+- Camara ip, que se conecte mediante ethernet al router
+- capturar la imagen de la camara directo en el sistema
+
+Ver Video 
+Lenguajes y tecnologias mas rentables para el 2018
+
+
+REUNION LUNES 5 DE FEBRERO
+- Falta el resto de ventanas
+- Pronosticos separar de reporte
+- Total de ventanas contadas 
+  (Inventariar total de ventanas: formularios ,botones)
+- 
+15 de Febrero fecha final
+
+
+
+
+NOTAS PROPIAS
+mqtt: deberia suscribirse por un id unico de usuario
+
+
+
+FECHA 23 DE MARZO DE 2018
+CONTROLADOR - INVERNADERO
+1 controlador puede controladr mas de un invernadero ? 
+Se puede extender los pines del controlino?
+No funciona su camara :/ 
+Definir los paquetes
+
+REALIZAR
+Finales de carreras
+ventiladores por tiempos 4 min on 4 min off 
+puertas ventanas, se habren secuencialmente, no al mismo tiempo, uno por uno 
+cada 30 sec 
+
+
+
+PRESENTACION 18 DE ABRIL
+PAGINA DE INICIO
+    No este como pagina web, sino como sistema
+
+
+Se necesita Dominio
+Reportes
+
+
+
+Realizar manuales de usuario y administrador
+
+
+Realizar una demo
+
+

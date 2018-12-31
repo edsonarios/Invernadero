@@ -1,0 +1,19 @@
+{
+    "apps" : [
+    {
+      "name"        : "mqtt",
+      "script"      : "./mod-mqtt/server.js",
+      "watch"       : true
+    },
+    {
+        "name"        : "api",
+        "script"      : "./mod-api/server.js",
+        "watch"       : true
+    },
+    {
+      "name"        : "socket",
+      "script"      : "./ngx-admin-master/server.js",
+      "watch"       : true
+  }
+    ]
+  }

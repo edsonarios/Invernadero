@@ -1,0 +1,480 @@
+﻿INVERNADERO
+
+// Instalar postgres en ubuntu
+sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
+Reiniciar postgres
+    /etc/init.d/postgresql restart
+Reiniciar Redis
+    /etc/init.d/redis-server restart
+Reiniciar apache
+    /etc/init.d/apache2 restart
+
+//Instalar code studio en ubuntu (despues de descargar el archivo, abrir la terminal ahi luego ejecutar el siguiente comando)
+sudo dpkg -i nombredelarchivo
+
+//instalar ansible en ubuntu
+sudo apt install ansible 
+
+//instalar vagrant en ubuntu
+sudo apt install vagrant 
+
+//instalar redis
+apt-get install redis-server
+
+
+COMANDOS PARA EJECUTAR
+// para ver errores de codigo
+npm run lint
+
+//corriga automaticamente los errores
+npm run lint -- --fix
+
+//error en el video 15, no ejecuta el creado de la base de datos
+npm run setup
+
+Video 13
+definde las tablas a crearse mediante scrip en postgres
+
+Video 14
+crear las llaves foraneas y la relacion
+
+Video 17( para correr los test)
+npm test
+
+//Ejecutar postgres en la terminal
+sudo su postgres
+psql
+
+//CREA LA BASE DE DATOS (Video 14)
+CREATE ROLE patelecom WITH LOGIN PASSWORD 'patelecom';
+CREATE DATABASE patelecom;
+GRANT ALL PRIVILEGES ON DATABASE patelecom TO patelecom;
+\quit
+
+
+
+
+NPM A INSTALAR
+//para reconocer errores 
+npm i --save-dev standard
+
+//instalar sequelize(video 13)
+npm i sequelize pg pg-hstore --save
+
+//instalar DEBUG(video 15)
+npm i debug --save
+
+//instalar para colorear texto (Video 16)
+npm i inquirer chalk --save
+
+//Instalar test runner para hacer test (video 17)
+npm install --save-dev ava
+npm i --save defaults
+npm i sqlite3 --save-dev
+
+//Instalar nyc(video 18)
+npm i nyc --save-dev
+
+VIDEO 19
+Instala sinon
+npm install --save-dev sinon
+npm i proxyquire --save-dev
+
+para terminar la base de datos
+
+
+    //Destruye y crea desde cero la base de datos con las tablas ya definidas
+    npm run setup
+
+    //carga datos a la base de datos, datos de ejemplo, con algunas funciones ya establecidas
+    node examples/index.js
+
+TERMINADO: reto del ultimo video, implementar
+---------------------------------------------------------------------------------------
+
+//SERVIDOR MQTT
+VIDEO 29
+//instalar standard y nodemon para facilitar reinicio de servidor
+npm i --save-dev standard nodemon
+
+//instalar debug, mosca, redis(backend de almacenamiento de mensajes), chalk(para mostrar mensajes mas bonitos)
+npm i --save debug mosca redis chalk
+
+//para hacer correr el servidor, pero antes hacer correr redis
+//en una terminal aparte
+
+    redis-server
+    //luego
+    npm run start-dev
+    
+video 30
+//instalar mqtt de manera global (-g)
+sudo npm install -g mqtt
+
+    //ejemplo correr el servidor y luego mandar un mensaje via consola
+    npm run start-dev
+    mqtt pub -t 'agent/message' -h localhost -m 'Hola'
+
+Video 31
+//agrega la base de datos al servidor mqtt y lo añade al package para que lo reconosca
+npm i
+ls node_modules/
+
+Video 34
+//probando la persistencia
+
+POSTGRES
+//iniciar postgres
+npm run start-dev
+sudo su - postgres
+psql -U postgres patelecom
+//realizar las consultas necesarias
+//acciones
+    /etc/init.d/postgresql {start|stop|restart|reload|force-reload|status}
+    /etc/init.d/postgresql reload
+//ver todas las tablas
+    \dt
+
+
+mqtt pub -t 'agent/message' -m 'hello'
+mqtt pub -t 'agent/actuador' -m '{"agent": { "uuid": "121212","name": "test","username": "patelecom","pid": 11, "hostname": "Invernadero Quentavi" }, "metrics":[{ "type": "humedad", "value": "20"}, { "type": "temperatura", "value": "21.11"}]}'
+
+mqtt pub -t 'actuador' -m '0'
+mqtt pub -t 'actuador' -m '{"agent":{"uuid":"arduino"},"actuador":{"type":2,"value":1}'
+mqtt pub -t 'actuador' -m '{"agent":{"uuid":"arduino"},"actuador":{"type":2,"value":1},"timestamp":1517522296902}'
+mqtt pub -t 'actuador2' -m '{"agent":{"uuid":"arduino"},"actuador":{"type":2,"value":1},"timestamp":1517522296902}'
+
+mqtt pub -t 'nuevoRiego' -m '{"agent":{"uuid":"arduino"},"hora":"16:00","duracion":"5:00","bomba":"25"}'
+mqtt pub -t 'eliminarRiego' -m '{"agent":{"uuid":"arduino"},"hora":"16:00","duracion":"5:00","bomba":"25"}'
+
+mqtt pub -t 'actualizacion' -m '{"agent":{"uuid":"arduino"},"actuador":{"type":2,"value":1},"timestamp":1517522296902}'
+
+
+TERMINADO MQTT: Reto del video 34 Revisar e implementar
+---------------------------------------------------------------------------------
+
+//AGENT: Corregir los videos
+
+VIDEO 36
+//Instalar estandar para corregir errores
+npm i standard --save-dev
+
+VIDEO 37
+//Instala dependencias necesarias 
+npm install mqtt debug defaults --save
+
+RETO: crear un modulo q contenga la utilidad de parsepayload mqtt
+
+//instala modulo uuid
+npm install --save uuid
+
+//para probar
+ejecutar redis y mqtt
+node examples/index.js
+
+
+
+FALTA MUCHOS VIDEOS
+----------------------------------------------------------------------------
+
+//Video 40 API 
+// instalar estandar + nodemon 
+npm i standard nodemon --save-dev
+
+//instalar express y debug y chalk
+npm install express debug --save
+npm i chalk --save
+
+//instalar httpie
+sudo apt install httpie
+
+VIDEO 43
+//Instalar super test
+npm install --save-dev ava supertest
+
+VIDEO 44
+//Añadir la bd para utilizarse
+npm i 
+
+//Añadir express-asyncify (da soportes a midalware y asyncryn)
+npm install express-asyncify --save
+
+VIDEO 46
+// instalar sinon
+npm install sinon proxyquire --save-dev
+
+
+TERMINADO 1/2
+---------------------------------------------------------------------
+
+//SEGURIDAD PARA NUESTRO PROYECTO
+//Complemento para la API
+
+//VIDEO 48
+//Instalar jason web token
+npm install jsonwebtoken --save
+
+//instalar express jwt
+npm install express-jwt --save
+
+//instalar JQ para q se vea mejor los json 
+sudo apt install jq 
+
+VIDEO 50
+//instalar permisos jwt 
+npm install express-jwt-permissions --save
+
+//ejemplo
+httpie 
+jwt 
+express 
+http http://localhost:3000/api/agents
+http http://localhost:3000/api/agents/yyy-yyy
+http http://localhost:3000/api/metrics/yyy-yyy
+
+
+npm run start-dev 
+curl -v -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwidXNlcm5hbWUiOiJwbGF0emkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoiMTUwMjMzNDk5NyJ9.ZHigNk0AQrXEHdFcLNmH-RnjQaIGWQ0Hha4RzV01bZM' http://localhost:3000/api/agents/ | jq
+curl -v -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwidXNlcm5hbWUiOiJwbGF0emkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoiMTUwMjMzNDk5NyJ9.ZHigNk0AQrXEHdFcLNmH-RnjQaIGWQ0Hha4RzV01bZM' http://localhost:3000/api/metrics/1111 | jq
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwidXNlcm5hbWUiOiJwbGF0emkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoiMTUwMjMzNDk5NyJ9.ZHigNk0AQrXEHdFcLNmH-RnjQaIGWQ0Hha4RzV01bZM
+
+TERMINADO 2/2: ya corriendo el servidor
+-----------------------------------------------------------------------------------------------------------
+
+DASHBOARD WEB
+VIDEO 51
+//instalar las dependencias basicas necesarias
+npm i standard nodemon --save-dev
+npm install express debug chalk --save
+
+VIDEO 51
+//Instala web socket
+npm install socket.io --save
+
+
+//Una vez este implementado platziverse agent instalar 
+npm install
+
+//ejemplo
+iniciar mqtt con redis
+iniciar web
+correr examples/index.js de agent 
+
+VIDEO 54
+//instala servidor hhtp basado en promesas y assyntify
+npm install request-promise-native request --save
+npm install express-asyncify --save
+
+//crea un nuevo token en la consola node, de la api 
+node
+var auth = require('./auth')
+auth.sign({ username: 'platzi', admin: true, permissions: ['metrics:read']}, 'platzi', console.log)
+//copiar el contenido
+
+VIDEO 55
+vue-chartjs para utilizar graficas
+Curso Basuco de VueJS
+Curso Profesional de VueJS 
+
+//correr todo el proyecto(no corre por falta de agent)
+npm run start-dev
+
+VIDEO 56
+//herramienta para formatear fechas
+npm install moment --save
+
+//color aleatorio compatible con material elements
+npm install random-material-color --save
+
+VIDEO 57
+//instalar socket io
+npm install socket.io-client --save
+
+----------------------------------------------------------------------------------
+DEPURANDO APLICACIONES EN NODEJS 
+VIDEO 66
+//En la carpeta de base de datos, entrega un mensaje de error mucho mas detallado
+//cuando se trata de funciones asyncronas
+npm install --save-dev longjohn
+
+VIDEO 67
+//Usa un modulo de node para chrome para hacer debug 
+
+VIDEO 68
+//Depurando aplicacion en code estudio 
+
+--------------------------------------------------------------------------------------------------------
+PREPARANDO PARA PRODUCCION
+
+VIDEO 69
+//instalar para que ya no te pida confirmacion
+npm i minimist --save
+npm run setup
+npm run setup -- --yes
+
+
+VIDEO 70
+
+
+//scrips de construccion
+npm install --save-dev envify
+npm install uglify-js --save-dev
+npm install --save-dev babel-preset-stage-3
+
+npm run build 
+
+VIDEO 71
+
+//Instala ansible galaxy, en consola normal
+sudo ansible-galaxy install ANXS.postgresql
+
+//Dependencia para redis 
+sudo ansible-galaxy install geerlingguy.redis
+sudo ansible-galaxy install jdauphant.nginx
+//
+
+VIDEO 72
+//Verificar que exista vagrant y luego inicializar
+vagrant -v 
+//antes instalar virtualbox
+sudo apt install virtualbox
+//inicializar vagrant
+vagrant init 
+
+//en la carpeta ssh de deploy ejecutar el siguiente comando
+ssh-keygen -t rsa -C "edsonrios9@gmail.com - deploy"
+
+//terminado la instalacion, iniciar 
+sudo vagrant ssh
+uname -a 
+sudo su -
+cd .ssh
+ls
+vim authorized_keys
+//pegar la llave publica y salir  del servidor
+ssh root@127.0.0.1 -p 2222
+//si hay error 
+    rm ~/.ssh/known_hosts
+    ssh root@127.0.0.1 -p 2222
+
+ssh root@127.0.0.1 -p 22 -i ssh/deploy
+
+//ejecutar el playbook
+ansible-playbook -i inventory.ini backend.yml --private-key ssh/deploy
+
+//esperar q termine y verificar 
+vagrant ssh 
+psql -U platzi platziverse
+//salir \quit
+redis-cli
+
+VIDEO 73
+ME QUEDE EN EL 74
+//utilizara space como dominio, cambiar ahi 
+min 1:35
+min 4:35
+
+
+PARA INGRESAR AL VPS MEDIANTE SSH 
+sshpass -p Rv2wHT7P58VmM2A ssh root@173.212.235.89
+sudo su - postgres
+psql -U postgres patelecom
+
+ssh root@173.212.235.89 -p 22 -i ssh/deploy
+patelecomroot
+
+sshpass -p patelecom123 ssh patelecom@192.168.0.110
+
+ANGULAR PACKAGE 
+    Iniciar sin express 
+        "start": "ng serve",
+    Iniciar con express 
+        "start": "ng build && node ./bin/www",
+
+CONECTARSE A VNC VIEWER
+    vncviewer
+    173.212.222.125:63023
+    Rv2wHT7P58VmM2A
+192.168.0.110:5901
+	patelecom123
+ABRIR TODAS LAS HERRAMIENTAS NECESARIAS (Cada Herramienta es en una consola diferente, en total 4 consolas abiertas)
+SOLO INTRODUCIR EL NOMBRE Y EJECUTAR
+    pmqtt
+    api 
+    socket 
+    angular 
+
+
+
+socket esta en localhost
+/home/ubuntu/Invernadero/ngx-admin-master/src/app/pages/monitoreo/sensores/electricity/electricity-chart/electricity-chart.component.ts
+
+SSH PC INVERNADERO
+password: patelecom123
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+PM2 (Controla Todos los Procesos para que se ejecuten o reinicien automaticamente)
+pm2 start nombrearchivo
+    pm2 start Invernadero.json 
+
+pm2 delete all (elimina todos los procesos)
+pm2 delete nombre 
+
+
+----------------------------------------------------------------------------------
+IPS 
+2 Arduino 
+1 Agent
+1 socket 
+
+
+
+220 3V
+574 9V
+864 12V
+
+-----------------------------------------
+teamviewer invernadero
+777046418
+123456
+
+teamviewer VPS
+1140861611
+123456
+
+Iniciar frontEnd
+    ng serve --host 0.0.0.0
+Iniciar en modo produccion
+    ng build 
+
+5BQQFA3SK2JN
+
+--------------------------------------------------------
+API MUY IMPORTANTE
+Cabezeras en el midellware para acceder a todo
+
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-Key, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods, 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+
+-----------------------------------------------------
+
+
+PARA COPIAR AL VPS
+mod-db/lib/horario
+mod-db/lib/pines
+mod-api/api
+horario.component.ts
+y su html
+actuadores.component.ts
+en control manual y monitoreo
+electricity-chart.component.ts
+
+bomba 1 = pin 13
+bomba 2 = pin 9
+WATSS app
+MENSAJE ENVIADO = 600BYTES
+MENSAJE RECIVIDO = 400BYTES 

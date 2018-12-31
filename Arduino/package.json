@@ -1,0 +1,16 @@
+{
+  "name": "arduino",
+  "version": "1.0.0",
+  "description": "A Plataform simple IOT - Arduino",
+  "main": "sensor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production node arduino.js"
+  },
+  "dependencies": {
+    "johnny-five": "^0.13.1"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}
