@@ -1556,4 +1556,4 @@ async function cambioMilisegundos(cadena) {
  console.log("\nEsperando a que inicialice el dispositivo...")
 
 //fin123456789-10
-//fin9
+//versionfinal+sensor
