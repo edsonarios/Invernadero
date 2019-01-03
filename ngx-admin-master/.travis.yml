@@ -4,13 +4,9 @@ sudo: false
 dist: trusty
 
 node_js:
-  - '6'
-  - '7'
   - '8'
-
-cache:
-  directories:
-    - node_modules
+  - '9'
+  - '10'
 
 branches:
   only:

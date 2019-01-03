@@ -1,0 +1,80 @@
+<ol class="breadcrumb">
+  <li><a href="/#/Administrador/Cuentas/Usuarios">Control de Cuentas</a></li><b>/</b>
+    <li><a href="/#/Administrador/Cuentas/Detalle">Detalles de Cuenta</a></li><b>/</b>
+    <li><a href="/#/Administrador/Invernaderos/Detalle">Detalles de Invernadero</a></li><b>/</b>
+  <li>Camaras</li>
+  </ol>
+<button class="btn btn-success " type="button" (click)="volver()" [@fadeIn]> VOLVER </button>
+
+
+<span align="center" [@fadeIn]><h1>Lista de Camaras</h1></span>
+
+<div class="col-md-6 offset-md-2">
+    
+    <nb-card >
+      <br>
+      <nb-card-body>
+    	<table class="table table-striped">
+        <thead>
+      	<tr>
+      		<th> <b>Nro</b> </th>
+      		<th><b> Nombre</b> </th>
+          <th><b> Direccion IP </b></th>
+          <th><b> opcion </b></th>
+      	</tr>
+      </thead>
+      <tbody>
+      	<tr *ngFor="let n of Camara; let i=index">
+      		<td>{{i+1}}</td>
+      		<td><h4> Nombre {{i+1}}</h4></td>
+          <td> <h6> 192.168.123.1 </h6></td>
+          <td> <h1><i class="nb-trash btn-danger" style="border-radius: 8px"></i></h1></td>
+      	</tr>
+        </tbody>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+
+    	<button class="btn btn-success btn-block" type="button" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> Añadir Nueva Camara </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+
+
+
+<div class="collapse" id="collapseExample">
+  <!-- Contenido-->
+  <nb-card>
+      <nb-card-header><span align="center"><h1>Añadir Nueva Camara</h1></span></nb-card-header>
+      <nb-card-body>
+
+  <!--begin-->
+      <form class="form-container" (submit)="AddAnalogico($event)">
+        
+
+           <div class="row full-name-inputs">
+            <div class="col-sm-6  form-group">
+              <label>Nombre :</label>
+              <input type="text"  placeholder="Nombre" class="form-control"/>
+            </div>
+            <div class="col-sm-6 form-group">
+              <label>Direccion IP :</label>
+              <input type="text"  placeholder="Ip" class="form-control" />
+            </div>
+        </div>
+
+             
+       <div class="col-md-12">
+           <div class="btn-group  btn-group-full-width ">
+            <input type="submit"  class="btn btn-success " value="Agregar" >
+            <input type="button" class="btn btn-danger " value="Cancelar" (click)="volver()">
+          </div>
+        </div>
+         <br>
+       </form>
+  <!--end-->
+
+      </nb-card-body>
+    </nb-card>
+</div>

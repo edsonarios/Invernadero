@@ -1,0 +1,161 @@
+@import '../../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/bootstrap/breakpoints';
+
+@include nb-install-component() {
+  nb-actions > nb-action {
+    padding: 0;
+    cursor: pointer;
+  }
+.avatar-img {
+  width: 60px;
+  height: 60px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-position: center;
+  border-radius:50%;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+div.col-md-12.mensaje{
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-left: 3px solid #0fb8ad;
+  border-right: 3px solid #0fb8ad;
+  border-radius: 10px;
+  border-top: 1px solid #0fb8ad;
+  box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0.2), 0 6px 4px 0 rgba(0, 0, 0, 0.19);
+  /*
+  background-image: linear-gradient(white, white), radial-gradient(farthest-corner at 45px 45px , #0fb8ad 0%, #1fc8db 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;*/
+  margin-bottom:10px;
+    .status{
+      float:right;
+    }
+    span{
+      font-family: nb-theme(font-secondary);
+      font-weight: nb-theme(font-weight-bold);
+      color: nb-theme(color-fg-heading);
+    }
+  }
+  
+  nb-action {
+    i {
+      color: nb-theme(color-fg);
+      font-size: 2.5rem;
+      @include nb-ltr(margin-right, 1rem);
+      @include nb-rtl(margin-left, 1rem);
+
+      @include nb-for-theme(corporate) {
+        color: nb-theme(actions-fg);
+      }
+    }
+
+    span {
+      font-family: nb-theme(font-secondary);
+      font-weight: nb-theme(font-weight-bold);
+      color: nb-theme(color-fg-heading);
+      text-transform: uppercase;
+    }
+  }
+.add{
+  width: 200px;
+  height: 200px;
+  margin-top: -10px;
+  margin-right: 32%;
+  margin-left: 32%;
+  border-radius:20px;
+  background-repeat: no-repeat;
+}
+.seleccionador{
+  float:right;
+   box-shadow: 0 20px 20px -20px #333;
+}
+.bordered{
+  padding: 10px;
+  border-radius:10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border:2px solid grey;
+}
+.imgProduct{
+   width: 90%;
+  height: 150px;
+  margin-left:10px;
+  background-position: center;
+  aling-content: center;
+}
+.ManualImg{
+  width: 200px;
+  height: 200px;
+  margin-right: 40%;
+  margin-left: 40%;
+  border-radius:20px;
+  border:1px solid black;
+}
+.division{
+   border:none;
+  height: 20px;
+   width: 90%;
+   height: 50px;
+   margin-top: -40px;
+   margin-bottom: 20px;
+   border-bottom: 1px solid #1f1209;
+   box-shadow: 0 20px 20px -20px #333;
+}
+.titulo{
+  font-size: 55px;
+}
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+ 
+  @include media-breakpoint-down(sm) {
+    ngx-traffic {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(is) {
+    /deep/ nb-card.large-card {
+      height: nb-theme(card-height-medium);
+    }
+     nb-action i {
+      font-size: 4rem;
+      color: grey;
+      margin: 0;
+    }
+   i.nb-email.elegido{
+      font-size: 4rem;
+      color: DodgerBlue;
+      margin: 0;
+    }
+    div.col-md-12.mensaje{
+      span{
+      display: block;
+      }
+    }
+    span {
+      display: none;
+    }
+    .add{
+  width: 200px;
+  height: 200px;
+  margin-top: -10px;
+  margin-right: 20%;
+  margin-left: 20%;
+  border-radius:20px;
+  background-repeat: no-repeat;
+}
+.ManualImg{
+  width: 200px;
+  height: 200px;
+  margin-right: 20%;
+  margin-left: 20%;
+  border-radius:20px;
+  border:1px solid black;
+}
+  }
+}

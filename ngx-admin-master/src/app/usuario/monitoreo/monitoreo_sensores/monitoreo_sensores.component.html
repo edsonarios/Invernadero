@@ -1,0 +1,18 @@
+<span align="center"><h1>Sensores del Invernadero</h1></span>
+
+<div class="col-md-12" [@fadeIn]>
+    <div *ngFor="let n of nombre ; let i=index">
+        <h3>{{NombreControlador[i]}}</h3>
+        <h4>{{UltActualizacion[i]}}</h4>
+        <div class=""></div>
+        <div class="row">
+            <div class="col-md-4">
+                <ngx-temperature temperatura="{{nombre[i]}}" type="{{nombre[i]}}" uuid="{{uuid[i]}}"></ngx-temperature>
+            </div>
+            <div class="col-md-8">
+                   <ngx-electricity descripcion ="{{nombre[i]}}" type="{{nombre[i]}}" uuid="{{uuid[i]}}"></ngx-electricity>
+            </div>
+        </div>
+            
+    </div>
+</div>

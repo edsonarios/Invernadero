@@ -9,6 +9,10 @@ Reiniciar Redis
 Reiniciar apache
     /etc/init.d/apache2 restart
 
+CAMBIAR IPS
+mod-agent - index 
+ngx-admin-master    server.js
+
 //Instalar code studio en ubuntu (despues de descargar el archivo, abrir la terminal ahi luego ejecutar el siguiente comando)
 sudo dpkg -i nombredelarchivo
 
@@ -478,3 +482,51 @@ bomba 2 = pin 9
 WATSS app
 MENSAJE ENVIADO = 600BYTES
 MENSAJE RECIVIDO = 400BYTES 
+////////////////////////////////////////////////////////
+/////       POSTGRES        ////////////////////////////
+////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////
+CREAR BACKUP Y RECOVER POSTGRES 
+//Ubicar en la carpeta donde se creara backapp - selecciona bd y como se guardara
+pg_dump -U postgres -h localhost -d patelecom > invernadero.sql
+
+    RESTAURAR
+    su - postgres 
+    psql -l //lista las base de datos 
+    dropdb dbpropia //borra base de datos 
+    createdb dbpropia //crea base de datos sin tablas ni nada 
+    // db creada sin nada / ruta donde esta el backapp
+    psql dbpropia < /home/ubuntu/invernadero.sql
+    psql patelecom < /home/ubuntu/invernadero.sql
+    
+    VERIFICA 
+    psql dbpropia 
+    \dt //ver todas las tablas 
+
+////////////////////////////////////////////////////
+Cambiar password por defecto
+su postgres
+psql 
+alter user postgres with password ‘passwd’;
+\q
+
+////////////////////////////////////////
+Ver tabla 
+select * from "tabla";
+
+/////////////////////////////////////////////////////////
+//////////////////  SSH     /////////////////////
+/////////////////////////////////////////////////////////
+
+INGRESAR SSH RED LOCAL 
+ssh -R 52698:127.0.0.1:52698 root@192.168.0.27
+
+DESCARGAR EN EL SERVIDOR PARA USAR CON CODE 
+    wget -O /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
+    chmod a+x /usr/local/bin/rmate 
+
+    alias code='rmate -p 52698'
+
+PARA ASTERISK
+wscat -s echo -c ws://192.168.0.27:8088/ws

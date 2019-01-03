@@ -21,7 +21,8 @@ const io = socketio(server)
 const agent = new ModAgent()
 const { parsePayload } = require('../mod-mqtt/utils')
 
-const client = mqtt.connect('mqtt://18.188.248.169')
+const client = mqtt.connect('mqtt://18.225.31.160')
+//const client = mqtt.connect('mqtt://localhost')
 
 client.subscribe('actuador')
 client.subscribe('actuador2')
@@ -76,12 +77,6 @@ io.on('connect', socket => {
     socket.on('nuevoRiego', payload => {
     //publica mediante mqtt el objeto json
     client.publish("nuevoRiego", payload)
-    
-    console.log("\x1b[31m",payload)
-  })
-  socket.on('eliminarRiego', payload => {
-    //publica mediante mqtt el objeto json
-    client.publish("eliminarRiego", payload)
     
     console.log("\x1b[31m",payload)
   })
