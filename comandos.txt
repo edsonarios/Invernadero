@@ -1,5 +1,5 @@
 ﻿INVERNADERO
-
+//hi 
 // Instalar postgres en ubuntu
 sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
 Reiniciar postgres
@@ -10,17 +10,17 @@ Reiniciar apache
     /etc/init.d/apache2 restart
 
 CAMBIAR IPS
-mod-agent - index 
+mod-agent - index
 ngx-admin-master    server.js
 
 //Instalar code studio en ubuntu (despues de descargar el archivo, abrir la terminal ahi luego ejecutar el siguiente comando)
 sudo dpkg -i nombredelarchivo
 
 //instalar ansible en ubuntu
-sudo apt install ansible 
+sudo apt install ansible
 
 //instalar vagrant en ubuntu
-sudo apt install vagrant 
+sudo apt install vagrant
 
 //instalar redis
 apt-get install redis-server
@@ -59,7 +59,7 @@ GRANT ALL PRIVILEGES ON DATABASE patelecom TO patelecom;
 
 
 NPM A INSTALAR
-//para reconocer errores 
+//para reconocer errores
 npm i --save-dev standard
 
 //instalar sequelize(video 13)
@@ -110,7 +110,7 @@ npm i --save debug mosca redis chalk
     redis-server
     //luego
     npm run start-dev
-    
+
 video 30
 //instalar mqtt de manera global (-g)
 sudo npm install -g mqtt
@@ -164,7 +164,7 @@ VIDEO 36
 npm i standard --save-dev
 
 VIDEO 37
-//Instala dependencias necesarias 
+//Instala dependencias necesarias
 npm install mqtt debug defaults --save
 
 RETO: crear un modulo q contenga la utilidad de parsepayload mqtt
@@ -181,8 +181,8 @@ node examples/index.js
 FALTA MUCHOS VIDEOS
 ----------------------------------------------------------------------------
 
-//Video 40 API 
-// instalar estandar + nodemon 
+//Video 40 API
+// instalar estandar + nodemon
 npm i standard nodemon --save-dev
 
 //instalar express y debug y chalk
@@ -198,7 +198,7 @@ npm install --save-dev ava supertest
 
 VIDEO 44
 //Añadir la bd para utilizarse
-npm i 
+npm i
 
 //Añadir express-asyncify (da soportes a midalware y asyncryn)
 npm install express-asyncify --save
@@ -221,23 +221,23 @@ npm install jsonwebtoken --save
 //instalar express jwt
 npm install express-jwt --save
 
-//instalar JQ para q se vea mejor los json 
-sudo apt install jq 
+//instalar JQ para q se vea mejor los json
+sudo apt install jq
 
 VIDEO 50
-//instalar permisos jwt 
+//instalar permisos jwt
 npm install express-jwt-permissions --save
 
 //ejemplo
-httpie 
-jwt 
-express 
+httpie
+jwt
+express
 http http://localhost:3000/api/agents
 http http://localhost:3000/api/agents/yyy-yyy
 http http://localhost:3000/api/metrics/yyy-yyy
 
 
-npm run start-dev 
+npm run start-dev
 curl -v -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwidXNlcm5hbWUiOiJwbGF0emkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoiMTUwMjMzNDk5NyJ9.ZHigNk0AQrXEHdFcLNmH-RnjQaIGWQ0Hha4RzV01bZM' http://localhost:3000/api/agents/ | jq
 curl -v -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwidXNlcm5hbWUiOiJwbGF0emkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoiMTUwMjMzNDk5NyJ9.ZHigNk0AQrXEHdFcLNmH-RnjQaIGWQ0Hha4RzV01bZM' http://localhost:3000/api/metrics/1111 | jq
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwidXNlcm5hbWUiOiJwbGF0emkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoiMTUwMjMzNDk5NyJ9.ZHigNk0AQrXEHdFcLNmH-RnjQaIGWQ0Hha4RzV01bZM
@@ -256,20 +256,20 @@ VIDEO 51
 npm install socket.io --save
 
 
-//Una vez este implementado platziverse agent instalar 
+//Una vez este implementado platziverse agent instalar
 npm install
 
 //ejemplo
 iniciar mqtt con redis
 iniciar web
-correr examples/index.js de agent 
+correr examples/index.js de agent
 
 VIDEO 54
 //instala servidor hhtp basado en promesas y assyntify
 npm install request-promise-native request --save
 npm install express-asyncify --save
 
-//crea un nuevo token en la consola node, de la api 
+//crea un nuevo token en la consola node, de la api
 node
 var auth = require('./auth')
 auth.sign({ username: 'platzi', admin: true, permissions: ['metrics:read']}, 'platzi', console.log)
@@ -278,7 +278,7 @@ auth.sign({ username: 'platzi', admin: true, permissions: ['metrics:read']}, 'pl
 VIDEO 55
 vue-chartjs para utilizar graficas
 Curso Basuco de VueJS
-Curso Profesional de VueJS 
+Curso Profesional de VueJS
 
 //correr todo el proyecto(no corre por falta de agent)
 npm run start-dev
@@ -295,17 +295,17 @@ VIDEO 57
 npm install socket.io-client --save
 
 ----------------------------------------------------------------------------------
-DEPURANDO APLICACIONES EN NODEJS 
+DEPURANDO APLICACIONES EN NODEJS
 VIDEO 66
 //En la carpeta de base de datos, entrega un mensaje de error mucho mas detallado
 //cuando se trata de funciones asyncronas
 npm install --save-dev longjohn
 
 VIDEO 67
-//Usa un modulo de node para chrome para hacer debug 
+//Usa un modulo de node para chrome para hacer debug
 
 VIDEO 68
-//Depurando aplicacion en code estudio 
+//Depurando aplicacion en code estudio
 
 --------------------------------------------------------------------------------------------------------
 PREPARANDO PARA PRODUCCION
@@ -325,39 +325,39 @@ npm install --save-dev envify
 npm install uglify-js --save-dev
 npm install --save-dev babel-preset-stage-3
 
-npm run build 
+npm run build
 
 VIDEO 71
 
 //Instala ansible galaxy, en consola normal
 sudo ansible-galaxy install ANXS.postgresql
 
-//Dependencia para redis 
+//Dependencia para redis
 sudo ansible-galaxy install geerlingguy.redis
 sudo ansible-galaxy install jdauphant.nginx
 //
 
 VIDEO 72
 //Verificar que exista vagrant y luego inicializar
-vagrant -v 
+vagrant -v
 //antes instalar virtualbox
 sudo apt install virtualbox
 //inicializar vagrant
-vagrant init 
+vagrant init
 
 //en la carpeta ssh de deploy ejecutar el siguiente comando
 ssh-keygen -t rsa -C "edsonrios9@gmail.com - deploy"
 
-//terminado la instalacion, iniciar 
+//terminado la instalacion, iniciar
 sudo vagrant ssh
-uname -a 
+uname -a
 sudo su -
 cd .ssh
 ls
 vim authorized_keys
 //pegar la llave publica y salir  del servidor
 ssh root@127.0.0.1 -p 2222
-//si hay error 
+//si hay error
     rm ~/.ssh/known_hosts
     ssh root@127.0.0.1 -p 2222
 
@@ -366,20 +366,20 @@ ssh root@127.0.0.1 -p 22 -i ssh/deploy
 //ejecutar el playbook
 ansible-playbook -i inventory.ini backend.yml --private-key ssh/deploy
 
-//esperar q termine y verificar 
-vagrant ssh 
+//esperar q termine y verificar
+vagrant ssh
 psql -U platzi platziverse
 //salir \quit
 redis-cli
 
 VIDEO 73
 ME QUEDE EN EL 74
-//utilizara space como dominio, cambiar ahi 
+//utilizara space como dominio, cambiar ahi
 min 1:35
 min 4:35
 
 
-PARA INGRESAR AL VPS MEDIANTE SSH 
+PARA INGRESAR AL VPS MEDIANTE SSH
 sshpass -p Rv2wHT7P58VmM2A ssh root@173.212.235.89
 sudo su - postgres
 psql -U postgres patelecom
@@ -389,10 +389,10 @@ patelecomroot
 
 sshpass -p patelecom123 ssh patelecom@192.168.0.110
 
-ANGULAR PACKAGE 
-    Iniciar sin express 
+ANGULAR PACKAGE
+    Iniciar sin express
         "start": "ng serve",
-    Iniciar con express 
+    Iniciar con express
         "start": "ng build && node ./bin/www",
 
 CONECTARSE A VNC VIEWER
@@ -404,9 +404,9 @@ CONECTARSE A VNC VIEWER
 ABRIR TODAS LAS HERRAMIENTAS NECESARIAS (Cada Herramienta es en una consola diferente, en total 4 consolas abiertas)
 SOLO INTRODUCIR EL NOMBRE Y EJECUTAR
     pmqtt
-    api 
-    socket 
-    angular 
+    api
+    socket
+    angular
 
 
 
@@ -420,17 +420,17 @@ password: patelecom123
 
 PM2 (Controla Todos los Procesos para que se ejecuten o reinicien automaticamente)
 pm2 start nombrearchivo
-    pm2 start Invernadero.json 
+    pm2 start Invernadero.json
 
 pm2 delete all (elimina todos los procesos)
-pm2 delete nombre 
+pm2 delete nombre
 
 
 ----------------------------------------------------------------------------------
-IPS 
-2 Arduino 
+IPS
+2 Arduino
 1 Agent
-1 socket 
+1 socket
 
 
 
@@ -450,7 +450,7 @@ teamviewer VPS
 Iniciar frontEnd
     ng serve --host 0.0.0.0
 Iniciar en modo produccion
-    ng build 
+    ng build
 
 5BQQFA3SK2JN
 
@@ -481,50 +481,50 @@ bomba 1 = pin 13
 bomba 2 = pin 9
 WATSS app
 MENSAJE ENVIADO = 600BYTES
-MENSAJE RECIVIDO = 400BYTES 
+MENSAJE RECIVIDO = 400BYTES
 ////////////////////////////////////////////////////////
 /////       POSTGRES        ////////////////////////////
 ////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
-CREAR BACKUP Y RECOVER POSTGRES 
+CREAR BACKUP Y RECOVER POSTGRES
 //Ubicar en la carpeta donde se creara backapp - selecciona bd y como se guardara
 pg_dump -U postgres -h localhost -d patelecom > invernadero.sql
 
     RESTAURAR
-    su - postgres 
-    psql -l //lista las base de datos 
-    dropdb dbpropia //borra base de datos 
-    createdb dbpropia //crea base de datos sin tablas ni nada 
+    su - postgres
+    psql -l //lista las base de datos
+    dropdb dbpropia //borra base de datos
+    createdb dbpropia //crea base de datos sin tablas ni nada
     // db creada sin nada / ruta donde esta el backapp
     psql dbpropia < /home/ubuntu/invernadero.sql
     psql patelecom < /home/ubuntu/invernadero.sql
-    
-    VERIFICA 
-    psql dbpropia 
-    \dt //ver todas las tablas 
+
+    VERIFICA
+    psql dbpropia
+    \dt //ver todas las tablas
 
 ////////////////////////////////////////////////////
 Cambiar password por defecto
 su postgres
-psql 
+psql
 alter user postgres with password ‘passwd’;
 \q
 
 ////////////////////////////////////////
-Ver tabla 
+Ver tabla
 select * from "tabla";
 
 /////////////////////////////////////////////////////////
 //////////////////  SSH     /////////////////////
 /////////////////////////////////////////////////////////
 
-INGRESAR SSH RED LOCAL 
+INGRESAR SSH RED LOCAL
 ssh -R 52698:127.0.0.1:52698 root@192.168.0.27
 
-DESCARGAR EN EL SERVIDOR PARA USAR CON CODE 
+DESCARGAR EN EL SERVIDOR PARA USAR CON CODE
     wget -O /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
-    chmod a+x /usr/local/bin/rmate 
+    chmod a+x /usr/local/bin/rmate
 
     alias code='rmate -p 52698'
 
