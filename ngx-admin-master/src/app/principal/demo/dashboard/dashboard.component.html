@@ -1,0 +1,881 @@
+<div class="col-md-12" [@fadeIn]>
+  
+  <span align="center"><h1 class="titulo">{{Pagina}}</h1></span>
+  <hr>
+  
+  
+<!-- PRODUCTO -->
+<div class="col-md-12" *ngIf="Pagina =='producto'" [@fadeIn]>
+
+<div class="col-md-4 offset-md-4">
+  <div class="form-group">
+          <label><h4>Seleccionar opcion:</h4></label>
+          <select class="form-control" (change)="cambio($event)">
+            <option value="todos">Ver Todos</option>
+            <option value="hortalizas">Ver hortalizas</option>
+            <option >Ver Plantas Aromaticas</option>
+            <option >Ver Flores</option>
+            <option >Ver Frutas</option>
+            <option >Ver Forraje</option>
+          </select>
+        </div>
+</div>
+
+
+
+  <span class="grid-h" *ngIf="Producto =='todos'||Producto =='hortalizas'"><h2 >HORTALIZAS</h2></span>
+  <div class="row" *ngIf="Producto =='todos'||Producto =='hortalizas'">
+     <div class="col-md-3" *ngFor="let n of Hortalizas ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="{{Hortalizas[i]['UrlImg']}}" class="img-responsive" class="imgProduct" ></nb-card-header>
+      <nb-card-body>
+        <span align="center"> <h3>{{Hortalizas[i]['nombre']}}</h3></span>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{Hortalizas[i]['Tmax']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{Hortalizas[i]['tmin']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{Hortalizas[i]['Desarrollo']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+             <button class="btn btn-danger btn-sm btn-block" type="button" > Eliminar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+  </div>
+
+
+  <span class="grid-h" *ngIf="Producto =='todos'||Producto =='plantas'"><h2 >PLANTAS AROMATICAS</h2></span>
+  <div class="row" *ngIf="Producto =='todos'||Producto =='plantas'">
+     <div class="col-md-3" *ngFor="let n of Platas_Aromaticas ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="{{Platas_Aromaticas[i]['UrlImg']}}" class="img-responsive" class="imgProduct"></nb-card-header>
+      <nb-card-body>
+         <span align="center"><h3>{{Platas_Aromaticas[i]['nombre']}}</h3></span>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{Platas_Aromaticas[i]['Tmax']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{Platas_Aromaticas[i]['tmin']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{Platas_Aromaticas[i]['Desarrollo']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+             <button class="btn btn-danger btn-sm btn-block" type="button" > Eliminar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+  </div>
+
+
+  <span class="grid-h" *ngIf="Producto =='todos'||Producto =='flores'"><h2 >FLORES</h2></span>
+  <div class="row" *ngIf="Producto =='todos'||Producto =='flores'">
+     <div class="col-md-3" *ngFor="let n of Flores ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="{{Flores[i]['UrlImg']}}" class="img-responsive" class="imgProduct" ></nb-card-header>
+      <nb-card-body>
+         <span align="center"><h3>{{Flores[i]['nombre']}}</h3></span>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{Flores[i]['Tmax']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{Flores[i]['tmin']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{Flores[i]['Desarrollo']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+             <button class="btn btn-danger btn-sm btn-block" type="button" > Eliminar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+  </div>
+
+
+  <span class="grid-h" *ngIf="Producto =='todos'||Producto =='frutas'"><h2>FRUTAS</h2></span>
+  <div class="row" *ngIf="Producto =='todos'||Producto =='frutas'">
+     <div class="col-md-3" *ngFor="let n of Frutas ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="{{Frutas[i]['UrlImg']}}" class="img-responsive" class="imgProduct" ></nb-card-header>
+      <nb-card-body>
+         <span align="center"><h3>{{Frutas[i]['nombre']}}</h3></span>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{Frutas[i]['Tmax']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{Frutas[i]['tmin']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{Frutas[i]['Desarrollo']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+             <button class="btn btn-danger btn-sm btn-block" type="button" > Eliminar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+  </div>
+
+
+   <span class="grid-h" *ngIf="Producto =='todos'||Producto =='forraje'"><h2>FORRAJE</h2></span>
+ <div class="row" *ngIf="Producto =='todos'||Producto =='forraje'">
+     <div class="col-md-3" *ngFor="let n of Forraje ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="{{Forraje[i]['UrlImg']}}" class="img-responsive" class="imgProduct" ></nb-card-header>
+      <nb-card-body>
+        <span align="center"><h3>{{Forraje[i]['nombre']}}</h3></span>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{Forraje[i]['Tmax']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{Forraje[i]['tmin']}} Cº</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{Forraje[i]['Desarrollo']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+             <button class="btn btn-danger btn-sm btn-block" type="button" > Eliminar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+  </div>
+
+  <div class="col-md-6 offset-md-3">
+    <button class="btn btn-info btn-xl btn-block" type="button"> Añadir Producto </button>
+  </div>
+  <br>
+ 
+</div>
+
+
+
+<!-- SENSORES -->
+
+<div class="col-md-12" *ngIf="Pagina =='Sensores'" [@fadeIn]>
+  <div class="col-md-4 offset-md-4">
+  <div class="form-group">
+          <label><h4>Seleccionar Grafica:</h4></label>
+          <select class="form-control" (change)="GraficaCambio($event)">
+            <option >Ver Temperatura</option>
+            <option >Ver Humedad</option>
+            <option >Ver el PH</option>
+            <option >Velocidad del Viento</option>
+           <!-- <option >Dioxido de Carbono</option>
+            <option >Ver Luminicencia</option>
+            <option >Conductividad Electrica</option>-->
+          </select>
+        </div>
+</div>
+
+
+
+  <div class="row" *ngIf="Sensor=='temperatura'">
+    <div class="col-xxxl-3 col-xxl-4 col-lg-5 col-md-6">
+    <ngx-temperature title="Temperatura" unidades="Celsius" Min="0" Max="30"></ngx-temperature>
+  </div>
+
+  <div class="col-xxxl-9 col-xxl-8 col-lg-7 col-md-6">
+   <ngx-electricity title="Temperatura" ></ngx-electricity>
+  </div>
+  </div>
+
+  <div class="row" *ngIf="Sensor=='humedad'">
+    <div class="col-xxxl-3 col-xxl-4 col-lg-5 col-md-6">
+    <ngx-temperature title="Humedad" unidades="Porcentaje" Min="0" Max="30"></ngx-temperature>
+  </div>
+
+  <div class="col-xxxl-9 col-xxl-8 col-lg-7 col-md-6">
+   <ngx-electricity title="Humedad"></ngx-electricity>
+  </div>
+  </div>
+
+  <div class="row" *ngIf="Sensor=='ph'"> 
+    <div class="col-xxxl-3 col-xxl-4 col-lg-5 col-md-6">
+    <ngx-temperature title="PH" unidades="Grados" Min="0" Max="14"></ngx-temperature>
+  </div>
+  
+  <div class="col-xxxl-9 col-xxl-8 col-lg-7 col-md-6">
+   <ngx-electricity title="PH"></ngx-electricity>
+  </div>
+  <div class="col-md-6 offset-md-2">
+    <nb-card>
+      <img src="assets/images/tabla-ph.jpg" class="img-responsive" style="border-radius: 10px; border:2px solid grey;">
+    </nb-card>
+    
+  </div>
+  </div>
+
+<div class="row" *ngIf="Sensor=='wind'">
+   <div class="col-md-6 offset-md-3">
+     <nb-card>
+      <nb-card-body>
+        <span align="center"><h1>{{Velocidad}} Km/h</h1></span>
+      </nb-card-body>
+     
+     </nb-card>
+   </div>
+  </div>
+  
+  
+</div>
+
+<!-- ACTUADORES -->
+          <div class="row" *ngIf="Pagina =='Actuadores'" [@fadeIn]>
+
+            <div class="col-md-6" >
+              <nb-card>
+                <nb-card-header>
+                  <img src="assets/images/components/bomba.gif" class="add"><br>
+                  <span align="center"><h2><b> Bombas</b></h2></span>
+                 
+                </nb-card-header>
+                <nb-card-body>
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <td><h4><b>Nombre </b></h4></td>
+                    <td><h4><b>Estado </b></h4></td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let n of Bombas; let j=index">
+
+                    <td><b>Bomba {{j+1}}</b></td>
+                    <td><h5 class="text-danger">APAGADO</h5></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </nb-card-body>
+     
+          </nb-card>
+            </div>
+          
+            <div class="col-md-6">
+              <nb-card >
+                <nb-card-header>
+                   <img src="assets/images/components/ventilador.gif" class="add"><br>
+                  <span align="center"><h2><b>Ventiladores</b></h2></span>
+                </nb-card-header>
+                <nb-card-body>
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <td><h4><b>Nombre </b></h4></td>
+                    <td><h4><b>Estado </b></h4></td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let n of Ventiladores; let j=index">
+
+                    <td><b>Ventiladores {{j+1}}</b></td>
+                    <td><h5 class="text-success">ENCENDIDO</h5> </td>
+                    
+                  </tr>
+                  </tbody>
+                </table>
+              </nb-card-body>
+              
+          </nb-card>
+            </div>
+         
+          <div class="col-md-6" >
+              <nb-card>
+                <nb-card-header>
+                 <img src="assets/images/components/corredera.gif" class="add"><br>
+               <span align="center"><h2><b>Ventanas</b></h2></span></nb-card-header>
+                <nb-card-body>
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <td><h4><b>Nombre </b></h4></td>
+                    <td><h4><b>Estado </b></h4></td>
+                  </tr>
+                  </thead>
+                 <tbody>
+                  <tr *ngFor="let n of Ventanas; let j=index">
+                    <td><b>Ventana {{j}}</b></td>
+
+                    <td > <h5 class="text-success">ABIERTO</h5>  
+                    </td>
+                  
+                    
+                    
+                  </tr>
+                  </tbody>
+                </table>
+              </nb-card-body>  
+          </nb-card>
+            </div>
+           
+            <div class="col-md-6" >
+              <nb-card >
+                <nb-card-header>
+                 <img src="assets/images/components/door.gif" class="add"><br>
+               <span align="center"><h2><b>Puertas</b></h2></span></nb-card-header>
+                <nb-card-body>
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <td><h4><b>Nombre </b></h4></td>
+                    <td><h4><b>Estado </b></h4></td>
+                  </tr>
+                  </thead>
+                 <tbody>
+                  <tr *ngFor="let n of Puertas; let j=index">
+                    <td><b>Puerta {{j+1}}</b></td>
+                    <td ><h5 class="text-danger">CERRADO</h5>     
+                    </td>        
+                  </tr>
+                  </tbody>
+                </table>
+              </nb-card-body>
+
+          </nb-card>
+            </div>
+    </div>
+
+
+
+
+<!-- BATERIA -->
+
+<div class="col-lg-12" *ngIf="Pagina =='Energia'" [@fadeIn]>
+
+<div class="col-md-8 offset-md-2">
+  <nb-card>
+<div class="col-md-10 offset-md-1">
+  <br>
+  <label>Porcentaje de la bateria:</label>
+  
+  <p><ngb-progressbar showValue="true" type="success" value="80" [striped]="true" [animated]="true"></ngb-progressbar></p>
+
+</div>
+</nb-card>
+</div>
+<ngx-traffic></ngx-traffic>
+
+
+</div>
+
+
+
+<!-- CAMARAS DE SEGURIDAD -->
+<div class="col-md-12" *ngIf="Pagina =='Camaras de Seguridad'" [@fadeIn]>
+    <ngx-security-cameras></ngx-security-cameras>
+  </div>
+
+<!-- CONTROL MANUAL ACTUADORES -->
+
+<div class="col-md-12" *ngIf="Pagina =='CMActuadores'" [@fadeIn]>
+  <span align="center" class="grid-h"><h3 >Bombas</h3></span>
+  <img src="assets/images/components/bomba.gif" class="ManualImg">
+  <br>
+  <br>
+  <div class="row">
+          <div class="col-xxxl-3 col-md-6" *ngFor="let n of Bombas ; let j=index">
+            <ngx-status-card title="Bomba {{j+1}}" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+          </div>
+  </div>
+  <hr class="division">
+    <span align="center" class="grid-h"><h3 >Ventiladores</h3></span>
+  <img src="assets/images/components/ventilador.gif" class="ManualImg">
+  <br>
+  <br>
+  <div class="row">
+          <div class="col-xxxl-3 col-md-6" *ngFor="let n of Ventiladores ; let j=index">
+            <ngx-status-card title="Ventilador {{j+1}}" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+          </div>
+  </div>
+  <hr class="division">
+    <span align="center" class="grid-h"><h3 >Ventanas</h3></span>
+  <img src="assets/images/components/corredera.gif" class="ManualImg">
+  <br>
+  <br>
+  <div class="row">
+          <div class="col-xxxl-3 col-md-6" *ngFor="let n of Ventanas ; let j=index">
+            <ngx-status-card title="Ventana {{j+1}}" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+          </div>
+  </div>
+  <hr class="division">
+   <span align="center" class="grid-h"><h3 >Puertas</h3></span>
+  <img src="assets/images/components/door.gif" class="ManualImg">
+  <br>
+  <br>
+  <div class="row">
+          <div class="col-xxxl-3 col-md-6" *ngFor="let n of Puertas ; let j=index">
+            <ngx-status-card title="Puerta {{j+1}}" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+          </div>
+  </div>
+</div>
+
+<!-- HORARIOS DE RIEGO -->
+<div class="row"  *ngIf="Pagina =='Horarios de Riego'" [@fadeIn]>
+  <div class="col-md-6" *ngFor="let n of horario; let j=index">
+    
+    <nb-card >
+      <nb-card-header>
+         <span align="center"><h3>Bomba {{j+1}}</h3></span>
+      </nb-card-header>
+      <nb-card-body>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th> <b>Nro</b> </th>
+          <th><b> Hora</b> </th>
+          <th><b> Duracion </b></th>
+          <th><b> opcion </b></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let n of time; let k=index">
+          <td>{{k+1}}</td>
+          <td> <h4>{{8+k}}:00 </h4></td>
+          <td> <h6>15 min.</h6></td>
+          <td> <h1><i class="nb-trash btn-danger" style="border-radius: 8px" ></i></h1></td>
+        </tr>
+        </tbody>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+
+
+  <p>
+  <button type="button" class="btn btn-info btn-block" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="isCollapsed" aria-controls="collapseExample">
+    Agregar Nueva Hora de Riego
+  </button>
+</p>
+<div id="collapseExample" [ngbCollapse]="!isCollapsed">
+  <div class="card">
+    <div class="card-body">
+        <form >
+           <label><h6>Seleccionar Hora de Inicio</h6></label>
+          <div class="row">
+            <div class="col-md-4 offset-md-2">
+            <div class="form-group">
+          <select class="form-control" (change)="cambio($event)">
+            <option >00:00</option>
+            <option >01:00</option>
+            <option >02:00</option>
+            <option >03:00</option>
+            <option >04:00</option>
+            <option >05:00</option>
+            <option >06:00</option>
+            <option >07:00</option>
+            <option >08:00</option>
+            <option >09:00</option>
+            <option >10:00</option>
+            <option >11:00</option>
+            <option >12:00</option>
+          </select>
+        </div>
+        </div>
+        <div class="col-md-3 ">
+            <div class="form-group">
+          <select class="form-control" (change)="cambio($event)">
+            <option >AM</option>
+            <option >PM</option>
+          </select>
+        </div>
+        </div>
+          </div>
+        <label><h6>Seleccionar Hora Final</h6></label>
+          <div class="row">
+            <div class="col-md-4 offset-md-2">
+            <div class="form-group">
+          <select class="form-control" (change)="cambio($event)">
+            <option >00:00</option>
+            <option >01:00</option>
+            <option >02:00</option>
+            <option >03:00</option>
+            <option >04:00</option>
+            <option >05:00</option>
+            <option >06:00</option>
+            <option >07:00</option>
+            <option >08:00</option>
+            <option >09:00</option>
+            <option >10:00</option>
+            <option >11:00</option>
+            <option >12:00</option>
+          </select>
+        </div>
+        </div>
+        <div class="col-md-3 ">
+            <div class="form-group">
+          <select class="form-control" (change)="cambio($event)">
+            <option >AM</option>
+            <option >PM</option>
+          </select>
+        </div>
+        </div>
+          </div>
+         <label><h6>Seleccionar Intervalos de tiempo</h6></label>
+          
+            <div class="col-md-10 offset-md-1">
+            <div class="form-group">
+          <select class="form-control" (change)="cambio($event)">
+            <option > Cada 5 minutos</option>
+            <option >Cada 10 Minutos</option>
+            <option >Cada 25 Minutos</option>
+            <option >Cada 30 Minutos</option>
+            <option >Cada 45 Minutos</option>
+            <option >Cada 1 Hora</option>
+            <option >Cada 2 Horas</option>
+            <option >Cada 3 Horas</option>
+          </select>
+        </div>
+        </div>
+      <label><h6>Tiempo de Funcionamiento del Motor</h6></label>
+          
+            <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+          <select class="form-control" (change)="cambio($event)">
+            <option >2 minutos</option>
+            <option >5 minutos</option>
+            <option >10 Minutos</option>
+            <option >15 Minutos</option>
+            <option >20 Minutos</option>
+            <option >15 Minutos</option>
+            <option >30 Minutos</option>
+          </select>
+        </div>
+        </div>
+        
+         <div class="col-md-10 offset-md-1">
+            <button type="submit" class="btn btn-success btn-md btn-block">Aceptar</button>
+          </div>
+        </form>
+
+    </div>
+  </div>
+</div>
+
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+
+  </div>
+
+
+<!-- REPORTE -->
+  <div class="col-lg-12"  *ngIf="Pagina =='Reporte'" [@fadeIn]>
+<nb-card>
+  <nb-card-header>
+    <div class="col-md-3 seleccionador">
+<div class="dropdown btn-group" ngbDropdown>
+      <button type="button" class="btn btn-primary">Opciones</button>
+      <button type="button" class="btn btn-primary" ngbDropdownToggle></button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li class="dropdown-item">Diario</li>
+        <li class="dropdown-item">Semanal</li>
+        <li class="dropdown-item">Mensual</li>
+        <li class="dropdown-item">Anual</li>
+      </ul>
+    </div> 
+    </div>
+    <span align="center"><h5>Temperaturas Registradas</h5></span>
+  </nb-card-header>
+  <nb-card-body>
+    <br>
+<div class="btn-group  btn-group-full-width ">
+            <div class="col-sm-4 form-group">
+            <span align="center"><h5>Temp. <br>maxima:</h5><br>
+            <h3>37[C°]</h3></span>
+            </div>
+          <div class="col-sm-4 form-group">
+            <span align="center"><h5>Temp. <br>media:</h5><br>
+            <h3>24[C°]</h3></span>
+            </div>
+          <div class="col-sm-4 form-group">
+            <span align="center"><h5>Temp. <br>minima:</h5><br>
+            <h3>10[C°]</h3></span>
+          </div>
+      </div>
+  </nb-card-body>
+  
+</nb-card>
+ <br>
+<nb-card>
+  <nb-card-header>
+    <div class="col-md-3 seleccionador">
+<div class="dropdown btn-group" ngbDropdown>
+      <button type="button" class="btn btn-primary">Opciones</button>
+      <button type="button" class="btn btn-primary" ngbDropdownToggle></button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li class="dropdown-item">Diario</li>
+        <li class="dropdown-item">Semanal</li>
+        <li class="dropdown-item">Mensual</li>
+        <li class="dropdown-item">Anual</li>
+      </ul>
+    </div> 
+    </div>
+    <span align="center"><h5>Datos de Humedad Registrados</h5></span>
+  </nb-card-header>
+  <nb-card-body>
+    <br>
+<div class="btn-group  btn-group-full-width ">
+            <div class="col-sm-4 form-group">
+            <span align="center"><h5>Humedad. <br>maxima:</h5><br>
+            <h3>37 %</h3></span>
+            </div>
+          <div class="col-sm-4 form-group">
+            <span align="center"><h5>Humedad. <br>media:</h5><br>
+            <h3>24 %</h3></span>
+            </div>
+          <div class="col-sm-4 form-group">
+            <span align="center"><h5>Humedad. <br>minima:</h5><br>
+            <h3>10 %</h3></span>
+          </div>
+      </div>
+  </nb-card-body>
+  
+</nb-card>
+
+<nb-card>
+  <nb-card-header>
+
+    <span align="center"><h4>Datos Tecnicos</h4></span>
+  </nb-card-header>
+  <nb-card-body>
+
+    <table class="table table-striped">
+    
+      <tbody>
+        <tr>
+          <td><b>Numero de Bombas :</b></td>
+          <td>2 Bomba(s)</td>
+        </tr>
+        <tr>
+          <td><b>Numero de Ventiladores :</b></td>
+          <td>4 Ventilador(es)</td>
+        </tr>
+        <tr>
+          <td><b>Numero de Puertas :</b></td>
+          <td>2 Puerta(s)</td>
+        </tr>
+        <tr>
+          <td><b>Numero de Ventanas :</b></td>
+          <td>4 Ventana(s)</td>
+        </tr>
+        <tr>
+          <td><b>Numero de Sensores :</b></td>
+          <td>3 Total</td>
+        </tr>
+        <tr>
+          <td><b>-Sensores de Temperatura :</b></td>
+          <td>2 Sensor(es)</td>
+        </tr>
+        <tr>
+          <td><b>-Sensores de Humedad :</b></td>
+          <td>2 Sensor(es)</td>
+        </tr>
+        <tr>
+          <td><b>-Sensores de PH :</b></td>
+          <td>1 Sensor(es)</td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-body>
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <td><h3><b>Productos en el Invernadero</b></h3></td>
+        <td><h3><b>Dias Restantes</b></h3></td>
+      </tr>
+    </thead>
+      <tbody>
+        <tr>
+          <td>Lechuga La Romana</td>
+          <td>10 Dia(s)</td>
+        </tr> 
+        <tr>
+          <td>Lechuga Trocadero</td>
+          <td>10 Dia(s)</td>
+        </tr> 
+        <tr>
+          <td>Lechuga Lollo Rosso</td>
+          <td>30 Dia(s)</td>
+        </tr> 
+        <tr>
+          <td>Lechuga Escarola</td>
+          <td>30 Dia(s)</td>
+        </tr>
+        <tr>
+          <td>Lechuga Radicchio</td>
+          <td>20 Dia(s)</td>
+        </tr> 
+        <tr>
+          <td>Lechuga Iceberg</td>
+          <td>10 Dia(s)</td>
+        </tr> 
+        <tr>
+          <td>Lechuga Hoja de Roble</td>
+          <td>20 Dia(s)</td>
+        </tr>  
+        <tr>
+          <td>Forraje verde</td>
+          <td>10 Dia(s)</td>
+        </tr> 
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+ </div>
+
+<!-- INFO INVERNADERO -->
+<div class="col-md-12" *ngIf="Pagina =='Info Invernadero'" [@fadeIn]>
+  <div class="row">
+<div class="col-lg-8 offset-md-2">
+    <nb-card>
+      <nb-card-header>
+        <span align="center"><h1>Informacion del Invernadero</h1></span>
+      </nb-card-header>
+      <nb-card-body>   
+
+      <form class="form-container" >
+          <div class="row full-name-inputs">
+          <div class="col-sm-6 form-group">
+            <label>Departamento:</label>
+            <input type="text" name="departamento"  value="La Paz" class="form-control"  disabled />
+          </div>
+           <div class="col-sm-6 form-group">
+          <label>Provincia:</label>
+          <input type="text" name="provincia"  value="Murillo" class="form-control"  disabled />
+        </div>
+        </div>
+        <div class="form-group">
+          <label>Ubicacion:</label>
+          <input type="text" name="ubicacion" value="comunidad de Ankocala" class="form-control"  disabled />
+        </div>
+
+        <div  class="bordered">
+          
+            <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+              <label>Minuto:</label>
+          <input type="text" name="min" value="00" class="form-control" disabled>
+            </div>
+            <div class="col-sm-3  form-group">
+              <label>Segundo:</label>
+          <input type="text" name="sec" value="10"  class="form-control" disabled>
+            </div>
+        </div>
+
+
+     <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+              <label>Minuto:</label>
+          <input type="text" name="min" value="00" class="form-control" disabled>
+            </div>
+            <div class="col-sm-3  form-group">
+              <label>Segundo:</label>
+          <input type="text" name="sec" value="30"  class="form-control" disabled>
+            </div>
+        </div>
+
+         <div class="row full-name-inputs">
+          <div class="col-sm-4 form-group">
+            <label>Temperatura Maxima:</label>
+            <input type="text" name="tempMaxima"  value="10" class="form-control"  disabled/>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label>Temperatura Media:</label>
+            <input type="text" name="tempMaxima"  value="20" class="form-control" disabled/>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label>Temperatura Minima:</label>
+            <input type="text"  name="tempMinima"  value="35" class="form-control" disabled />
+          </div>
+        </div>
+        <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+              <label>Minuto:</label>
+          <input type="text" name="min" value="00" class="form-control" disabled>
+            </div>
+            <div class="col-sm-3  form-group">
+              <label>Segundo:</label>
+          <input type="text" name="sec" value="15"  class="form-control" disabled>
+            </div>
+            <div class="col-sm-6  form-group">
+              <label></label>
+         <input type="submit"  class="btn btn-success btn-lg btn-block" value="Cambiar Datos" >
+            </div>
+        </div>
+
+        </div>
+         <br>
+         <br>
+
+         <br>
+       </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+ 
