@@ -50,8 +50,6 @@
     "bootstrap": "4.0.0",
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.1",
-    "express": "^4.16.3",
-    "express-asyncify": "^1.0.0",
     "echarts": "^4.1.0",
     "intl": "1.2.5",
     "ionicons": "2.0.1",
