@@ -7,18 +7,22 @@
   justify-content: space-between;
   width: 100%;
 
+  .dropdown-menu{
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+  }
+  .logo{
+  max-height: 50px;
+  margin-right: 10px;
+  margin-top: -3px;
+  display: incline-block;
+  }
   .left {
     display: flex;
     width: 100%;
     order: 0;
     flex-direction: row;
-  }
-  .logo{
-  max-height: 50px;
-  margin-left:-20px;
-  margin-right: 0px;
-  margin-top: -3px;
-  display: incline-block;
   }
   .right {
     order: 1;
@@ -28,7 +32,6 @@
   .logo-containter {
     display: flex;
     align-items: center;
-    width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
   }
 
   .control-item {
@@ -38,11 +41,10 @@
   .header-container {
     display: flex;
     align-items: center;
-    width: auto;
+    width: 100%;
 
     .navigation {
-      @include nb-ltr(padding-right, nb-theme(padding));
-      @include nb-rtl(padding-left, nb-theme(padding));
+      padding-right: nb-theme(padding);
       font-size: 2.5rem;
       text-decoration: none;
 
@@ -56,48 +58,12 @@
       padding: 0 nb-theme(padding);
       font-size: 1.75rem;
       font-weight: nb-theme(font-weight-bolder);
-      @include nb-ltr(border-left, 1px solid nb-theme(separator));
-      @include nb-rtl(border-right, 1px solid nb-theme(separator));
+      border-left: 1px solid nb-theme(separator);
       white-space: nowrap;
 
       span {
         font-weight: nb-theme(font-weight-normal);
       }
-    }
-  }
-
-  @include nb-for-theme(corporate) {
-    $menu-action-separator-color: #3f4550;
-
-    nb-action {
-      @include nb-ltr(border-left-color, $menu-action-separator-color);
-      @include nb-rtl(border-right-color, $menu-action-separator-color);
-    }
-
-    .header-container .logo {
-      @include nb-ltr(border, none);
-      @include nb-rtl(border, none);
-    }
-
-    .header-container /deep/ ngx-theme-switcher .dropdown-toggle {
-      color: nb-theme(color-white);
-      background: transparent;
-    }
-  }
-
-  ngx-layout-direction-switcher {
-    margin: 0 1.5rem;
-  }
-
-  ngx-theme-switcher {
-    margin: nb-theme(layout-padding);
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  @include media-breakpoint-down(xl) {
-    ngx-layout-direction-switcher {
-      display: none;
     }
   }
 
@@ -109,54 +75,6 @@
     i {
       color: nb-theme(color-fg-highlight);
       font-size: 2.25rem;
-      border-radius: 50%;
-      position: relative;
-      animation-name: pulse-light;
-
-      &::after {
-        content: ' ';
-        // hack to be able to set border-radius
-        background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-        border-radius: 50%;
-        pointer-events: none;
-
-        position: absolute;
-        top: 52.3%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 13%;
-        height: 13%;
-
-        animation: 3s linear infinite pulse;
-
-        @include nb-for-theme(default) {
-          animation-name: pulse-light;
-        }
-      }
-    }
-  }
-
-  @include keyframes(pulse) {
-    0% {
-      box-shadow: 0 0 1px 0 rgba(nb-theme(color-fg-highlight), 0);
-    }
-    20% {
-      box-shadow: 0 0 3px 10px rgba(nb-theme(color-fg-highlight), 0.4);
-    }
-    100% {
-      box-shadow: 0 0 5px 20px rgba(nb-theme(color-fg-highlight), 0);
-    }
-  }
-
-  @include keyframes(pulse-light) {
-    0% {
-      box-shadow: 0 0 1px 0 rgba(115, 255, 208, 0);
-    }
-    20% {
-      box-shadow: 0 0 3px 10px rgba(115, 255, 208, 0.4);
-    }
-    100% {
-      box-shadow: 0 0 5px 20px rgba(115, 255, 208, 0);
     }
   }
 
@@ -173,19 +91,13 @@
     .toggle-layout {
       padding: 0;
     }
-
-    ngx-layout-direction-switcher {
-      display: none;
-    }
-
-    ngx-theme-switcher {
-      margin: 0 0.5rem;
-    }
   }
 
   @include media-breakpoint-down(sm) {
 
-   
+    nb-user /deep/ .user-name {
+      display: none;
+    }
   }
 
   @include media-breakpoint-down(is) {
@@ -193,20 +105,10 @@
     .header-container {
       .logo {
         font-size: 1.25rem;
-        max-height: 40px;
-        margin-left:-30px;
-        margin-right: 10px;
-        margin-top: -3px;
-        display: incline-block;
-  
       }
     }
 
     .toggle-layout {
-      display: none;
-    }
-
-    ngx-theme-switcher {
       display: none;
     }
 
@@ -216,6 +118,9 @@
   }
 
   @include media-breakpoint-down(xs) {
-    
+    .right /deep/ {
+      display: none;
+    }
   }
 }
+

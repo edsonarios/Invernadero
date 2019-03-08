@@ -1,11 +1,11 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { of as observableOf,  Observable,  BehaviorSubject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
-import { NbLayoutDirectionService, NbLayoutDirection } from '@nebular/theme';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/observable/of';
 
 @Injectable()
-export class StateService implements OnDestroy {
+export class StateService {
 
   protected layouts: any = [
     {
@@ -28,50 +28,27 @@ export class StateService implements OnDestroy {
 
   protected sidebars: any = [
     {
-      name: 'Sidebar at layout start',
+      name: 'Left Sidebar',
       icon: 'nb-layout-sidebar-left',
-      id: 'start',
+      id: 'left',
       selected: true,
     },
     {
-      name: 'Sidebar at layout end',
+      name: 'Right Sidebar',
       icon: 'nb-layout-sidebar-right',
-      id: 'end',
+      id: 'right',
     },
   ];
 
   protected layoutState$ = new BehaviorSubject(this.layouts[0]);
   protected sidebarState$ = new BehaviorSubject(this.sidebars[0]);
 
-  alive = true;
-
-  constructor(directionService: NbLayoutDirectionService) {
-    directionService.onDirectionChange()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(direction => this.updateSidebarIcons(direction));
-
-    this.updateSidebarIcons(directionService.getDirection());
-  }
-
-  ngOnDestroy() {
-    this.alive = false;
-  }
-
-  private updateSidebarIcons(direction: NbLayoutDirection) {
-    const [ startSidebar, endSidebar ] = this.sidebars;
-    const isLtr = direction === NbLayoutDirection.LTR;
-    const startIconClass = isLtr ? 'nb-layout-sidebar-left' : 'nb-layout-sidebar-right';
-    const endIconClass = isLtr ? 'nb-layout-sidebar-right' : 'nb-layout-sidebar-left';
-    startSidebar.icon = startIconClass;
-    endSidebar.icon = endIconClass;
-  }
-
   setLayoutState(state: any): any {
     this.layoutState$.next(state);
   }
 
   getLayoutStates(): Observable<any[]> {
-    return observableOf(this.layouts);
+    return Observable.of(this.layouts);
   }
 
   onLayoutState(): Observable<any> {
@@ -83,7 +60,7 @@ export class StateService implements OnDestroy {
   }
 
   getSidebarStates(): Observable<any[]> {
-    return observableOf(this.sidebars);
+    return Observable.of(this.sidebars);
   }
 
   onSidebarState(): Observable<any> {

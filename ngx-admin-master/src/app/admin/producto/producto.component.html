@@ -1,0 +1,40 @@
+
+<div class="row" [@fadeIn]>
+
+  <div class="col-md-3" *ngFor="let n of prod ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="http://192.168.10.41:3000/api/mostrarImagen/{{prod[i]['imagen']}}" class="tn"  ></nb-card-header>
+      <nb-card-body>
+        <h3>{{prod[i]['nombreProducto']}} </h3>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{prod[i]['tempMaxRecomendada']}} °C</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{prod[i]['tempMinRecomendada']}} °C</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{prod[i]['tiempoProduccion']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-danger btn-sm btn-block" type="button" (click)="eliminar(prod[i]['id'])" > Quitar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+
+  <div class="col-md-3 ">
+  	<a href="/#/admin/addproduct">
+    <br>
+    <br>
+    <br>
+      <a href="/#/admin/addproduct"><img src="assets/images/add.png" class="add"></a>
+    
+ </a>
+  </div>
+</div>

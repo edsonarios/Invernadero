@@ -1,0 +1,54 @@
+
+
+<h1 *ngIf="role!='root'">Bienvenido a la Administracion de Usuarios</h1>
+<h1 *ngIf="role=='root'">Bienvenido a la Administracion de Cuentas</h1>
+<div class="col-md-12" [@fadeIn]>
+<h1 *ngIf="role=='root'&&hiddenAdmin=='true'">Administradores</h1>
+<div class="row" *ngIf="role=='root'">
+<div class="col-md-3" *ngFor="let n of admin ; let i=index">
+    <nb-card >
+      <nb-card-header (click)="DetalleUsuario(admin[i]['id'],admin[i]['correo'],admin[i]['password'])"> <img  src="assets/images/admin.png" class="tn"></nb-card-header>
+      <nb-card-body>
+        <h3> {{admin[i]['ap_paterno']}} {{admin[i]['ap_materno']}}<br>
+        {{admin[i]['nombre']}}</h3>
+
+    </nb-card-body>
+    <nb-card-footer>
+      <span align="center"><h6>{{admin[i]['correo']}}</h6></span>
+    </nb-card-footer>
+ </nb-card>
+
+</div>  
+
+</div> 
+<h1 *ngIf="hiddenUser=='true'">Usuarios</h1>
+<div class="row">
+  
+ <div class="col-md-3" *ngFor="let n of usuario ; let i=index">
+    
+    <nb-card>
+      <nb-card-header (click)="DetalleUsuario(usuario[i]['id'],usuario[i]['correo'],usuario[i]['password'])"> <img  src="assets/images/user.png" class="tn"></nb-card-header>
+      <nb-card-body>
+        <h3> {{usuario[i]['ap_paterno']}} {{usuario[i]['ap_materno']}}<br>
+        {{usuario[i]['nombre']}}</h3>
+      
+    </nb-card-body>
+    <nb-card-footer>
+      <span align="center"><h6>{{usuario[i]['correo']}}</h6></span>
+    </nb-card-footer>
+ </nb-card>
+
+  </div>
+
+<div class="col-md-3 ">
+    <a href="/#/pages/producto">
+      <a href="#/admin/add"><img src="assets/images/add.png" class="add"></a>
+ </a>
+  </div>
+  
+
+
+
+  
+</div>
+</div>

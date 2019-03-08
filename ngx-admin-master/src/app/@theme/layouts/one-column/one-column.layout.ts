@@ -1,5 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
-import { delay, withLatestFrom, takeWhile } from 'rxjs/operators';
+import { Component , OnDestroy } from '@angular/core';
 import {
   NbMediaBreakpoint,
   NbMediaBreakpointsService,
@@ -10,75 +9,123 @@ import {
 } from '@nebular/theme';
 
 import { StateService } from '../../../@core/data/state.service';
+
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/delay';
+
+// TODO: move layouts into the framework
 @Component({
   selector: 'ngx-one-column-layout',
   styleUrls: ['./one-column.layout.scss'],
   template: `
-    <nb-layout>
+    <nb-layout [center]="layout.id === 'center-column'" windowMode >
       <nb-layout-header fixed>
         <ngx-header></ngx-header>
       </nb-layout-header>
 
-      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
-        <ng-content select="nb-menu"></ng-content>
-      </nb-sidebar>
+     
 
-      <nb-layout-column>
+      <nb-layout-column class="main-content">
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
+
+      <nb-layout-column left class="small" *ngIf="layout.id === 'two-column' || layout.id === 'three-column'">
+        <nb-menu [items]="subMenu"></nb-menu>
+      </nb-layout-column>
+
+    
 
       <nb-layout-footer fixed>
         <ngx-footer></ngx-footer>
       </nb-layout-footer>
+
+      
     </nb-layout>
   `,
 })
 export class OneColumnLayoutComponent implements OnDestroy {
+  // Realizar el cambio entre 'enable' o 'disable' el cual activara el funcionamiento de el menu
 
-   layout: any = {};
+  public status= 'enable';
+   //public status= 'disable';
+
+  subMenu: NbMenuItem[] = [
+    {
+      title: 'PAGE LEVEL MENU',
+      group: true,
+    },
+    {
+      title: 'Buttons',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/buttons',
+    },
+    {
+      title: 'Grid',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/grid',
+    },
+    {
+      title: 'Icons',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/icons',
+    },
+    {
+      title: 'Modals',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/modals',
+    },
+    {
+      title: 'Typography',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/typography',
+    },
+    {
+      title: 'Animated Searches',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/search-fields',
+    },
+    {
+      title: 'Tabs',
+      icon: 'ion ion-android-radio-button-off',
+      link: '/pages/ui-features/tabs',
+    },
+  ];
+  layout: any = {};
   sidebar: any = {};
 
-  private alive = true;
-
-  currentTheme: string;
+  protected layoutState$: Subscription;
+  protected sidebarState$: Subscription;
+  protected menuClick$: Subscription;
 
   constructor(protected stateService: StateService,
               protected menuService: NbMenuService,
               protected themeService: NbThemeService,
               protected bpService: NbMediaBreakpointsService,
               protected sidebarService: NbSidebarService) {
-    this.stateService.onLayoutState()
-      .pipe(takeWhile(() => this.alive))
+    this.layoutState$ = this.stateService.onLayoutState()
       .subscribe((layout: string) => this.layout = layout);
 
-    this.stateService.onSidebarState()
-      .pipe(takeWhile(() => this.alive))
+    this.sidebarState$ = this.stateService.onSidebarState()
       .subscribe((sidebar: string) => {
         this.sidebar = sidebar;
       });
 
     const isBp = this.bpService.getByName('is');
-    this.menuService.onItemSelect()
-      .pipe(
-        takeWhile(() => this.alive),
-        withLatestFrom(this.themeService.onMediaQueryChange()),
-        delay(20),
-      )
+    this.menuClick$ = this.menuService.onItemSelect()
+      .withLatestFrom(this.themeService.onMediaQueryChange())
+      .delay(20)
       .subscribe(([item, [bpFrom, bpTo]]: [any, [NbMediaBreakpoint, NbMediaBreakpoint]]) => {
 
         if (bpTo.width <= isBp.width) {
           this.sidebarService.collapse('menu-sidebar');
         }
       });
-
-    this.themeService.getJsTheme()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
-        this.currentTheme = theme.name;
-    });
   }
 
   ngOnDestroy() {
-    this.alive = false;
+    this.layoutState$.unsubscribe();
+    this.sidebarState$.unsubscribe();
+    this.menuClick$.unsubscribe();
   }
 }

@@ -1,80 +1,101 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
-
+import { UserService } from '../../../service/user.service';
+import { User } from '../../../model/user';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
-import { filter } from 'rxjs/operators/filter';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+
+import { LoginComponent } from '../../../main/login/login.component'
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
+  providers:[UserService]
 })
-export class HeaderComponent implements OnInit {
- status=localStorage.getItem('role');
+export class HeaderComponent{
 
+ public user: User;
+   public identity;
+  
   @Input() position = 'normal';
 
-  user: any;
-  userMenu=[];
 
-tag = 'my-context-menu';
-
-  constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-         //     private userService: UserService,
-              private analyticsService: AnalyticsService,
-              private router:Router) {
+  username;
+  lastname;
+  
+  status=localStorage.getItem('status');
+  role=localStorage.getItem('role');
+  id=localStorage.getItem('admin_user_id');
 
 
- if(localStorage.getItem('role')!=null){
+constructor(
+   private userService: UserService,
+    private sidebarService: NbSidebarService,
+    private router:Router,
+    
+    ){
 
-   if (this.status=="user") {
-      this.userMenu = [{ title: 'Mi Perfil' ,link: '/Usuario/Cuenta/Perfil'},{ title: 'Desconectarse',link: '/Principal/Inicio' }];
+    if (localStorage.getItem('status')=='enable') {
+     this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','');
+
+  //Obtenemos todo el valor de el usuario
+  this.userService.detalleUsuario(this.user).subscribe(
+      response =>{
+        this.identity=response;
+        
+        this.username=this.identity[0]['nombre'];
+        this.lastname=this.identity[0]['ap_paterno']
+
+      },
+      error =>{
+        
+      }
+    );
     }
-    if(this.status=="admin"||this.status=="root"){
-      this.userMenu = [{ title: 'Mi Perfil' ,link: '/Administrador/Cuentas/Perfil'},{ title: 'Gestionar',link: '/Administrador/Cuentas/Usuarios' },{ title: 'Desconectarse' ,link: '/Principal/Inicio' }];
+    else{
+      this.username='';
+      this.lastname='';
     }
- }
- else{
-  this.userMenu = [{ title: 'Mi Perfil'},{ title: 'Desconectarse',link: '/Principal/Inicio' }];
- }
 
 
+
+  }
+
+
+	LogOut(){
+
+		console.log('SALIR');
+		this.router.navigate(['/main/login']);
+		localStorage.clear();
+		this.status=null;
+		this.role=null;
+		}	
+ profile(){
+  this.router.navigate(['/pages/profile']);
+}
+profileAdmin(){
+  this.router.navigate(['/admin/profile']);
+
+}
+ Administrar(){
+   localStorage.removeItem('user_inv_id');
+   localStorage.removeItem('admin_user_correo');
+   localStorage.removeItem('admin_user_id');
+   localStorage.removeItem('admin_user_password');
+   localStorage.removeItem('route');
+  this.router.navigate(['/admin/user']);
+ }
+ Productos(){
+  this.router.navigate(['/admin/product']);
+  localStorage.removeItem('user_inv_id');
+   localStorage.removeItem('admin_user_correo');
+   localStorage.removeItem('admin_user_id');
+   localStorage.removeItem('admin_user_password');
+ }
+ Controladores(){
+   this.router.navigate(['/admin/controlador']);
+ }
  
-  }
-
-  ngOnInit() {
- // Agrega los nombres
-       if (this.status==null) {
-        this.user={ name: 'Nelson Richard Cori Sirpa', picture: 'assets/images/nick.jpg' };
-       }
-       else{
-        this.user={ name: localStorage.getItem('nombre'), picture: 'assets/images/user_default.png' };
-       }
-
-       this.menuService.onItemClick().subscribe(( event ) => {
-      this.onItemSelection(event.item.title);
-    })
-
-   }
-  onItemSelection( title ) {
-    /*if ( title === 'Log out' ) {
-      // Do something on Log out
-      console.log('Log out Clicked ')
-    } else if ( title === 'Profile' ) {
-      // Do something on Profile
-      console.log('Profile Clicked ')
-    }
-    console.log("==================");
-    console.log(title);
-    console.log("==================");
-    */
-  }
-
-
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
     return false;
@@ -85,22 +106,4 @@ tag = 'my-context-menu';
     return false;
   }
 
-  goToHome() {
-    this.menuService.navigateHome();
-  }
-
-  startSearch() {
-    this.analyticsService.trackEvent('startSearch');
-  }
-  
-
-  user_mail(){
-  this.router.navigate(['/Usuario/Mensajes/Bandeja']);
-  
-  }
-  admin_mail(){
-    this.router.navigate(['/Administrador/Mensajes/Bandeja']);
-
-  }
-  
 }

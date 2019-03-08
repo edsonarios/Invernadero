@@ -1,0 +1,43 @@
+<ol class="breadcrumb">
+  <li><a href="/#/admin/user">Control de Cuentas</a></li><b>/</b>
+    <li><a href="/#/admin/details">Detalles de Cuenta</a></li><b>/</b>
+    <li><a href="/#/admin/detailsinv">Invernadero</a></li><b>/</b>
+  <li>Camaras</li>
+  </ol>
+<button class="btn btn-success " type="button" (click)="volver()" [@fadeIn]> VOLVER </button>
+
+
+<span align="center" [@fadeIn]><h1>Lista de Camaras</h1></span>
+
+<div class="col-md-8 offset-2">
+    
+    <nb-card >
+      <br>
+      <span align="center"><h3>Invernadero X</h3></span>
+      <nb-card-body>
+    	<table class="table table-striped">
+        <thead>
+      	<tr>
+      		<th> <b>Nro</b> </th>
+      		<th><b> Nombre</b> </th>
+          <th><b> Direccion IP </b></th>
+          <th><b> opcion </b></th>
+      	</tr>
+      </thead>
+      <tbody>
+      	<tr *ngFor="let n of Camara; let i=index">
+      		<td>{{i+1}}</td>
+      		<td><h4> Nombre {{i+1}}</h4></td>
+          <td> <h6> 192.168.123.1 </h6></td>
+          <td> <h1><i class="nb-trash btn-danger" style="border-radius: 8px"></i></h1></td>
+      	</tr>
+        </tbody>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+
+    	<button class="btn btn-success btn-block" type="button" (click)="add()"> Añadir Nueva Camara </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
