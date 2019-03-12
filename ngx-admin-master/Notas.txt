@@ -1,3 +1,0 @@
-- Falta mensajes de error o accion en el Login, como tambien el redireccion del 404
-- Diseño de la pagina Error 404 not found
-- Estado de Conexion de los usuarios

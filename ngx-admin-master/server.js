@@ -19,10 +19,33 @@ const app = asyncify(express())
 const server = http.createServer(app)
 const io = socketio(server)
 const agent = new ModAgent()
+const { parsePayload } = require('../mod-mqtt/utils')
 
 const client = mqtt.connect('mqtt://localhost')
 
+client.subscribe('actuador')
+client.subscribe('actuador2')
+client.subscribe('update')
+client.subscribe('arduino')
 
+client.on('message', (topic, payload) => {
+  payload = parsePayload(payload)
+  
+  console.log(topic)
+  //if que actualiza en tiempo real todos los botones de actuadores y monitoreo actuadores
+  if(topic=="actuador" || topic=="update" ){
+    setTimeout(function() {
+    
+      io.emit('EsActuador',payload)  
+        
+      }, 500)
+  }
+  //grafica de baterias que viene desde arduino
+  if(topic=="arduino"){
+    io.emit('arduino',payload)  
+  }
+  
+})
 
 // Socket.io / WebSockets
 io.on('connect', socket => {
@@ -31,21 +54,30 @@ io.on('connect', socket => {
   socket.on('message', payload => {
     //publica mediante mqtt el objeto json
     client.publish("actuador", payload)
-    
-    //console.log(payload)
+    console.log("este es socket")
+    console.log("\x1b[33m",payload)
   })
+
+    //recibe el mensaje de la pagina web para ventas y puertas sin finales de carrera
+    socket.on('message2', payload => {
+      //publica mediante mqtt el objeto json
+      client.publish("actuador2", payload)
+      console.log("este es socket 2")
+      console.log("\x1b[33m",payload)
+    })
+
    socket.on('actualizacion', payload => {
     //publica mediante mqtt el objeto json
     client.publish("actualizacion", payload)
     
-    //console.log(payload)
+    //console.log("\x1b[31m",payload)
   })
 
     socket.on('nuevoRiego', payload => {
     //publica mediante mqtt el objeto json
     client.publish("nuevoRiego", payload)
     
-    //console.log(payload)
+    console.log("\x1b[31m",payload)
   })
 
 

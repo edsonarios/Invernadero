@@ -4,11 +4,11 @@ export const COSMIC_THEME = {
   variables: {
 
     temperature: [
-      '#2ec7fe',
-      '#31ffad',
-      '#7bff24',
-      '#fff024',
-      '#f7bd59',
+      '#2ec7fe',//azul
+      '#31ffad',//verde
+      '#7bff24',//verde lechuga
+      '#fff024',//amarillo
+      '#f7bd59',//naranja
     ],
 
     solar: {

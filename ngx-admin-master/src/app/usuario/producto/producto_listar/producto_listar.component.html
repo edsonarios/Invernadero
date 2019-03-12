@@ -1,0 +1,33 @@
+
+<span align="center"><h1>Productos del Invernadero</h1></span>
+<hr>
+<button class="btn btn-info btn-block" (click)="add()">Agregar</button>
+<div class="row" [@fadeIn]>
+  <div class="col-md-4" *ngFor="let n of Producto ; let i=index">
+    <nb-card >
+      <nb-card-header><img  src="assets/images/product.png" class="img-responsive" width="100%" height="100%" ></nb-card-header>
+      <nb-card-body>
+        <h3>{{Producto[i]['nombreProducto']}} </h3>
+      <table class="table-hover">
+        <tr>
+          <td> Temp. Maxima:</td>
+          <td>{{Producto[i]['tempMaxRecomendada']}} °C</td>
+        </tr>
+        <tr>
+          <td>Temp. Minima:</td>
+          <td>{{Producto[i]['tempMinRecomendada']}} °C</td>
+        </tr>
+        <tr>
+          <td>Desarrollo :</td>
+          <td>{{Producto[i]['tiempoProduccion']}}</td>
+        </tr>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+             <button class="btn btn-danger btn-sm btn-block" type="button" (click)="eliminar()"> Eliminar </button>
+
+    </nb-card-footer>
+ </nb-card>
+  </div>
+
+</div>
