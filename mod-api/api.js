@@ -137,7 +137,7 @@ api.get('/datosRoot',async (req,res)=>{
     tipo: 'root',
     direccion: 'dir3',
     telefono: 6663,
-    correo:'usuario@usuario',
+    correo:'root@root',
     password:'1234',
     conectado:'false'
   }) 

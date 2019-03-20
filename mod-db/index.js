@@ -74,25 +74,25 @@ module.exports = async function (config) {
   ControladorModel.hasMany(PinesModel)
   PinesModel.belongsTo(ControladorModel, {onDelete: 'CASCADE'})
 
-  // relacion entre controlador y historialSensor
-  ControladorModel.hasMany(HistorialSensorModel)
-  HistorialSensorModel.belongsTo(ControladorModel, {onDelete: 'CASCADE'})
-
-  // relacion historialProducto - producto
-  ProductoModel.hasMany(HistorialProductoModel)
-  HistorialProductoModel.belongsTo(ProductoModel, {onDelete: 'CASCADE'})
-  
-  //relacion historialProducto - invernadero
-  InvernaderoModel.hasMany(HistorialProductoModel)
-  HistorialProductoModel.belongsTo(InvernaderoModel, {onDelete: 'CASCADE'})
-
   // relacion entre pines y horario
   PinesModel.hasMany(HorarioModel)
   HorarioModel.belongsTo(PinesModel)
 
-    // relacion entre invernadero y camara
-    InvernaderoModel.hasMany(CamaraModel)
-    CamaraModel.belongsTo(InvernaderoModel, {onDelete: 'CASCADE'})
+  // relacion entre controlador y historialSensor
+  ControladorModel.hasMany(HistorialSensorModel)
+  HistorialSensorModel.belongsTo(ControladorModel, {onDelete: 'CASCADE'})
+
+  //relacion historialProducto - invernadero
+  InvernaderoModel.hasMany(HistorialProductoModel)
+  HistorialProductoModel.belongsTo(InvernaderoModel, {onDelete: 'CASCADE'})
+
+  // relacion historialProducto - producto
+  ProductoModel.hasMany(HistorialProductoModel)
+  HistorialProductoModel.belongsTo(ProductoModel, {onDelete: 'CASCADE'})
+
+  // relacion entre invernadero y camara
+  InvernaderoModel.hasMany(CamaraModel)
+  CamaraModel.belongsTo(InvernaderoModel, {onDelete: 'CASCADE'})
 
   await sequelize.authenticate()
 

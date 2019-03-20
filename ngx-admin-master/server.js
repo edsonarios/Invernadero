@@ -21,7 +21,8 @@ const io = socketio(server)
 const agent = new ModAgent()
 const { parsePayload } = require('../mod-mqtt/utils')
 
-const client = mqtt.connect('mqtt://localhost')
+const client = mqtt.connect('mqtt://173.212.204.188')
+//const client = mqtt.connect('mqtt://localhost')
 
 client.subscribe('actuador')
 client.subscribe('actuador2')
