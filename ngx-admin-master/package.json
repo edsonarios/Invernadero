@@ -51,6 +51,7 @@
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.1",
     "echarts": "^4.1.0",
+    "express-asyncify": "^1.0.0",
     "intl": "1.2.5",
     "ionicons": "2.0.1",
     "jquery": "^3.3.1",
