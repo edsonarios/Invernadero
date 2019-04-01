@@ -23,7 +23,10 @@ module.exports = function setupDispositivotoModel (config) {
     nroAnalogicos: {
         type: Sequelize.INTEGER,
         allowNull: false
-      }
-    
+      },
+    imagenControlador:{
+      type: Sequelize.STRING,
+      allowNull: false
+    }
   })
 }

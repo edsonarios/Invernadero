@@ -43,6 +43,10 @@ module.exports = function setupInvernaderoModel (config) {
       type: Sequelize.TIME,
       allowNull: false
     },
+    logo:{
+      type: Sequelize.STRING,
+      allowNull: false
+    }
 
   })
 }

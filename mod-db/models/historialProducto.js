@@ -12,7 +12,7 @@ module.exports = function setupHistorialProductoModel (config) {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    fechaCosecha: {
+    FechaCosecha: {
       type: Sequelize.DATE,
       allowNull: false
     }
