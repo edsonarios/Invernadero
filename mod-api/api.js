@@ -148,7 +148,7 @@ api.get('/datosRoot',async (req,res)=>{
 
   }) 
   
-  
+  log( varUs.change)
   res.send(varUs);
 })
 
