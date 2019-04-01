@@ -42,6 +42,10 @@ module.exports = function setupUsuarioModel (config) {
     conectado: {
       type: Sequelize.STRING,
       allowNull: false
+    },
+    change: {
+      type: Sequelize.STRING,
+      allowNull: false
     }
 
   })
