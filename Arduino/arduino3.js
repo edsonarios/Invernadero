@@ -4,27 +4,39 @@
  const request = require('request-promise-native')
  const mqtt = require('async-mqtt')
  const { parsePayload } = require('../mod-mqtt/utils')
+
+ var ports = [
+  { id: "A", port: "COM4" }//MEGA
+  //{ id: "B", port: "COM3" } //DS
+  //{ id: "C", port: "COM9" } //proximidad
+];
  //configuramos nuestra placa arduino en una variable
- var board = new five.Board()
+ var board = new five.Boards(ports)
  
  //Inicializamos el agente
  const agentID = "arduino"
  const ModAgent = require('../mod-agent')
  const sendDatos = 2000
  const intervalAutomatization = sendDatos
+ const IP = '192.168.0.25'
  //host para la api
- const Host = `http://localhost:3000/`
+ const Host = `http://${IP}:3000/`
+ //const Host = `http://192.168.0.25:3000/`
  //const Host = `http://173.212.235.89:3000/`
  const agent = new ModAgent({
    interval: sendDatos,
    agentID: agentID,
  })
+ //Entrada de variable para los sensores de temperatura
+ var sensorCOM = 'COM3'
+ 
  //iniciamos cliente mqtt
- 
  //const client = mqtt.connect('mqtt://173.212.235.89')
- const client = mqtt.connect('mqtt://localhost')
- const clientLocal = mqtt.connect('mqtt://localhost')
- 
+ const client = mqtt.connect(`mqtt://${IP}`)
+ const clientLocal = mqtt.connect(`mqtt://${IP}`)
+ //const client = mqtt.connect(`mqtt://192.168.0.25`)
+ //const clientLocal = mqtt.connect(`mqtt://192.168.0.25`)
+
   client.subscribe('actuador')
   client.subscribe('actuador2')
   client.subscribe('update')
@@ -38,9 +50,14 @@
   clientLocal.subscribe('actualizacion')
   clientLocal.subscribe('nuevoRiego')
   clientLocal.subscribe('control')
- 
 
-
+  const totalPinesMega = 70
+let SensoresDTH = []
+var potencia=0
+var switchPWM=0
+var pinPWM=0
+var dth=0
+var dthSw=1
 //numero de posicion son los numeros de pines 
 // 0 inactivo 1 activo
 let estado = []
@@ -72,132 +89,51 @@ horarios()
 // mensaje que se muestra por consola informandonos de que la placa esta lista
  console.log("Placa lista.")
 
-//Se debe instanciar todos los pines del dispositivo
-var D0 = new five.Pin(0)
-var D1 = new five.Pin(1)
-var D2 = new five.Pin(2)
-var D3 = new five.Pin(3)
-var D4 = new five.Pin(4)
-var D5 = new five.Pin(5)
-var D6 = new five.Pin(6)
-var D7 = new five.Pin(7)
-var D8 = new five.Pin(8)
-var D9 = new five.Pin(9)
-var D10 = new five.Pin(10)
-var D11 = new five.Pin(11)
-var D12 = new five.Pin(12)
-var D13 = new five.Pin(13)
 var A0 = new five.Sensor("A0")
 var A1 = new five.Sensor("A1")
 var A2 = new five.Sensor("A2")
 var A3 = new five.Sensor("A3")
 var A4 = new five.Sensor("A4")
 var A5 = new five.Sensor("A5")
+var A15 = new five.Sensor("A15")
+var otra=5
+// SENSORES //////////////////////////////////////////////////////////////////////////////////
+///Serial comunication
+const Serialport=require('serialport');
+//parsers ver lectura
+const Readline=Serialport.parsers.Readline;
+const port=new Serialport(sensorCOM,{baudRate:9600});
+const parser=port.pipe(new Readline({
+    delimeter:'\r\n'
+}));
+parser.on('open ',function(){
+    console.log('coneccion is opend');
+});
+parser.on('data',function(data){
+    if(dthSw==1){
+      for (let i = 0; i < data.length/6; i++) {
+       SensoresDTH.push(parseFloat(data.substring((6*i),(6*i+5))))
+      }
+      dthSw=0
+    }else{
+      for (let i = 0; i < SensoresDTH.length; i++) {
+        SensoresDTH[i] = parseFloat(data.substring((6*i),(6*i+5)))
+        temp[i+totalPinesMega] = SensoresDTH[i]
+        otra+=5
+      }
+    }
+    
 
-// D4.query(function(state) {
-//   console.log("sensor 1");
-//   console.log(state);
-//   console.log(state.value);
-//   });
-//----------------------------------------------------------------------------------------------------------------------
-  // five.Pin.read(A0, function(error, value) {
-  //   console.log(value);
-  //   console.log("----------------------------------------------")
-  // });
-//----------------------------------------------------------------------------------------------------------------------
-  // D4.read(function(error, value) {
-  //   //console.log(value);
-  //   if(value==1){
-  //     //console.log("chevere")
-  //   }
-  //   if(value==0){
-  //     //console.log("NO chevere")
-  //   }
-  // });
+});
+port.on('error',function(err){
+    console.log(err);
+});
 
 
-//ABRIR O CERRAR PUERTA POR PULSADORES
-  var PS=0
-  // D5.read(function(error, value) {
-  //   //console.log(value);
-  //   if(value==1){
-      
-  //     if(PS==1){
-  //       console.log("chevere "+depende[5])
-  //       PS=0
-  //       var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${depende[5]},"value":1},"timestamp":1517522296902}`
-  //       client.publish("actuador", payload)
-  //     }
-      
-      
-  //   }
-  //   if(value==0){
-  //     if(PS==0){
-  //       console.log("NO chevere "+depende[5])
-  //       PS=1
-  //       var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${depende[5]},"value":0},"timestamp":1517522296902}`
-  //       client.publish("actuador", payload)
-  //     }
-      
-  //   }
-  // });
-  // var PS6=0
-  // D6.read(function(error, value) {
-  //   //console.log(value);
-  //   if(value==1){
-      
-  //     if(PS6==1){
-  //       console.log("chevere "+3)
-  //       PS6=0
-  //       var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":3,"value":1},"timestamp":1517522296902}`
-  //       client.publish("actuador", payload)
-  //     }
-      
-      
-  //   }
-  //   if(value==0){
-  //     if(PS6==0){
-  //       console.log("NO chevere "+3)
-  //       PS6=1
-  //       var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":3,"value":0},"timestamp":1517522296902}`
-  //       client.publish("actuador", payload)
-  //     }
-      
-  //   }
-  // });
 
-  // D38.write(payload.actuador.value); break;//I16
-  // D39.write(payload.actuador.value); break;//I17
-
-  // //D0=ABRIR D1=CERRAR A4=on58 A5=off59
-  // //PULSADOR ABRIR
-  // D38.read(function(error, value) {
-  //   //console.log(value);
-  //   if(value==1){
-  //     if(temp[58]>0 && temp[58]<400){
-  //       console.log("chevere "+depende[5])
-  //       var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":0,"value":1},"timestamp":1517522296902}`
-  //       clientLocal.publish("actuador", payload)
-  //     }
-        
-  //     }
-
-  // });
-  // //PULSADOR CERRAR
-  // D39.read(function(error, value) {
-  //   //console.log(value);
-  //   if(value==1){
-  //     if(temp[59]>0 && temp[59]<400){
-  //       console.log("chevere "+depende[5])
-  //       var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":1,"value":1},"timestamp":1517522296902}`
-  //       clientLocal.publish("actuador", payload)
-  //     }
-        
-  //     }
-
-  // });
-  
-
+  ///////////////////////////////////////////////////////////////////////////////////
+  //console.log("este es estado lc")
+  //console.log(estado)
 //se instancian solo sensores, y manda datos de inmediato
   for (let i = 1; i <= estado.length; i++) {
     
@@ -210,7 +146,7 @@ var A5 = new five.Sensor("A5")
                   })
                   A0.on("change", function() {
                     //temp[i-1] = A0.value
-                    
+                    temp[i-1] = dth
                     })
                   break
           case 16:agent.addMetric(descripcion[i-1], function getRss () {
@@ -291,6 +227,23 @@ var A5 = new five.Sensor("A5")
     
   }
 
+  //PARA SENSORES DTH, seran pines analogicos falsos ////////////////////////////////////////////////////////////////////////////////
+  // En el sistema empieza en A16, y en arduino empieza en 70
+  for (let i = totalPinesMega; i < estado.length; i++) {
+    
+    if(estado[i]==1){
+      if(clasePin[i]==1){
+        switch(i){
+          case i:agent.addMetric(descripcion[i], function getRss () {
+                    return temp[i]
+                  })
+                  break
+        }
+      }
+      
+    }
+    
+  }
 
   //AGENTE CONECTADO
     agent.connect()
@@ -299,364 +252,422 @@ var A5 = new five.Sensor("A5")
     var ssww=0
     var ssww2=0
     var swww=0
-    
-     //LOOP DE AUTOMATIZACION SEGUN SENSORES
-     this.loop(intervalAutomatization, () => {
+    // MULTIPLE BOARD////////////////////////////////////////////////////////////////
+    this.each(function(board) {
+      if (board.id === "A") {
+        
+        
+//Se debe instanciar todos los pines del dispositivo
+this.pinMode(2, five.Pin.PWM);
+this.pinMode(3, five.Pin.PWM);
+this.pinMode(4, five.Pin.PWM);
+this.pinMode(5, five.Pin.PWM);
+this.pinMode(6, five.Pin.PWM);
+this.pinMode(7, five.Pin.PWM);
+this.pinMode(8, five.Pin.PWM);
+this.pinMode(9, five.Pin.PWM);
+this.pinMode(10, five.Pin.PWM);
+this.pinMode(11, five.Pin.PWM);
+this.pinMode(12, five.Pin.PWM);
+
+        /////////////////////////////////////////////////////////////////////////////////
+        this.loop(intervalAutomatization, () => {
     
       
-      //console.log(temp)
-      //console.log("\x1b[32m","Iniciando Automatizacion segun sensores")
-      if(ssww2==0){
-        var HoraYFecha = new Date()
-        var Hora = HoraYFecha.getHours()
-        var Minuto = HoraYFecha.getMinutes()
-        var Segundos = HoraYFecha.getSeconds()
-        
-        console.log(Hora+":"+Minuto +":"+Segundos+" Actualiza la base de datos, con los finales de carrera")
-        for (let i = 0; i < idPin.length; i++) {
-          if(estado[i]==1){
-            if(clasePin[i]==3){
-              if(temp[i]>=0 && temp[i]<300){
-                Auxtemp[i]=0
-                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1517522296902}`
-                client.publish("update", payload)
-                //console.log(payload)
-              }
-              if(temp[i]>400){
-                Auxtemp[i]=1
-                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1517522296902}`
-                client.publish("update", payload)
-                //console.log(payload)
-              }
-    
-              //clientLocal.publish("update", payload)
-            }
-          }
-        }
-        ssww2=1
-      }
-      swww=1
-      
-
-      for (let i = 0; i < idPin.length; i++) {
-        if(clasePin[i]==1){
-
-          if(estado[i]==1 && descripcion[i].indexOf('temp')>=0){
-            
-            //abrir puertas
-            if(!descansoVentilador[i] && !swPuertas[i]){
-              
-              if(temp[i]>=tempMedia){
-                var HoraYFecha = new Date()
-                var Hora = HoraYFecha.getHours()
-                var Minuto = HoraYFecha.getMinutes()
-                var Segundos = HoraYFecha.getSeconds()
-                
-                console.log("sensor "+temp[i]+" "+tempMedia)
-                console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+"Funcion apertura puertas y ventanas para " + descripcion[i])
-                console.log("Antiguo loop abrir puerta")
-                
-                swPuertas[i]=true
-                swPuertas2[i]=1
-                abrirPuertas2(idPin[i],nroPin[i],i)
-                abrirPuertas(idPin[i],nroPin[i],i)
-                
-                
-              }
-              if(swPuertas2[i]==0){
-                if(temp[i]<tempMedia-10){
-                  var HoraYFecha = new Date()
-                  var Hora = HoraYFecha.getHours()
-                  var Minuto = HoraYFecha.getMinutes()
-                  var Segundos = HoraYFecha.getSeconds()
-                  console.log("Antiguo loop primera cerrada de puerta")
-                  console.log("sensor "+temp[i]+" "+tempMedia-10)
-                  console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+" Funcion cerrar puertas y ventanas "+ descripcion[i])
-                  
-                  swPuertas[i]=false  
-                  swPuertas2[i]=1
-
-                  cerrarPuertas2(idPin[i],nroPin[i],i)
-                  cerrarPuertas(idPin[i],nroPin[i],i)
-                  
-                  
-                }
-              }
-              
-              
-
-              
-            }
-            //Ventilador
-            if(descansoVentilador[i] && swPuertas[i]){
-              
-              if(temp[i]>=tempMaxima){
-                //Encender ventiladores
-                var HoraYFecha = new Date()
-                var Hora = HoraYFecha.getHours()
-                var Minuto = HoraYFecha.getMinutes()
-                var Segundos = HoraYFecha.getSeconds()
-                console.log("Antiguo loop ventilador")
-                console.log("sensor "+temp[i]+" "+tempMaxima)
-                console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+" Funcion ventilador")
-                
-                encenderVentilador(idPin[i],nroPin[i],i)
-                //descanso para el sensor y sus dependientes ventiladores
-                descansoVentilador[i]=false
-              }
-              
-            }
-
-            //cerrar puertas
-            if(swPuertas[i]){
-                
-                if(temp[i]<tempMedia-10){
-                  var HoraYFecha = new Date()
-                  var Hora = HoraYFecha.getHours()
-                  var Minuto = HoraYFecha.getMinutes()
-                  var Segundos = HoraYFecha.getSeconds()
-                  console.log("Antiguo loop cerrar puerta")
-                  console.log("sensor "+temp[i]+" "+tempMedia-10)
-                  console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+" Funcion cerrar puertas y ventanas "+ descripcion[i])
-                  
-                  swPuertas[i]=false  
-                  cerrarPuertas2(idPin[i],nroPin[i],i)
-                  cerrarPuertas(idPin[i],nroPin[i],i)
-                  
-                  
-                }
-            }
-            
-          }
-        }
-
-      }
-
-
-      TiempoApertura=0
-    })
-
-    //Este loop descuenta al tiempo de inactividad 5 segundos y si es 0 inicia acciones
-    this.loop(6000, () => {
-      TiEsperaInactividad=TiEsperaInactividad-6
-      console.log("Loop tiempo actividad :"+TiEsperaInactividad)
-      if(TiEsperaInactividad<=0){
-        
-        for (let i = 0; i < idPin.length; i++) {
-          if(clasePin[i]==1){
-
-            if(estado[i]==1 && descripcion[i].indexOf('temp')>=0){
-              
-              //abrir puertas
-              if(temp[i]>=tempMedia){
-                TiEsperaInactividad=120
-                //  console.log("sensor "+temp[i]+" "+tempMedia)
-                //console.log("\x1b[32m","Terminando apertura puertas y ventanas para " + descripcion[i])
-                console.log("nuevo loop abrir")
-                console.log("sensor "+temp[i])
-                  abrirPuertas(idPin[i],nroPin[i],i)
-                  
-              }
-              
-              //cerrar puertas
-              if(temp[i]<tempMedia-10){
-                TiEsperaInactividad=120
-                //console.log("sensor "+temp[i]+" "+tempMedia-10)
-                //console.log("\x1b[32m","Terminando cerrar puertas y ventanas "+ descripcion[i])
-                console.log("nuevo loop cerrar")
-                console.log("sensor "+temp[i])
-                cerrarPuertas(idPin[i],nroPin[i],i)
-                
-              }
-          
-              
-            }
-          }
-
-        }
-
-      }
-    })
-
-    //LOOP DE RIEGO pregunta cada 60 segundos
-    this.loop(60000, () => {
-      //console.log("\x1b[32m","Iniciando Automatizacion Riego")
-      for (let i = 0; i < hId.length; i++) {
-        var H=parseInt(hIni[i].substring(0,2))
-        var M=parseInt(hIni[i].substring(3,5))
-        //console.log(H)
-        //console.log(M)
-        var date = new Date()
-        
-        
-
-        if(!hAux[i]){
-          if(H==date.getHours() && M==date.getMinutes()){
-            
-            hAux[i]=true
-
-            //convertir a milisegundos
-            var duracion = parseInt(hDur[i].substring(3,5))*60000
-            
-            
-            var idBomba =  ObtPines.find(m => m.id === hPinId[i])
-
+          //console.log(temp)
+          //console.log("\x1b[32m","Iniciando Automatizacion segun sensores")
+          if(ssww2==0){
             var HoraYFecha = new Date()
             var Hora = HoraYFecha.getHours()
             var Minuto = HoraYFecha.getMinutes()
             var Segundos = HoraYFecha.getSeconds()
-            console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Encendiendo bomba : "+idBomba.descripcionPin)
             
-            //encender bomba
-            var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1517522296902}`
-            client.publish("actuador", payload)
-            clientLocal.publish("actuador", payload)
+            console.log(Hora+":"+Minuto +":"+Segundos+" Actualiza la base de datos, con los finales de carrera")
+            for (let i = 0; i < idPin.length; i++) {
+              if(estado[i]==1){
+                if(clasePin[i]==3){
+                  if(temp[i]>=0 && temp[i]<300){
+                    Auxtemp[i]=0
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1517522296902}`
+                    client.publish("update", payload)
+                    //console.log(payload)
+                  }
+                  if(temp[i]>400){
+                    Auxtemp[i]=1
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1517522296902}`
+                    client.publish("update", payload)
+                    //console.log(payload)
+                  }
+        
+                  //clientLocal.publish("update", payload)
+                }
+              }
+            }
+            ssww2=1
+          }
+          swww=1
+          
+    
+          for (let i = 0; i < idPin.length; i++) {
+            if(clasePin[i]==1){
+    
+              if(estado[i]==1 && descripcion[i].indexOf('temp')>=0){
+                
+                //abrir puertas
+                if(!descansoVentilador[i] && !swPuertas[i]){
+                  
+                  if(temp[i]>=tempMedia){
+                    var HoraYFecha = new Date()
+                    var Hora = HoraYFecha.getHours()
+                    var Minuto = HoraYFecha.getMinutes()
+                    var Segundos = HoraYFecha.getSeconds()
+                    
+                    console.log("sensor "+temp[i]+" "+tempMedia)
+                    console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+"Funcion apertura puertas y ventanas para " + descripcion[i])
+                    console.log("Antiguo loop abrir puerta")
+                    
+                    swPuertas[i]=true
+                    swPuertas2[i]=1
+                    abrirPuertas2(idPin[i],nroPin[i],i)
+                    abrirPuertas(idPin[i],nroPin[i],i)
+                    
+                    
+                  }
+                  if(swPuertas2[i]==0){
+                    if(temp[i]<tempMedia-10){
+                      var HoraYFecha = new Date()
+                      var Hora = HoraYFecha.getHours()
+                      var Minuto = HoraYFecha.getMinutes()
+                      var Segundos = HoraYFecha.getSeconds()
+                      console.log("Antiguo loop primera cerrada de puerta")
+                      console.log("sensor "+temp[i]+" "+tempMedia-10)
+                      console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+" Funcion cerrar puertas y ventanas "+ descripcion[i])
+                      
+                      swPuertas[i]=false  
+                      swPuertas2[i]=1
+    
+                      cerrarPuertas2(idPin[i],nroPin[i],i)
+                      cerrarPuertas(idPin[i],nroPin[i],i)
+                      
+                      
+                    }
+                  }
+                  
+                  
+    
+                  
+                }
+                //Ventilador
+                if(descansoVentilador[i] && swPuertas[i]){
+                  
+                  if(temp[i]>=tempMaxima){
+                    //Encender ventiladores
+                    var HoraYFecha = new Date()
+                    var Hora = HoraYFecha.getHours()
+                    var Minuto = HoraYFecha.getMinutes()
+                    var Segundos = HoraYFecha.getSeconds()
+                    console.log("Antiguo loop ventilador")
+                    console.log("sensor "+temp[i]+" "+tempMaxima)
+                    console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+" Funcion ventilador")
+                    
+                    encenderVentilador(idPin[i],nroPin[i],i)
+                    //descanso para el sensor y sus dependientes ventiladores
+                    descansoVentilador[i]=false
+                  }
+                  
+                }
+    
+                //cerrar puertas
+                if(swPuertas[i]){
+                    
+                    if(temp[i]<tempMedia-10){
+                      var HoraYFecha = new Date()
+                      var Hora = HoraYFecha.getHours()
+                      var Minuto = HoraYFecha.getMinutes()
+                      var Segundos = HoraYFecha.getSeconds()
+                      console.log("Antiguo loop cerrar puerta")
+                      console.log("sensor "+temp[i]+" "+tempMedia-10)
+                      console.log("\x1b[32m",Hora+":"+Minuto +":"+Segundos+" Funcion cerrar puertas y ventanas "+ descripcion[i])
+                      
+                      swPuertas[i]=false  
+                      cerrarPuertas2(idPin[i],nroPin[i],i)
+                      cerrarPuertas(idPin[i],nroPin[i],i)
+                      
+                      
+                    }
+                }
+                
+              }
+            }
+    
+          }
+    
+    
+          TiempoApertura=0
+        })
+    
+        //Este loop descuenta al tiempo de inactividad 5 segundos y si es 0 inicia acciones
+        this.loop(6000, () => {
+          TiEsperaInactividad=TiEsperaInactividad-6
+          //console.log("Loop tiempo actividad :"+TiEsperaInactividad)
+          if(TiEsperaInactividad<=0){
+            
+            for (let i = 0; i < idPin.length; i++) {
+              if(clasePin[i]==1){
+    
+                if(estado[i]==1 && descripcion[i].indexOf('temp')>=0){
+                  
+                  //abrir puertas
+                  if(temp[i]>=tempMedia){
+                    TiEsperaInactividad=120
+                    //  console.log("sensor "+temp[i]+" "+tempMedia)
+                    //console.log("\x1b[32m","Terminando apertura puertas y ventanas para " + descripcion[i])
+                    console.log("nuevo loop abrir")
+                    console.log("sensor "+temp[i])
+                      abrirPuertas(idPin[i],nroPin[i],i)
+                      
+                  }
+                  
+                  //cerrar puertas
+                  if(temp[i]<tempMedia-10){
+                    TiEsperaInactividad=120
+                    //console.log("sensor "+temp[i]+" "+tempMedia-10)
+                    //console.log("\x1b[32m","Terminando cerrar puertas y ventanas "+ descripcion[i])
+                    console.log("nuevo loop cerrar")
+                    console.log("sensor "+temp[i])
+                    cerrarPuertas(idPin[i],nroPin[i],i)
+                    
+                  }
+              
+                  
+                }
+              }
+    
+            }
+    
+          }
+        })
+    
+        //LOOP DE RIEGO pregunta cada 60 segundos
+        this.loop(60000, () => {
+          //console.log("\x1b[32m","Iniciando Automatizacion Riego")
+          for (let i = 0; i < hId.length; i++) {
+            var H=parseInt(hIni[i].substring(0,2))
+            var M=parseInt(hIni[i].substring(3,5))
+            //console.log(H)
+            //console.log(M)
+            var date = new Date()
+            
+            
+    
+            if(!hAux[i]){
+              if(H==date.getHours() && M==date.getMinutes()){
+                
+                hAux[i]=true
+    
+                //convertir a milisegundos
+                var duracion = parseInt(hDur[i].substring(3,5))*60000
+                
+                
+                var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+    
+                var HoraYFecha = new Date()
+                var Hora = HoraYFecha.getHours()
+                var Minuto = HoraYFecha.getMinutes()
+                var Segundos = HoraYFecha.getSeconds()
+                console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Encendiendo bomba : "+idBomba.descripcionPin)
+                
+                //encender bomba
+                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1517522296902}`
+                client.publish("actuador", payload)
+                clientLocal.publish("actuador", payload)
+    
+                setTimeout(function() {
+                  hAux[i]=false
+                  var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+                  var HoraYFecha = new Date()
+                  var Hora = HoraYFecha.getHours()
+                  var Minuto = HoraYFecha.getMinutes()
+                  var Segundos = HoraYFecha.getSeconds()
+                  
+                  console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Apagando bomba : "+idBomba.descripcionPin)
+                  //apagar bomba
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1517522296902}`
+                  client.publish("actuador", payload)
+                  clientLocal.publish("actuador", payload)
+    
+                }, duracion)
+    
+              }
+            }
+            
+    
+            
+            
+          }
+    
+        })
+    
+        this.loop(500, () => {
+          
+          if(switchPWM==1){
+            //console.log(potencia,switchPWM,pinPWM)  
+            this.analogWrite(pinPWM, potencia);
+            
+            if(potencia<=250){
+              potencia+=5
+            }else{
+              switchPWM=0
+              potencia=0
+            }
+          }
+        })
 
-            setTimeout(function() {
-              hAux[i]=false
-              var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+        client.on('message', (topic, payload) => {
+        
+          payload = parsePayload(payload)
+          
+          if(payload.agent.uuid==agentID){
+            if(topic=="actuador"){
+              TiEsperaInactividad = 120
               var HoraYFecha = new Date()
               var Hora = HoraYFecha.getHours()
               var Minuto = HoraYFecha.getMinutes()
               var Segundos = HoraYFecha.getSeconds()
               
-              console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Apagando bomba : "+idBomba.descripcionPin)
-              //apagar bomba
-              var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1517522296902}`
-              client.publish("actuador", payload)
-              clientLocal.publish("actuador", payload)
-
-            }, duracion)
-
-          }
-        }
-        
-
-        
-        
-      }
-
-    })
-
-
-    client.on('message', (topic, payload) => {
-        
-      payload = parsePayload(payload)
-      
-      if(payload.agent.uuid==agentID){
-        if(topic=="actuador"){
-          TiEsperaInactividad = 120
-          var HoraYFecha = new Date()
-          var Hora = HoraYFecha.getHours()
-          var Minuto = HoraYFecha.getMinutes()
-          var Segundos = HoraYFecha.getSeconds()
-          
-          //Cambia el valor de string a entero
-          payload.actuador.type = parseInt(payload.actuador.type)
-          //ejecuta cambios en los numeros de pines si los requiera
-          //payload.actuador.type = cambioPines(payload.actuador.type)
-          
-          console.log("\x1b[37m",Hora+":"+Minuto +":"+Segundos)
-          console.log("\x1b[37m",payload)
-          
-          //ejecuta acciones en los pines
-          this.digitalWrite(payload.actuador.type,payload.actuador.value)
-          
-          
-        }
-        //if que sirve para detener el motor de una puerta o ventana si ya detecta el final de carrera
-        if(swww==1){
-          if(topic=="control"){
-            //console.log("\x1b[37m",payload)   
-            if(payload.actuador.value==1 ){
-              for (let j = 14; j < idPin.length; j++) {
+              //Cambia el valor de string a entero
+              payload.actuador.type = parseInt(payload.actuador.type)
+              //ejecuta cambios en los numeros de pines si los requiera
+              //payload.actuador.type = cambioPines(payload.actuador.type)
+              
+              console.log("\x1b[37m",Hora+":"+Minuto +":"+Segundos)
+              console.log("\x1b[37m",payload)
+              /*
+              //ejecuta acciones en los pines
+              if(payload.actuador.type >1 && payload.actuador.type <13){
                 
-                if(payload.actuador.type+""==nroPin[j]+""){
-                  for (let k = 0; k < idPin.length; k++) {
-                    // console.log(topic +" " +payload)
-                    // console.log(payload.actuador.type)
-                    // console.log(nroPin[j])
-                    //console.log(depende[j]+" "+idPin[k])
-                    if(depende[j]==idPin[k] ){
-                      var payload1 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296904}`
-                        client.publish("actuador", payload1)
-                        //clientLocal.publish("actuador", payload1)
-                        //console.log(payload1)
-                    }
-                    if(depende[j]==depende[k] && descripcion[k].indexOf('finalOn')<0 && descripcion[k].indexOf('finalOff')<0){
-                      var payload2 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296905}`
-                        client.publish("actuador", payload2)
-                        //clientLocal.publish("actuador", payload2)
-                    }
-                    
-                  }
-                  
+                if(payload.actuador.value==1){
+                  potencia=0
+                  switchPWM=1
+                  pinPWM=payload.actuador.type
+                }else{
+                
+                  switchPWM=0
+                  potencia=0
+                  this.analogWrite(payload.actuador.type, payload.actuador.value);
                 }
-   
+                
+                
+              }*/
+              if(payload.actuador.type == 6){payload.actuador.type=14}
+              if(payload.actuador.type == 7){payload.actuador.type=15}
+              //if(payload.actuador.type >13){
+                this.digitalWrite(payload.actuador.type,payload.actuador.value)
+              //}
+              
+              
+              
+            }
+            //if que sirve para detener el motor de una puerta o ventana si ya detecta el final de carrera
+            if(swww==1){
+              if(topic=="control"){
+                //console.log("\x1b[37m",payload)   
+                if(payload.actuador.value==1 ){
+                  for (let j = 14; j < idPin.length; j++) {
+                    
+                    if(payload.actuador.type+""==nroPin[j]+""){
+                      for (let k = 0; k < idPin.length; k++) {
+                        // console.log(topic +" " +payload)
+                        // console.log(payload.actuador.type)
+                        // console.log(nroPin[j])
+                        //console.log(depende[j]+" "+idPin[k])
+                        if(depende[j]==idPin[k] ){
+                          var payload1 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296904}`
+                            client.publish("actuador", payload1)
+                            //clientLocal.publish("actuador", payload1)
+                            //console.log(payload1)
+                        }
+                        if(depende[j]==depende[k] && descripcion[k].indexOf('finalOn')<0 && descripcion[k].indexOf('finalOff')<0){
+                          var payload2 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296905}`
+                            client.publish("actuador", payload2)
+                            //clientLocal.publish("actuador", payload2)
+                        }
+                        
+                      }
+                      
+                    }
+       
+                  }
+                }
+                
+              }
+              
+            }
+            //If que vuelve a mandar el valor de todos los finales de carrera al frontEnd
+            if(topic=="actualizacion"){
+              var HoraYFecha = new Date()
+              var Hora = HoraYFecha.getHours()
+              var Minuto = HoraYFecha.getMinutes()
+              var Segundos = HoraYFecha.getSeconds()
+              console.log(Hora+":"+Minuto +":"+Segundos+" Actualiza por peticion del front")
+              for (let i = 54; i < idPin.length; i++) {
+                if(clasePin[i]==3 && estado[i]==1){
+                  if(temp[i]>600){
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1517522296903}`
+                    client.publish("update", payload)
+                    //clientLocal.publish("update", payload)
+                    //console.log(payload)
+                  }
+                  if(temp[i]>=0 && temp[i]<400 ){
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1517522296904}`
+                    client.publish("update", payload)
+                    //clientLocal.publish("update", payload)
+                    //console.log(payload)
+                  }
+                }
               }
             }
-            
-          }
-          
-        }
-        //If que vuelve a mandar el valor de todos los finales de carrera al frontEnd
-        if(topic=="actualizacion"){
-          var HoraYFecha = new Date()
-          var Hora = HoraYFecha.getHours()
-          var Minuto = HoraYFecha.getMinutes()
-          var Segundos = HoraYFecha.getSeconds()
-          console.log(Hora+":"+Minuto +":"+Segundos+" Actualiza por peticion del front")
-          for (let i = 54; i < idPin.length; i++) {
-            if(clasePin[i]==3 && estado[i]==1){
-              if(temp[i]>600){
-                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1517522296903}`
-                client.publish("update", payload)
-                //clientLocal.publish("update", payload)
-                //console.log(payload)
-              }
-              if(temp[i]>=0 && temp[i]<400 ){
-                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1517522296904}`
-                client.publish("update", payload)
-                //clientLocal.publish("update", payload)
-                //console.log(payload)
-              }
-            }
-          }
-        }
-        //Se añade un nuevo horario de riego
-        if(topic=="nuevoRiego"){
-          console.log("NUEVO HORARIO DE RIEGO AÑADIDO")
-          console.log(payload)
-          
-           hIni.push(payload.hora)
-           hDur.push(payload.duracion)
-           hPinId.push(parseInt(payload.bomba))
-           hId.push(parseInt(payload.id))
-           hAux.push(false)
-           
-
-        }
-        if(topic=="eliminarRiego"){
-          console.log("Se Elimino un horario de riego")
-          // console.log(payload)
-          // console.log(payload.id)
-          // console.log(hId)
-          
-          for (let index = 0; index < hIni.length; index++) {
-            if(hId[index]==parseInt(payload.id)){
-              hIni.splice(index,1)
-              hDur.splice(index,1)
-              hPinId.splice(index,1)
-              hId.splice(index,1)
-            }
-            
-          }
-           
-        }
-      }
-      
+            //Se añade un nuevo horario de riego
+            if(topic=="nuevoRiego"){
+              console.log("NUEVO HORARIO DE RIEGO AÑADIDO")
+              console.log(payload)
+              
+               hIni.push(payload.hora)
+               hDur.push(payload.duracion)
+               hPinId.push(parseInt(payload.bomba))
+               hId.push(parseInt(payload.id))
+               hAux.push(false)
+               
     
-    })
+            }
+            if(topic=="eliminarRiego"){
+              console.log("Se Elimino un horario de riego")
+              // console.log(payload)
+              // console.log(payload.id)
+              // console.log(hId)
+              
+              for (let index = 0; index < hIni.length; index++) {
+                if(hId[index]==parseInt(payload.id)){
+                  hIni.splice(index,1)
+                  hDur.splice(index,1)
+                  hPinId.splice(index,1)
+                  hId.splice(index,1)
+                }
+                
+              }
+               
+            }
+          }
+          
+        
+        })
+/////////////////////////////////////////////////////////////////////////////////
+      }
+    });
+    // MULTIPLE BOARD FIN ////////////////////////////////////////////////////////////////
+     //LOOP DE AUTOMATIZACION SEGUN SENSORES
+
+
 
     //Funcion que cambia el numero de pin si lo requiera (Controlino si requiere cambio de pin)
     function cambioPines(pin){
@@ -727,7 +738,7 @@ async function conf(){
     this.error = e.error.error
     return
   }
-  console.log(ObtPines)
+  //console.log(ObtPines)
   
   
   //itera sobre todo el json para colocar cada valor del pin en un array diferente
@@ -762,12 +773,7 @@ for (let i = 0; i < tiempoMotorAuxi.length; i++) {
   tiempoMotor.push(time)
   
 }
-  
-    temp[14]=35.456789
-  //  temp[16]=600
-    temp[17]=10
-  //descansoVentilador[18]=true
-  //descansoVentilador[19]=true
+console.log(ObtPines)
   
   
 
@@ -820,7 +826,7 @@ async function findInvbyContr(){
       TiempoFuncionMotor=  time
     })
   }
-  
+  console.log(result)
   
 }
 

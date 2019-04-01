@@ -1,15 +1,21 @@
 
  // incluimos la libreria j5
  const five = require("johnny-five")
- const five2 = require("johnny-five")
+ 
  //const request = require('request-promise-native')
  //const mqtt = require('async-mqtt')
  //const { parsePayload } = require('../mod-mqtt/utils')
 
+ var ports = [
+  { id: "A", port: "COM4" },//MEGA
+  { id: "B", port: "COM3" }, //DS
+  { id: "C", port: "COM9" } //proximidad
+];
+
 //configuramos nuestra placa arduino en una variable
  var board = new five.Board({
   //port: "/dev/ttyACM0"
-  //port: "COM4"
+  port: "COM4"
   
  })
  
@@ -106,9 +112,9 @@ board.on("ready", function() {
   ////////////////////////////////////////////////////////////////////////////////////  
 
   //// PWM ////////////////////////////////////////////////////////////////////////////////  
-  /*
   
-  this.pinMode(12, five.Pin.PWM);
+  
+  this.pinMode(8, five.Pin.PWM);
   //this.analogWrite(12, 100);
   var tiempo=5
   setInterval(() => {
@@ -116,12 +122,13 @@ board.on("ready", function() {
       tiempo+=10
     }
     console.log(tiempo)
-    this.analogWrite(12, tiempo);
+    this.analogWrite(8, tiempo);
     
     
     }, 500)
-    */
-   //this.digitalWrite(13, 1);
+    
+   this.digitalWrite(13, 1);
+   //this.digitalWrite(12, 1);
    //var led = new five.Led(13);
 
    // "blink" the led in 500ms on-off phase periods

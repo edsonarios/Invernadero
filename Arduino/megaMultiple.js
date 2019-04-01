@@ -1,8 +1,8 @@
 var five = require("johnny-five");
 var ports = [
-       { id: "A", port: "COM3" },//MEGA
-       { id: "B", port: "COM8" }, //DS
-       { id: "C", port: "COM9" } //proximidad
+       { id: "A", port: "COM4" },//MEGA
+       { id: "B", port: "COM3" } //DS
+       //{ id: "C", port: "COM9" } //proximidad
      ];
 
 var boards = new five.Boards(ports);
@@ -28,7 +28,7 @@ boards.on("ready", function() {
     if (board.id === "B") {
       // Initialize an Led instance on pin 13 of
       // each initialized board and strobe it.
-      var thermometer = new five.Thermometer({
+      /*var thermometer = new five.Thermometer({
         controller: "DS18B20",
         pin: 3,
         board:board
@@ -37,7 +37,8 @@ boards.on("ready", function() {
       thermometer.on("change", function() {
         console.log(this.celsius + "°C");
         // console.log("0x" + this.address.toString(16));
-      });
+      });*/
+    
     }
   });
   

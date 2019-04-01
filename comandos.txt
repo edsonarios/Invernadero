@@ -547,3 +547,14 @@ Solucion
     2.2. 2do Arduino Se encargara de mandar señales o encender todos los actuadores, y recibir por puerto serial todos los datos del arduino 1 (NodeJS). Igual podra controlar todos los sensores que puedan funcionar con FirmData Standar
     2.3 Cambiar todos los sensores posibles a otros que puedan funcionar con FirmData Standar
 3. Crear un firmdata personalizado
+
+
+
+VENTANAS
+
+15	14
+on/off 	polaridad
+1   	0   	enciende y gira a la izquierda
+1	1	enciende y gira a la derecha
+
+1 PIN PARA TRANSFORMADOR
