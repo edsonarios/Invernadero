@@ -68,7 +68,8 @@ api.get('/datosPrueba',async (req,res)=>{
     telefono: 6663,
     correo:'usuario@usuario',
     password:'1234',
-    conectado:'false'
+    conectado:'false',
+    change:'0000'
   }) 
   //añade un nuevo invernadero segun un usuario
   const varIn = await Invernadero.create(varUs.id, {
@@ -80,7 +81,9 @@ api.get('/datosPrueba',async (req,res)=>{
     tempMinima: '',
     tiempoIntermitencia:'00:03:00',
     tiempoPausa:'00:00:30',
-    tiempoFuncionMotor:'00:00:10'
+    tiempoFuncionMotor:'00:00:10',
+    logo: 'img.jpg'
+    
   })
   //añade un nuevo controladr (arduino), en funcion a un invernadero
   const varContr = await Controlador.createOrUpdate(varIn.id, {
@@ -89,7 +92,8 @@ api.get('/datosPrueba',async (req,res)=>{
     modeloC: 'uno',
     nroPines: 20,
     hostname: 'miPc3',
-    connected: 'false'
+    connected: 'false',
+    imagenControlador: ''
   })
 
   //añade todos los pines segun el controlador
@@ -137,13 +141,14 @@ api.get('/datosRoot',async (req,res)=>{
     tipo: 'root',
     direccion: 'dir3',
     telefono: 6663,
-    correo:'root@root',
+    correo:'usuario@usuario',
     password:'1234',
-    conectado:'false'
+    conectado:'false',
+    change:'0000'
+
   }) 
   
-  
-  res.send({message: "exito"});
+  res.send(varUs.change);
 })
 
 api.get('/pruebaControlador',async (req,res)=>{
@@ -155,7 +160,8 @@ api.get('/pruebaControlador',async (req,res)=>{
     modeloC: 'Controlino3',
     nroPines: 86,
     hostname: 'miPc3', 
-    connected: false
+    connected: false,
+    imagenControlador: ''
   })
 
   //añade todos los pines segun el controlador
@@ -225,7 +231,8 @@ api.post('/addControlador', async (req, res, next) => {
     modeloC: params.modeloC,
     nroPines: parseInt(params.pinesDigitales)+parseInt(params.pinesAnalogicos),
     hostname: 'Pc',
-    connected: false
+    connected: false,
+    imagenControlador: ''
   }) 
 
   //añade todos los pines segun el controlador
@@ -880,7 +887,8 @@ api.get('/actuador/:uuid', async (req, res, next) => {
 //Se usa para agregar usuarios
 api.post('/usuario', async (req, res, next) => {
   
-  const { nombre, ap_paterno, ap_materno, tipo, direccion, telefono, correo, password, conectado} = req.body
+  const { nombre, ap_paterno, ap_materno, tipo, direccion, 
+    telefono, correo, password, conectado,change} = req.body
     
     //añade un nuevo usuario
     const varUs = await Usuario.createOrUpdate({
@@ -892,10 +900,11 @@ api.post('/usuario', async (req, res, next) => {
       telefono: telefono,
       correo:correo,
       password:password,
-      conectado:'false'
+      conectado:'false',
+      change:''
     })
  
-  res.send(nombre, ap_paterno, ap_materno, tipo, direccion, telefono, correo, password, conectado)
+  res.send(nombre, ap_paterno, ap_materno, tipo, direccion, telefono, correo, password, conectado,change)
 }) 
   
 //obtiene todos los usuarios
@@ -1084,7 +1093,8 @@ api.post('/updateUsuarioPassword', async (req, res ) =>{
 api.post('/updateUsuario', async (req, res ) =>{
   const params = req.body
   
-  const usuario=Usuario.updateUsuario(params.id,{
+  const usuario=Usuario.updateUsuario(params.id,
+    {
     nombre : params.nombre,
     ap_paterno : params.ap_paterno,
     ap_materno : params.ap_materno,
@@ -1093,7 +1103,8 @@ api.post('/updateUsuario', async (req, res ) =>{
     telefono : params.telefono,
     correo : params.correo,
     password : params.password,
-    conectado: params.conectado
+    conectado: params.conectado,
+    change :params.change
   })
    
   res.send(usuario)
@@ -1113,7 +1124,8 @@ api.post('/updateInvernadero', async (req, res ) =>{
     tempMedia: params.tempMedia,
     tiempoIntermitencia: params.tiempoIntermitencia,
     tiempoPausa: params.tiempoPausa,
-      tiempoFuncionMotor: params.tiempoFuncionMotor
+      tiempoFuncionMotor: params.tiempoFuncionMotor,
+      logo: params.logo
   })
    
   res.send(usuario)
@@ -1170,7 +1182,8 @@ api.post('/addDispositivo', async (req, res) =>{
     modelo: dispo.modelo,
     marca: dispo.marca,
     nroDigitales: dispo.nroDigitales,
-    nroAnalogicos:dispo.nroAnalogicos
+    nroAnalogicos:dispo.nroAnalogicos,
+    imagenControlador: dispo.imagenControlador
   })
 res.send(result)
 })
@@ -1422,5 +1435,81 @@ api.post('/mostrarCamaras', async (req, res)=> {
 
   res.send(result)
 })
+
+
+//muestra usuarios que estan conectados
+api.get('/usuariosConectados', async (req, res, next) => {
+  
+  
+  const varUser = await Usuario.findAll();
+  if(varUser.tipo!='admin')
+    res.send("usted no es administrador")
+
+  let env = []; 
+      
+  for (let i = 0; i < varUser.length; i++) {
+    if(varUser[i].conectado=='true')
+      env.push(varUser[i])
+  }
+
+  res.send(env)
+  
+ })
+
+/*
+api.post("/uploads/:image", bodyparser.raw({
+  limit:'10mb',
+   type: 'image/*'
+  }), (req, res) => {
+    let fd = fs.createWriteStream(req.localpath, {
+      flags: 'w+', endcoding: 'binary'
+    });
+    fd.end(req.body)
+    fd.on('close', () => {
+      res.send({ status: 'ok',
+       size:req.body.length
+      })
+    })
+  })
+
+
+  api.head('/uploads/:image', (req, res) => {
+    fs.access(req.localpath,fs.constants.R_OK,
+    (err) => {
+      res.status(err ? 404 : 200).end();
+    })
+  })
+
+
+  api.get('/uploads/:width(\\d+)x:height(\\d+)-:image',
+    download_image)
+    api.get('/uploads/:height(\\d+)-:image',
+    download_image)
+    api.get('/uploads/:width(\\d+)-:image',
+    download_image)
+    api.get('/uploads/:image', dowload_image)
+    
+
+
+
+ 
+// Productos producidos (semanal, mensual, anual)
+api.get('/productosProducidos', async (req, res, next) => {
+
+  const varPr = await Producto.findAll();
+  if(varUser.tipo!='admin')
+    res.send("usted no es administrador")
+
+  let env = []; 
+      
+  for (let i = 0; i < varUser.length; i++) {
+    if(varUser[i].conectado=='true')
+      env.push(varUser[i])
+  }
+
+  res.send(env)
+ })
+
+*/
 
 module.exports = api
