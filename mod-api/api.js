@@ -141,15 +141,14 @@ api.get('/datosRoot',async (req,res)=>{
     tipo: 'root',
     direccion: 'dir3',
     telefono: 6663,
-    correo:'usuario@usuario',
+    correo:'root@root',
     password:'1234',
     conectado:'false',
     change:'0000'
 
   }) 
   
-  log( varUs.change)
-  res.send(varUs);
+  res.send(varUs.change);
 })
 
 api.get('/pruebaControlador',async (req,res)=>{
@@ -1386,7 +1385,9 @@ api.post('/guardarImagen', md_upload, async(req, res)=>{
 api.get('/mostrarImagen/:imageFile', async (req, res)=>{
   const imageFile = req.params.imageFile
   const pathFile = './uploads/product/'+ imageFile
-  console.log(pathFile)
+  console.log(pathFile+"     "+imageFile)
+ 
+ 
   fs.exists(pathFile, function(exists){
     if(exists){
       res.sendFile(path.resolve(pathFile))
