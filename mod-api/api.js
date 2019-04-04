@@ -1213,6 +1213,18 @@ api.get('/findInvbyContr/:uuid', async (req, res, next)=>{
   res.send(inv)
   
 })
+//obtiene a un invernadero, con el uuid del controlador
+api.get('/findAllContr/:uuid', async (req, res, next)=>{
+  
+  const { uuid } = req.params
+  const result  = await Controlador.findByUuid(uuid)
+  const inv  = await Controlador.findAllId(result.invernaderoId)
+  
+   
+  res.send(inv)
+  
+})
+
 
 //HORARIO
 //elimina la hora en la tabla horario

@@ -1,0 +1,67 @@
+<ol class="breadcrumb">
+<li><a href="/#/Administrador/Cuentas/Usuarios">Control de Cuentas</a></li><b>/</b>
+    <li><a href="/#/Administrador/Cuentas/Detalle">Detalles de Cuenta</a></li><b>/</b>
+  <li>Añadir Invernadero</li>
+  </ol>
+<div class="col-lg-12">
+    <nb-card>
+      <nb-card-header><span align="center"><h1>Añadir nuevo Invernadero</h1></span></nb-card-header>
+      <nb-card-body>
+        
+         <form   #addform="ngForm" (ngSubmit)="addinv($event)" >
+          <div class="row full-name-inputs">
+            <div class="col-sm-6  form-group">
+              <label>Departamento :</label>
+              <input type="text" name="departamento" #departamento="ngModel" [(ngModel)]="inv.departamento"  placeholder="Departamento" class="form-control"/>
+            </div>
+            <div class="col-sm-6 form-group">
+              <label>Provincia :</label>
+              <input type="text" name="provincia" #provincia="ngModel" [(ngModel)]="inv.provincia"  placeholder="Provincia" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+          <label>Ubicacion :</label>
+          <input type="text" name="ubicacion" #ubicacion="ngModel" [(ngModel)]="inv.ubicacion" placeholder="Ubicacion" class="form-control"/>
+        </div>
+
+        <label>Tiempo de Intermitencia</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+          <input type="text" name="min"  placeholder="Minutos" class="form-control">
+            </div>
+            <div class="col-sm-3  form-group">
+          <input type="text" name="sec"  placeholder="Segundos" class="form-control">
+            </div>
+        </div>
+        <label>Tiempo de Pausa</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+          <input type="text" name="min"  placeholder="Minutos" class="form-control">
+            </div>
+            <div class="col-sm-3  form-group">
+          <input type="text" name="sec"  placeholder="Segundos" class="form-control">
+            </div>
+        </div>
+        <label>Tiempo de Funcionamiento del Motor</label>
+         <div class="row full-name-inputs">
+            <div class="col-sm-3  form-group">
+          <input type="text" name="min"  placeholder="Minutos" class="form-control">
+            </div>
+            <div class="col-sm-3  form-group">
+          <input type="text" name="sec"  placeholder="Segundos" class="form-control">
+            </div>
+        </div>
+
+       
+		<div class="col-md-12">
+           <div class="btn-group  btn-group-full-width ">
+            <input type="submit"  class="btn btn-success " value="Agregar" >
+           <input type="button" class="btn btn-danger " value="Cancelar" (click)="volver()">
+                        
+          </div>
+        </div>
+      </form>
+         <br>
+      </nb-card-body>
+    </nb-card>
+  </div>

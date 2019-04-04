@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { delay, withLatestFrom, takeWhile } from 'rxjs/operators';
 import {
   NbMediaBreakpoint,
   NbMediaBreakpointsService,
@@ -10,62 +11,19 @@ import {
 
 import { StateService } from '../../../@core/data/state.service';
 
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/delay';
-
 // TODO: move layouts into the framework
 @Component({
   selector: 'ngx-sample-layout',
   styleUrls: ['./sample.layout.scss'],
   template: `
-    <nb-layout [center]="layout.id === 'center-column'" windowMode >
-      <nb-layout-header fixed>
-        <ngx-header [position]="sidebar.id === 'left' ? 'normal': 'inverse'"></ngx-header>
-      </nb-layout-header>
-
-      <nb-sidebar class="menu-sidebar"
-                   tag="menu-sidebar"
-                   responsive
-                   [right]="sidebar.id === 'right'" *ngIf="status=='enable'">
-
-
-        <ng-content select="nb-menu"></ng-content>
-
-      </nb-sidebar>
-
+    <nb-layout [center]="layout.id === 'center-column'" >
       <nb-layout-column class="main-content">
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
-
-      <nb-layout-column left class="small" *ngIf="layout.id === 'two-column' || layout.id === 'three-column'">
-        <nb-menu [items]="subMenu"></nb-menu>
-      </nb-layout-column>
-
-      <nb-layout-column right class="small" *ngIf="layout.id === 'three-column'">
-        <nb-menu [items]="subMenu"></nb-menu>
-      </nb-layout-column>
-
-      <nb-layout-footer fixed>
-        <ngx-footer></ngx-footer>
-      </nb-layout-footer>
-
-      <nb-sidebar class="settings-sidebar"
-                   tag="settings-sidebar"
-                   state="collapsed"
-                   fixed
-                   [right]="sidebar.id !== 'right'">
-        <ngx-theme-settings></ngx-theme-settings>
-      </nb-sidebar>
     </nb-layout>
   `,
 })
-export class SampleLayoutComponent  implements OnDestroy {
-
- // Realizar el cambio entre 'enable' o 'disable' el cual activara el funcionamiento de el menu
-
-  public status= 'enable';
-   //public status= 'disable';
+export class SampleLayoutComponent implements OnDestroy {
 
   subMenu: NbMenuItem[] = [
     {
@@ -111,38 +69,47 @@ export class SampleLayoutComponent  implements OnDestroy {
   layout: any = {};
   sidebar: any = {};
 
-  protected layoutState$: Subscription;
-  protected sidebarState$: Subscription;
-  protected menuClick$: Subscription;
+  private alive = true;
+
+  currentTheme: string;
 
   constructor(protected stateService: StateService,
               protected menuService: NbMenuService,
               protected themeService: NbThemeService,
               protected bpService: NbMediaBreakpointsService,
               protected sidebarService: NbSidebarService) {
-    this.layoutState$ = this.stateService.onLayoutState()
+    this.stateService.onLayoutState()
+      .pipe(takeWhile(() => this.alive))
       .subscribe((layout: string) => this.layout = layout);
 
-    this.sidebarState$ = this.stateService.onSidebarState()
+    this.stateService.onSidebarState()
+      .pipe(takeWhile(() => this.alive))
       .subscribe((sidebar: string) => {
         this.sidebar = sidebar;
       });
 
     const isBp = this.bpService.getByName('is');
-    this.menuClick$ = this.menuService.onItemSelect()
-      .withLatestFrom(this.themeService.onMediaQueryChange())
-      .delay(20)
+    this.menuService.onItemSelect()
+      .pipe(
+        takeWhile(() => this.alive),
+        withLatestFrom(this.themeService.onMediaQueryChange()),
+        delay(20),
+      )
       .subscribe(([item, [bpFrom, bpTo]]: [any, [NbMediaBreakpoint, NbMediaBreakpoint]]) => {
 
         if (bpTo.width <= isBp.width) {
           this.sidebarService.collapse('menu-sidebar');
         }
       });
+
+    this.themeService.getJsTheme()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(theme => {
+        this.currentTheme = theme.name;
+    });
   }
 
   ngOnDestroy() {
-    this.layoutState$.unsubscribe();
-    this.sidebarState$.unsubscribe();
-    this.menuClick$.unsubscribe();
+    this.alive = false;
   }
 }
