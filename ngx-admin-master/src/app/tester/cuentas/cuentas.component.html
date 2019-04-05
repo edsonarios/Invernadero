@@ -1,0 +1,19 @@
+ <span align="center"><h1>USUARIOS</h1></span>
+ <hr>
+  <div class="row">
+     <div class="col-md-3" *ngFor="let n of Usuarios ; let i=index">
+    <nb-card>
+  <nb-card-body style="position: relative">
+   <nb-badge text="desconectado" status="danger" position="top right" *ngIf="Usuarios[i]['conectado']=='false'"></nb-badge>
+    <nb-badge text="Conectado" status="success" position="top right" *ngIf="Usuarios[i]['conectado']!='false'"></nb-badge>
+    <nb-user size="xlarge"
+             name="{{Usuarios[i]['nombre']}} {{Usuarios[i]['ap_paterno']}} {{Usuarios[i]['ap_materno']}} "
+             title="{{Usuarios[i]['correo']}}"
+             picture="assets/images/user.png">
+    </nb-user>
+  </nb-card-body>
+</nb-card>
+ <button class="BtnUser" nbButton  shape="rectangle" status="primary" size="xsmall" fullWidth 
+ (click)="DetalleUsuario(Usuarios[i]['id'])">Obtener ID</button>
+  </div>
+  </div>

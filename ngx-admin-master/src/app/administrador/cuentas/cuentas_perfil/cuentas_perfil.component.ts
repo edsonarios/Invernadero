@@ -26,11 +26,12 @@ export class CuentasPerfilComponent {
   public telefono;
   public correo;
   public password;
+  public conectado;
 
 constructor(private router:Router,
 		private userService: UserService){	
 
-	this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','');
+	this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','','');
   //Obtenemos todo el valor de el usuario
   this.userService.detalleUsuario(this.user).subscribe(
       response =>{
@@ -43,6 +44,7 @@ constructor(private router:Router,
         this.telefono=this.identity[0]['telefono'];
         this.correo=this.identity[0]['correo'];
         this.password=this.identity[0]['password'];
+        this.conectado=this.identity[0]['conectado'];
       },
       error =>{
         
@@ -65,7 +67,7 @@ change(event){
   var correo =event.target.elements[5].value;
   var password =event.target.elements[6].value;
 
-  this.user = new User(localStorage.getItem('user_id'),nombre,ap_paterno,ap_materno,localStorage.getItem('role'),direccion,telefono,correo,password,'');
+  this.user = new User(localStorage.getItem('user_id'),nombre,ap_paterno,ap_materno,localStorage.getItem('role'),direccion,telefono,correo,password,this.conectado,'');
 
     this.userService.editarUser(this.user).subscribe(
       response =>{
@@ -74,7 +76,6 @@ change(event){
         console.log(<any>error)
       }
     );
-alert("Se ha guardado Correctamente");
  this.router.navigate(['/Administrador/Cuentas/Usuarios']);
 }
 

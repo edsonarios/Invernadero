@@ -15,10 +15,10 @@ export class AdministradorComponent{
 
   menu = MENU_ITEMS;
   constructor(private router:Router){
-  	if (localStorage.getItem('status')==null) {
+  /*	if (localStorage.getItem('status')==null) {
   		this.router.navigate(['/Principal/Inicio']); 
   		window.alert('usted no tiene acceso');
-  	}
+  	}*/
   }
 
 

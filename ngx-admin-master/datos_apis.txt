@@ -1,0 +1,85 @@
+Usuarios (id,nombre,ap_paterno,ap_materno,tipo,direccion,telefono,correo,password,conectado,Change)
+Invernadero (id,departamento,ubicacion,provincia,tempMaxima,tempMinima,tempMedia,tiempoIntermitencia,usuarioId,tiempoFuncionMotor,tiempoPausa)
+Producto(Nombre, cantidad, fecha_inicio, fecha_final, )
+Controlador(id,invernaderoId,modelo,marca,nroPines)
+Pines(id,,controladorId,nroPin,habilitado,tipoPin,modelo,marca)
+
+*breve descripcion*
+un usuario puede tener N invernaderos donde dentro del invernadero puede haber 1 controlador, y a su vez el conrolador puede controlar N invernaderos, pero dada las circunstancias la relacion pasa a 1-1 , el controlar tiene un historial Sensor que sirve para registrar las temperaturas alcanzadas, y los Pines llegariana  a ser los actuadores como bombas de agua, ventiladores, puertas y ventanas, dentro del invernadero existe un Historial Producto
+
+
+*USUARIO*
+(Adicionar a la base de datos un atributo "change" y este string el front debe mandarlo)
+adecuar las siguientes apis para que no genere Error ya que son necesarias:
+-usuario
+-login
+-obtenerUsuarios
+-obtenerAdmins
+-obtenerInvernaderos
+-obtenerUser (por la id)
+-updateUsuario
+-eliminarUsuario
+-updateUsuarioPassword
+Crear la siguiente Apis
+- obtenerTesters
+
+y ya no se manejara user y usuario como mismo termino, el objeto sera Cuenta, y los tipos de cuenta que podemos crear y ver en la base
+de datos seran:
+- root (solo puede existir 1),existe una api para generar uno una vez se crea el sistema
+- admin 
+- tester
+- user
+
+*INVERNADERO*
+(Adicionar un atributo a la base de datos "logo" que sera cargado por quien cree el invernadero)
+adecuar los siguientes apis para que no genere ERROR ya que son necesarias
+- invernadero
+- obtenerInv
+- updateInvernadero
+- eliminarInvernadero
+
+*CATALOGO-CONTROLADORES*
+(Adicionar el atributo "imagen" para una mejor visualizacion de los controladores)
+adecuar las siguientes apis para que no genere ERROR ya que son necesarias
+-addDispositivo
+-eliminarDispositivo
+
+*CONTROLADORES*
+no es necesario que se cree un atributo "imagen" para este, solo son necesario los datos que se 
+recogen del catalogo y se guardan en esta tabla.
+-addControlador
+-mostrarControladores
+-uObtenerControladores
+-mostrarControladores
+-actuador
+-eliminarControlador
+
+*SENSOR* 
+(no tocar , edson se encargaria)
+-metrics
+
+*PINES* 
+(tecnicamente son los actuadores)
+-mostrarTodosPines
+-mostrarTodosPinesControlador
+-uObtenerControladores
+-mostrarControladores
+-actuador
+-eliminarControlador
+
+*REPORTES*
+Crear las apis para esta seccion
+- para los administradores crear una api que obtenga todos las cuentas de "usuarios conectados"
+- Sume el total de productos producidos en la BD semanal, mensual y anual
+- Para los usuarios crear una api que obtenga los productos producidos por su IdUsuario
+- para los usuarios crear una media de la temperatura alcanzada semanal,mensual y anual por Sensor
+
+Esas son todas las apis existentes y necesarias, como recomendacion seria bueno cambiar el nombre de algunas apis
+para que se mas facil de entender como para crear cuentas no usar "usuario" sino "CrearCuenta" y asi
+
+*PRODUCTOS*
+Antes esta api funcionaba con imagenes para agregar los productos y estos manejaran la temperatura al invernadero, pero ahora solo sera para tener un control, lo que añada el usuario solo sera para generar los reportes.
+- Listar registro de productos (totales)
+- Agregar registro de Productos por la Id de la cuenta
+- Eliminar registro de productos
+- Editar Registro de productos

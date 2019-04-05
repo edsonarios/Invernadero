@@ -41,6 +41,10 @@ export class UserService{
 	obtenerAdmins(){
 		return this._http.get(this.url+'obtenerAdmins').map(res=> res.json())
 	}
+	obtenerTesters(){
+		return this._http.get(this.url+'obtenerTester').map(res=> res.json())
+	}
+
 
 	detalleUsuario(iduser){
 		let params = JSON.stringify(iduser);

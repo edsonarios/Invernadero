@@ -6,6 +6,7 @@ import { InvernaderosComponent } from './invernaderos.component';
 import { InvernaderosAgregarComponent } from './invernaderos_agregar/invernaderos_agregar.component';
 import { InvernaderosDetalleComponent } from './invernaderos_detalle/invernaderos_detalle.component';
 import { InvernaderosEditarComponent } from './invernaderos_editar/invernaderos_editar.component';
+import { InvernaderosListarComponent } from './invernaderos_listar/invernaderos_listar.component';
 
 
 
@@ -25,7 +26,10 @@ const routes: Routes = [{
     path: 'Editar',
     component: InvernaderosEditarComponent,
   },
- 
+ {
+   path: 'Listar',
+   component: InvernaderosListarComponent,
+ }
   ],
 }];
 
@@ -40,7 +44,7 @@ export const routedComponents = [
   InvernaderosAgregarComponent,
   InvernaderosDetalleComponent,
   InvernaderosEditarComponent,
- 
+  InvernaderosListarComponent
 
 
 

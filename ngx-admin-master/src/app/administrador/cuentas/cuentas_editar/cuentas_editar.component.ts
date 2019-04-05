@@ -25,27 +25,30 @@ public user: User;
   public correo;
   public password;
   public role;
+  public conectado;
   
 	
 constructor(private router:Router,
     private userService: UserService){	
 
-	this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','',localStorage.getItem('admin_user_correo'),localStorage.getItem('admin_user_password'),'');
-console.log(this.user);
+	this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','','','','','');
+//console.log(this.user);
   //Obtenemos todo el valor de el usuario
-  this.userService.SingUp(this.user).subscribe(
+  this.userService.detalleUsuario(this.user).subscribe(
       response =>{
         this.identity=response;
-        console.log(this.identity);
+        //console.log(this.identity);
 
-        this.nombre=this.identity.result['nombre'];
-        this.ap_paterno=this.identity.result['ap_paterno'];
-        this.ap_materno=this.identity.result['ap_materno'];
-        this.direccion=this.identity.result['direccion'];
-        this.telefono=this.identity.result['telefono'];
-        this.correo=this.identity.result['correo'];
-        this.password=this.identity.result['password'];
-        this.role=this.identity.result['tipo'];
+        this.nombre=this.identity[0]['nombre'];
+        this.ap_paterno=this.identity[0]['ap_paterno'];
+        this.ap_materno=this.identity[0]['ap_materno'];
+        this.direccion=this.identity[0]['direccion'];
+        this.telefono=this.identity[0]['telefono'];
+        this.correo=this.identity[0]['correo'];
+        this.password=this.identity[0]['password'];
+        this.role=this.identity[0]['tipo'];
+        this.conectado=this.identity[0]['conectado']
+
       },
       error =>{
         
@@ -64,7 +67,7 @@ editUser(e){
   var correo =e.target.elements[5].value;
   var password =e.target.elements[6].value;
    
-this.user = new User(localStorage.getItem('admin_user_id'),nombre,ap_paterno,ap_materno,'user',direccion,telefono,correo,password,'');
+this.user = new User(localStorage.getItem('admin_user_id'),nombre,ap_paterno,ap_materno,'user',direccion,telefono,correo,password,this.conectado,'');
 
     this.userService.editarUser(this.user).subscribe(
       response =>{

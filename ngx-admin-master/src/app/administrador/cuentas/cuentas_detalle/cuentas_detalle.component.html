@@ -4,7 +4,97 @@
   </ol>
 
 <div class="col-md-12" [@fadeIn]>
-  <div class="row">
+
+<div class="col-md-4 offset-md-4" >
+  <nb-card>
+    <nb-card-body>
+      <nb-actions  size="large">
+        <nb-action (click)="volver()">
+          <i class="ion-arrow-left-a text-success"></i><span>Volver</span>
+        </nb-action>
+        <nb-action   (click)="editar()">
+          <i class="ion-edit text-info"></i><span>Editar</span>
+        </nb-action>
+        <nb-action  (click)="eliminar()">
+          <i class="ion-trash-a text-danger"></i><span>Eliminar</span>
+        </nb-action>
+        
+      </nb-actions>
+
+    </nb-card-body>
+
+  </nb-card>
+</div>
+<div class="col-md-6 offset-md-3" >
+   <nb-card>
+    <nb-card-header>
+            <span align="center">
+              <h2>Info de la Cuenta</h2></span>
+    </nb-card-header>
+          <nb-card-body>
+            
+            <div class="font-row font-main">
+              <div class="header">
+                <div class="name bold">Nombre :</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{nombre}}</span>
+                </div>
+              </div>
+
+              <div class="header">
+                <div class="name bold">Apellido Paterno:</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{ap_paterno}}</span>
+                </div>
+              </div>
+
+              <div class="header">
+                <div class="name bold">Apellido Materno:</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{ap_materno}}</span>
+                </div>
+              </div>
+
+              <div class="header">
+                <div class="name bold">Direccion :</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{direccion}}</span>
+                </div>
+              </div>
+               <div class="header">
+                <div class="name bold">Telefono :</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{telefono}}</span>
+                </div>
+              </div>
+               <div class="header">
+                <div class="name bold">Rol :</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{role}}</span>
+                </div>
+              </div>
+             <div class="header">
+                <div class="name bold">Correo Electronico:</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{correo}}</span>
+                </div>
+              </div>
+
+              <div class="header">
+                <div class="name bold">Contraseña :</div>
+                <div class="variants">
+                  <span class="font-w-regular">{{password}}</span>
+                </div>
+              </div>
+            </div>       
+             <button  nbButton  shape="rectangle" status="success" size="xsmall" fullWidth (click)="VerInvernaderos()" *ngIf="role=='user'">Ver Invernaderos</button>   
+          </nb-card-body>
+          
+        </nb-card>
+</div>
+
+
+  <!--<div class="row">
   <div class="col-md-3">
       <button type="button" class="btn btn-success btn-with-icon btn-block" (click)="volver()"> 
             <i class="ion-arrow-left-a"></i>     
@@ -76,48 +166,7 @@
     </nb-card>
 
   </div>
-</div>
-
-<h2 class="grid-h" *ngIf="role=='user'">Lista de Invernaderos</h2>
-<div class="row" *ngIf="role=='user'">
-  <div class="col-md-3" *ngFor="let n of Invernaderos;let i=index" >
-
-    <nb-card >
-      <nb-card-header><img  src="assets/images/invernadero.png" class="tn"></nb-card-header>
-      <nb-card-body>
-       <table class="table ">
-        
-      <tbody>
-        <tr >
-          <td><b>Departamento</b></td>
-          <td>{{Invernaderos[i]['departamento']}}</td>
-        </tr>
-        <tr >
-          <td><b>Provincia</b></td>
-          <td>{{Invernaderos[i]['provincia']}}</td>
-        </tr>
-        <tr >
-          <td><b>Ubicacion</b></td>
-          <td>{{Invernaderos[i]['ubicacion']}}</td>
-        </tr>
-        </tbody>
-      </table>
-    </nb-card-body>
-    <nb-card-footer>
-      <button class="btn btn-outline-info btn-block btn-tn" (click)="DetalleInvernadero(Invernaderos[i]['id'])" > Ver Invernadero</button>
-    </nb-card-footer>
- </nb-card>
-
-  </div>
-
-  <div class="col-md-3 "> 
-    <br>
-    <br>
-    <br>
-      <a href="#/Administrador/Invernaderos/Agregar"><img src="assets/images/add.png"  class="add"></a>
-  </div>
+</div>-->
 
 </div>
-
-
 

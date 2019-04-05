@@ -4,7 +4,7 @@
 
 [Who uses ngx-admin?](https://github.com/akveo/ngx-admin/issues/1645)
 
-# Admin template based on Angular 6+, Bootstrap 4 and <a href="https://github.com/akveo/nebular">Nebular</a>
+# Admin template based on Angular 7+, Bootstrap 4 and <a href="https://github.com/akveo/nebular">Nebular</a>
 
 ### Three themes available:
 
@@ -16,9 +16,15 @@
 |:------------:|:--------------:|
 |<a target="_blank" href="http://akveo.com/ngx-admin/#/pages/dashboard?theme=cosmic&utm_source=github&utm_medium=ngx_admin_readme&utm_campaign=themes"><img src="https://i.imgur.com/FgRZcqL.png"/></a>|<a target="_blank" href="http://akveo.com/ngx-admin/#/pages/dashboard?theme=default&utm_source=github&utm_medium=ngx_admin_readme&utm_campaign=themes"><img src="https://i.imgur.com/fozHlRJ.png"/></a>|
 
+### Ecommerce dashboard
+
+| Ecommerce Template |
+|:---------------:|
+|<a target="_blank" href="http://akveo.com/ngx-admin/#/pages/dashboard?utm_source=github&utm_medium=ngx_admin_readme&utm_campaign=themes&utm_content=ecommerce"><img src="https://i.imgur.com/UW7ZmcP.png"/></a>|
+
 ### What's included:
 
-- Angular 6+ & Typescript
+- Angular 7+ & Typescript
 - Bootstrap 4+ & SCSS
 - Responsive layout
 - RTL support
@@ -51,7 +57,7 @@ And many more!
 <a target="_blank" href="http://akveo.com/ngx-admin/">Live Demo</a>
 
 ## Documentation
-This template is using [Nebular](https://github.com/akveo/nebular) modules set, [here you can find documentation and other useful articles](https://akveo.github.io/nebular/docs/installation/based-on-starter-kit-ngxadmin).
+This template is using [Nebular](https://github.com/akveo/nebular) modules set, [here you can find documentation and other useful articles](https://akveo.github.io/nebular/docs/guides/install-based-on-starter-kit).
 
 ### ng2-admin
 We will continue supporting [ng2-admin](https://github.com/akveo/ngx-admin/tree/ng2-admin) version, but if you are starting from scratch we recommend using `ngx-admin`. Unfortunately, there is no way to automatically update from ng2-admin to ngx-admin, but some parts (Nebular components) could be manually included.
@@ -67,6 +73,11 @@ This project runs its tests on multiple desktop and mobile browsers using [Brows
 
 <img src="https://cloud.githubusercontent.com/assets/131406/22254249/534d889e-e254-11e6-8427-a759fb23b7bd.png" height="40" />
 
+## More from Akveo
+
+- [Eva Icons](https://github.com/akveo/eva-icons) - 480+ beautiful Open Source icons
+- [Nebular](https://github.com/akveo/nebular) - Angular Components, Auth and Security
+
 ### How can I support developers?
 - Star our GitHub repo :star:
 - Create pull requests, submit bugs, suggest new features or documentation updates :wrench:
@@ -76,6 +87,6 @@ This project runs its tests on multiple desktop and mobile browsers using [Brows
 ### Looking for engineering services? 
 Visit [our homepage](http://akveo.com/) or simply leave us a message to [contact@akveo.com](mailto:contact@akveo.com). We will be happy to work with you!
 
-### From Akveo
+### From Developers
 Made with :heart: by [Akveo team](http://akveo.com/). Follow us on [Twitter](https://twitter.com/akveo_inc) to get the latest news first!
 We're always happy to receive your feedback!

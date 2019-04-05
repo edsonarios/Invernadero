@@ -2,8 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { AdministradorComponent } from './administrador.component';
-
-import { CamarasComponent } from './camaras/camaras.component';
+import { ReportesComponent } from './reportes/reportes.component';
 
 
 const routes: Routes = [{
@@ -11,17 +10,10 @@ const routes: Routes = [{
   component: AdministradorComponent,
   children: [
     {
-      path: 'Camaras',
-      component: CamarasComponent,
-    },
-    {
     path: 'Controladores',
     loadChildren: './controladores/controladores.module#ControladoresModule',
     },
-    {
-    path: 'Productos',
-    loadChildren: './productos/productos.module#ProductosModule',
-    },
+
      {
     path: 'Cuentas',
     loadChildren: './cuentas/cuentas.module#CuentasModule',
@@ -33,6 +25,10 @@ const routes: Routes = [{
     {
     path: 'Componentes',
     loadChildren: './componentes/componentes.module#ComponentesModule',
+    },
+     {
+      path: 'Reportes',
+      component: ReportesComponent,
     },
     {
       path: '',

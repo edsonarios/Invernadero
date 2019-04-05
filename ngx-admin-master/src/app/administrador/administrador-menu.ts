@@ -6,20 +6,45 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
-    title: 'Cuentas',
+    title: 'Gestion de Cuentas',
     icon: 'ion-person-stalker',
-    link: '/Administrador/Cuentas/Usuarios',
-  },
-   {
-    title: 'Productos',
-    icon: 'ion-leaf',
-    link: '/Administrador/Productos/Catalogo',
-  },
+     children:[
+    {
+      title: 'Listar Cuentas',
+      icon: 'ion-ios-people-outline',
+      link: '/Administrador/Cuentas/Usuarios',
+    },
+    {
+      title: 'Crear Cuenta',
+      icon: 'ion-ios-personadd-outline',
+      link: '/Administrador/Cuentas/Agregar',
+    },
+    ],
+  }, 
   {
     title: 'Controladores',
     icon: 'ion-network',
-    link: '/Administrador/Controladores/Catalogo',
+    children:[
+    {
+      title:'Ver Catalogo',
+      icon:'ion-ios-book-outline',
+      link:'/Administrador/Controladores/Catalogo'
+    },
+    {
+      title:'Añadir Controlador',
+      icon:'ion-ios-plus-outline',
+      link:'/Administrador/Controladores/Agregar'
+    }
+    ]
+   
   },
+   {
+    title: 'Reportes',
+    icon: 'ion-compose',
+    link: '/Administrador/Reportes',
+    hidden: true,
+  },
+  
 
  
 

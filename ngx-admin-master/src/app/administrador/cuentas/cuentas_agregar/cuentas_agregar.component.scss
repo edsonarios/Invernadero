@@ -1,6 +1,6 @@
 @import '../../../@theme/styles/themes';
 @import '~bootstrap/scss/mixins/breakpoints';
-@import '~@nebular/theme/styles/global/bootstrap/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
   .breadcrumb{
@@ -21,10 +21,9 @@ i{
    font-size: 25px;
 }
 .tn{
-  width: 90%;
-  height: 90%;
-   padding: 10px;
-  
+  width: 60%;
+  height: 60%;
+  margin-left:20%;
   background-position: center;
   aling-content: center;
   }

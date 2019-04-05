@@ -14,12 +14,11 @@ import { fundido } from '../../../animation';
     animations: [fundido]
 })
 export class CuentasDetalleComponent {
-
   public isCollapsed = false;
 
 public user: User;
   public identity;
-  public Invernaderos;
+ public Invernaderos;
   //datos de el usuario
   public nombre;
   public ap_paterno;
@@ -35,28 +34,28 @@ constructor(private router:Router,
     public invService: InvernaderoService){	
 
 
-
-this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','',localStorage.getItem('admin_user_correo'),localStorage.getItem('admin_user_password'),'');
+this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','','','','','');
 //console.log(this.user);
   //Obtenemos todo el valor de el usuario
-  this.userService.SingUp(this.user).subscribe(
+  this.userService.detalleUsuario(this.user).subscribe(
       response =>{
         this.identity=response;
         //console.log(this.identity);
 
-        this.nombre=this.identity.result['nombre'];
-        this.ap_paterno=this.identity.result['ap_paterno'];
-        this.ap_materno=this.identity.result['ap_materno'];
-        this.direccion=this.identity.result['direccion'];
-        this.telefono=this.identity.result['telefono'];
-        this.correo=this.identity.result['correo'];
-        this.password=this.identity.result['password'];
-        this.role=this.identity.result['tipo'];
+        this.nombre=this.identity[0]['nombre'];
+        this.ap_paterno=this.identity[0]['ap_paterno'];
+        this.ap_materno=this.identity[0]['ap_materno'];
+        this.direccion=this.identity[0]['direccion'];
+        this.telefono=this.identity[0]['telefono'];
+        this.correo=this.identity[0]['correo'];
+        this.password=this.identity[0]['password'];
+        this.role=this.identity[0]['tipo'];
+
       },
       error =>{
         
       }
-    )
+    );
 
    //obtenemos el total de los invernaderos
    this.userService.ShowInvernaderos(this.user).subscribe(
@@ -73,10 +72,12 @@ this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','',loc
 }
 DetalleInvernadero(id){
   
+  
   localStorage.setItem('admin_user_inv_id',id);
  this.router.navigate(['/Administrador/Invernaderos/Detalle']);
   
 }
+
 
 volver(){
 this.router.navigate(['/Administrador/Cuentas/Usuarios']);
@@ -88,7 +89,12 @@ localStorage.setItem('route','producto');
 editar(){
 this.router.navigate(['/Administrador/Cuentas/Editar']);
 }
+VerInvernaderos(){
+this.router.navigate(['/Administrador/Invernaderos/Listar']);
+}
 eliminar(){
+window.alert('Cuenta Eliminada');
+
 this.userService.deleteUser(localStorage.getItem('admin_user_id')).subscribe(
       response =>{
         

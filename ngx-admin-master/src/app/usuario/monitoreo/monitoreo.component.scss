@@ -1,0 +1,199 @@
+@import '../../@theme/styles/themes';
+@import '~@nebular/theme/styles/global/breakpoints';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+@include nb-install-component() {
+  ngx-d3-bar{
+    display: block;
+    width: 100%;
+    height: nb-theme(card-height-medium);
+
+    /deep/ {
+      .pie-label {
+        fill: nb-theme(color-fg-heading);
+      }
+
+      .grid-line-path {
+        stroke: nb-theme(separator);
+      }
+
+      text {
+        fill: nb-theme(color-fg-heading);
+      }
+
+      .chart-legend {
+        .legend-labels {
+          background: nb-theme(color-bg);
+        }
+        .legend-label {
+          color: nb-theme(color-fg-heading);
+          .active .legend-label-text {
+            color: nb-theme(color-fg-heading);
+          }
+        }
+      }
+    }
+  }
+///
+h1{
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 3em;
+  color: white;
+}
+#one{
+  width: 400px;
+  animation-name: one;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#two{
+  width: 100px;
+  animation-name: two;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@media only screen and (max-width: 600px){
+  #main{
+    height: 600px;
+    overflow: hidden;
+  }
+}
+
+@keyframes bulb {
+  from {background-color:#dd2c00};
+  to {background-color: #b71c1c;};
+}
+
+ @keyframes mercury {
+   from {background-color: #dd2c00; height: 190px; bottom: 100%;};
+  to {background-color: #b71c1c; height: 25px;  bottom: -80%;};
+ } 
+
+@keyframes one{
+  from{width: 100px;};
+  to{width: 400px;};
+}
+
+@keyframes two{
+  from{width: 400px;};
+  to{width: 100px;};
+}
+
+  nb-card {
+    background-image: nb-theme(radial-gradient);
+  }
+
+  nb-card-body {
+    height: 100%;
+    padding: 2rem;
+    color: nb-theme(color-fg);
+  }
+
+  .Title {
+    font-family: nb-theme(font-secondary);
+    font-size: 2.5rem;
+    font-weight: nb-theme(font-weight-normal);
+    color: nb-theme(color-fg-heading);
+  }
+
+  .date {
+    font-family: nb-theme(font-main);
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    font-weight: nb-theme(font-weight-light);
+  }
+
+  .daily-forecast {
+    display: flex;
+    flex-direction: column;
+    margin-top: -1.5rem;
+
+    .info {
+      display: flex;
+      justify-content: space-around;
+
+      .temperature {
+        font-size: 5rem;
+        font-weight: nb-theme(font-weight-bolder);
+        font-family: nb-theme(font-secondary);
+        color: nb-theme(color-fg-heading);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .icon {
+        font-size: 5rem;
+        line-height: 10rem; 
+      }
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-around;
+
+      .parameter {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .parameter-name {
+          font-family: nb-theme(font-main);
+          font-size: 1.25rem;
+          font-weight: nb-theme(font-weight-light);
+          line-height: 2rem;
+        }
+
+        .parameter-value {
+          font-family: nb-theme(font-secondary);
+          color: nb-theme(color-fg-heading);
+          font-weight: nb-theme(font-weight-bolder);
+        }
+      }
+    }
+  }
+
+  .weekly-forecast {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+
+    .day {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      .caption {
+        text-transform: uppercase;
+        font-family: nb-theme(font-secondary);
+        color: nb-theme(color-fg-heading);
+        font-weight: nb-theme(font-weight-bold);
+        font-size: 1.25rem;
+      }
+
+      i {
+        font-size: 2.5rem;
+        line-height: 2.5rem;
+      }
+
+      .temperature {
+        color: nb-theme(color-fg-heading);
+        font-family: nb-theme(font-secondary);
+        font-weight: nb-theme(font-weight-bold);
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  @include media-breakpoint-down(xs) {
+    nb-card-body {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}

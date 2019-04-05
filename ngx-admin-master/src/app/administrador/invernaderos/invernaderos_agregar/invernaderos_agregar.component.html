@@ -3,7 +3,241 @@
     <li><a href="/#/Administrador/Cuentas/Detalle">Detalles de Cuenta</a></li><b>/</b>
   <li>Añadir Invernadero</li>
   </ol>
-<div class="col-lg-12">
+<div class="col-md-12">
+<nb-card>
+  <nb-card-body>
+    <nb-stepper #stepper >
+                             <!-- Primer paso -->
+
+      <nb-step [stepControl]="firstForm" label="Primer paso">
+        <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()" class="step-container">
+         
+           <p class="lorem">
+            Datos de el Invernadero
+          </p>
+           <div class="col-md-6 offset-md-3 form-group">
+            <label>Departamento :</label>
+            <input type="text" 
+                   placeholder="Ingrese su nombre" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.departamento"
+                   formControlName="DepartamentoCtrl"
+                   [ngClass]="{'form-control-danger': firstForm.controls['DepartamentoCtrl'].invalid && (firstForm.controls['DepartamentoCtrl'].dirty || firstForm.controls['DepartamentoCtrl'].touched)}">
+
+              <div *ngIf="firstForm.controls['DepartamentoCtrl'].invalid && (firstForm.controls['DepartamentoCtrl'].dirty || firstForm.controls['DepartamentoCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="firstForm.controls['DepartamentoCtrl'].errors.required">
+                     El departamento es Requerido
+                </div>
+              </div>
+          </div>
+           <div class="col-md-6 offset-md-3 form-group">
+            <label>Provincia :</label>
+            <input type="text" 
+                   placeholder="Ingrese su nombre" 
+                   class="form-control" 
+                   required
+                   nbInput
+                   [(ngModel)]="inv.provincia"
+                   formControlName="ProvinciaCtrl"
+                   [ngClass]="{'form-control-danger': firstForm.controls['ProvinciaCtrl'].invalid && (firstForm.controls['ProvinciaCtrl'].dirty || firstForm.controls['ProvinciaCtrl'].touched)}">
+
+              <div *ngIf="firstForm.controls['ProvinciaCtrl'].invalid && (firstForm.controls['ProvinciaCtrl'].dirty || firstForm.controls['ProvinciaCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="firstForm.controls['ProvinciaCtrl'].errors.required">
+                     La provincia es Requerida
+                </div>
+              </div>
+          </div>
+           <div class="col-md-6 offset-md-3 form-group">
+            <label>Ubicacion :</label>
+            <input type="text" 
+                   placeholder="Ingrese su nombre" 
+                   class="form-control" 
+                   required
+                   nbInput
+                   [(ngModel)]="inv.ubicacion"
+                   formControlName="UbicacionCtrl"
+                   [ngClass]="{'form-control-danger': firstForm.controls['UbicacionCtrl'].invalid && (firstForm.controls['UbicacionCtrl'].dirty || firstForm.controls['UbicacionCtrl'].touched)}">
+
+              <div *ngIf="firstForm.controls['UbicacionCtrl'].invalid && (firstForm.controls['UbicacionCtrl'].dirty || firstForm.controls['UbicacionCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="firstForm.controls['UbicacionCtrl'].errors.required">
+                      La Ubicacion es Requerida
+                </div>
+              </div>
+          </div>
+          <button nbButton nbStepperNext >next</button>
+        </form>
+      </nb-step>
+                                   <!-- Segundo Paso -->
+
+        <nb-step [stepControl]="SecondForm" label="Segundo paso">
+        <form [formGroup]="SecondForm" (ngSubmit)="onFirstSubmit()" class="step-container">
+         
+           <p class="lorem">
+          Parametros Iniciales estos peuden ser modificables por el usuario.
+          </p>
+          <div class="col-md-6 offset-md-3 form-group">
+            <label>Temperatura Maxima :</label>
+            <input type="text" 
+                   placeholder="Temperatura Maxima" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.tempMaxima"
+                   formControlName="TempMaxCtrl"
+                   [ngClass]="{'form-control-danger': SecondForm.controls['TempMaxCtrl'].invalid && (SecondForm.controls['TempMaxCtrl'].dirty || SecondForm.controls['TempMaxCtrl'].touched)}">
+
+              <div *ngIf="SecondForm.controls['TempMaxCtrl'].invalid && (SecondForm.controls['TempMaxCtrl'].dirty || SecondForm.controls['TempMaxCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="SecondForm.controls['TempMaxCtrl'].errors.required">
+                     La temperatura Maxima es Importante
+                </div>
+              </div>
+          </div>
+          <div class="col-md-6 offset-md-3 form-group">
+            <label>Temperatura media :</label>
+            <input type="text" 
+                   placeholder="Temperatura Media" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.tempMedia"
+                   formControlName="TempMediaCtrl"
+                   [ngClass]="{'form-control-danger': SecondForm.controls['TempMediaCtrl'].invalid && (SecondForm.controls['TempMediaCtrl'].dirty || SecondForm.controls['TempMediaCtrl'].touched)}">
+
+              <div *ngIf="SecondForm.controls['TempMediaCtrl'].invalid && (SecondForm.controls['TempMediaCtrl'].dirty || SecondForm.controls['TempMediaCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="SecondForm.controls['TempMediaCtrl'].errors.required">
+                      La temperatura Media es Importante
+                </div>
+              </div>
+          </div>
+
+
+          <div class="col-md-6 offset-md-3 form-group">
+            <label>Temperatura Minima :</label>
+            <input type="text" 
+                   placeholder="Temperatura Minima" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.tempMinima"
+                   formControlName="TempMinCtrl"
+                   [ngClass]="{'form-control-danger': SecondForm.controls['TempMinCtrl'].invalid && (SecondForm.controls['TempMinCtrl'].dirty || SecondForm.controls['TempMinCtrl'].touched)}">
+
+              <div *ngIf="SecondForm.controls['TempMinCtrl'].invalid && (SecondForm.controls['TempMinCtrl'].dirty || SecondForm.controls['TempMinCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="SecondForm.controls['TempMinCtrl'].errors.required">
+                      La temperatura Minima es Importante
+                </div>
+              </div>
+          </div>
+
+          <div class="col-md-6 offset-md-3 form-group">
+            <label>Tiempo de Intermitencia : (HH:MM:SS)</label>
+            <input type="text" 
+                   placeholder="HH:MM:SS" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.tiempoIntermitencia"
+                   formControlName="TempIntermitenciaCtrl"
+                   [ngClass]="{'form-control-danger': SecondForm.controls['TempIntermitenciaCtrl'].invalid && (SecondForm.controls['TempIntermitenciaCtrl'].dirty || SecondForm.controls['TempIntermitenciaCtrl'].touched)}">
+
+              <div *ngIf="SecondForm.controls['TempIntermitenciaCtrl'].invalid && (SecondForm.controls['TempIntermitenciaCtrl'].dirty || SecondForm.controls['TempIntermitenciaCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="SecondForm.controls['TempIntermitenciaCtrl'].errors.required">
+                      El tiempo de Intermitencia es Importante
+                </div>
+              </div>
+          </div>
+
+            <div class="col-md-6 offset-md-3 form-group">
+            <label>Tiempo de Pausa : (HH:MM:SS)</label>
+            <input type="text" 
+                   placeholder="HH:MM:SS" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.tiempoPausa"
+                   formControlName="TempPausaCtrl"
+                   [ngClass]="{'form-control-danger': SecondForm.controls['TempPausaCtrl'].invalid && (SecondForm.controls['TempPausaCtrl'].dirty || SecondForm.controls['TempPausaCtrl'].touched)}">
+
+              <div *ngIf="SecondForm.controls['TempPausaCtrl'].invalid && (SecondForm.controls['TempPausaCtrl'].dirty || SecondForm.controls['TempPausaCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="SecondForm.controls['TempPausaCtrl'].errors.required">
+                      El tiempo de Pausa es Importante
+                </div>
+              </div>
+          </div>
+
+           <div class="col-md-6 offset-md-3 form-group">
+            <label>Tiempo de Funcionamiento del Motor: (HH:MM:SS)</label>
+            <input type="text" 
+                   placeholder="HH:MM:SS" 
+                   class="form-control" 
+                   required
+                   nbInput
+                    [(ngModel)]="inv.tiempoFuncionMotor"
+                   formControlName="TempMotorCtrl"
+                   [ngClass]="{'form-control-danger': SecondForm.controls['TempMotorCtrl'].invalid && (SecondForm.controls['TempMotorCtrl'].dirty || SecondForm.controls['TempMotorCtrl'].touched)}">
+
+              <div *ngIf="SecondForm.controls['TempMotorCtrl'].invalid && (SecondForm.controls['TempMotorCtrl'].dirty || SecondForm.controls['TempMotorCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="SecondForm.controls['TempMotorCtrl'].errors.required">
+                      El tiempo de funcionamiento es Importante
+                </div>
+              </div>
+          </div>
+
+        
+         <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext (click)="showInv()">Siguiente</button>
+        </form>
+      </nb-step>
+      <nb-step [stepControl]="ThirdForm" label="Segundo paso">
+        <form [formGroup]="ThirdForm" (ngSubmit)="onSecondSubmit()" class="step-container">
+             <h4 class="center white-text">Ingrese un Icono si es que lo hubiere</h4>
+        <div class="container">
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+               
+                <form #imageForm=ngForm >
+
+                  <label class="fileContainer">
+                      <button  nbButton  shape="rectangle"  status="info" size="xsmall" fullWidth  >Subir Icono</button>
+                      <input  type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files,$event)">
+                  </label>
+                  <br>
+                  <img [src]="imageUrl"  style="width:250px;height:200px">
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+          
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext [disabled]="Image.value=='' || !imageForm.valid" (click)="AgregaInvernadero()">next</button>
+        </form>
+      </nb-step>
+                                 <!-- Tercer Paso -->
+
+      <nb-step [stepControl]="secondForm" [hidden]="true" label="Segundo step">
+        <div class="step-container">
+          <h3>Invernadero Agregado Correctamente</h3>
+          <button nbButton (click)="stepper.reset()">Volver</button>
+        </div>
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>
+
+<!--
     <nb-card>
       <nb-card-header><span align="center"><h1>Añadir nuevo Invernadero</h1></span></nb-card-header>
       <nb-card-body>
@@ -64,4 +298,5 @@
          <br>
       </nb-card-body>
     </nb-card>
+  -->
   </div>

@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
-
-//import { ToasterModule } from 'angular2-toaster';
+import { NbBadgeModule } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
-import {  ControlManualRoutingModule, routedComponents } from './control_manual-routing.module';
+import { ControlManualComponent } from './control_manual.component';
 
+import { StatusCardComponent } from './status-card/status-card.component';
+import { StatusCardOffComponent } from './status-card-off/status-card-off.component';
 @NgModule({
   imports: [
     ThemeModule,
-    ControlManualRoutingModule,
-   // ToasterModule,
+    NbBadgeModule,
   ],
   declarations: [
-    ...routedComponents,
+    ControlManualComponent,
+    StatusCardComponent,
+ 	 StatusCardOffComponent,
+ 	 
   ],
 })
 export class ControlManualModule { }

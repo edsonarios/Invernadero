@@ -1,12 +1,11 @@
 <span align="center"><h1>Catalogo de Controladores</h1></span>
 <hr>
-<button class="btn btn-primary btn-block" (click)="agregar()"> Añadir Nuevo Controlador</button>
-	<hr><br>
+
 <div class="row" [@fadeIn]>
         <div class="col-md-4" *ngFor="let n of Controller;let i=index">
           <nb-card >
            
-            <nb-card-header><img  src="assets/images/devices/Controller.png" class="tn">
+            <nb-card-header><img  src="{{url}}mostrarImagen/{{Controller[i]['imagenControlador']}}" class="tn">
             </nb-card-header>
             <nb-card-body>
             <table class="table table-striped">

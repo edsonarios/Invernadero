@@ -1,0 +1,95 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+  
+  .value-button {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 30px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 11px 0;
+  background: #eee;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.Sensores{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.value-button:hover {
+  cursor: pointer;
+}
+input#number {
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  width: 30px;
+  height: 40px;
+}
+form{
+  padding-left:30px;
+  padding-right:30px;
+}
+form #decrease {
+  margin-right: 0px;
+  border-radius: 8px 0 0 8px;
+}
+form #increase {
+  margin-left: 0px;
+  border-radius: 0 8px 8px 0;
+}
+
+form #input-wrap {
+  margin: 0px;
+  padding: 0px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input:disabled {
+  background: #fff;
+}
+
+  @include media-breakpoint-down(sm) {
+    ngx-traffic {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(is) {
+    /deep/ nb-card.large-card {
+      height: nb-theme(card-height-medium);
+    }
+    form{
+  padding-left:2px;
+  padding-right:2px;
+}
+.Sensores{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+  
+  }
+
+}

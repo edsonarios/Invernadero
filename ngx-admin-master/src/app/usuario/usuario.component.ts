@@ -12,7 +12,7 @@ import { User } from '../../model/user';
     <ngx-one-column-layout>
       <nb-menu [items]="menu"></nb-menu>
       <router-outlet *ngIf="exist=='true'"> 
-      
+      <!--
        <div class="col-md-6 offset-md-3" *ngIf="hidden=='true'">
        <span align="center"><h6>Seleccione su Invernadero</h6></span>
        <nb-card>
@@ -32,7 +32,7 @@ import { User } from '../../model/user';
        </div>
        </nb-card-body>
        </nb-card>
-       </div>
+       </div>-->
       </router-outlet>
     </ngx-one-column-layout>
   `,
@@ -53,12 +53,12 @@ export class UsuarioComponent implements OnInit{
  
     ){
     
-    if (localStorage.getItem('status')==null) {
+    /*if (localStorage.getItem('status')==null) {
       this.router.navigate(['/Principal/Inicio']); 
       window.alert('usted no tiene acceso');
     }else{
       this.dato=localStorage.getItem('user_inv_id');
-    }
+    }*/
 
   }
 
@@ -66,7 +66,7 @@ export class UsuarioComponent implements OnInit{
     
     //--ADMINISTRADOR--
     if (localStorage.getItem('role')=='admin'||localStorage.getItem('role')=='root') {
-     this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','','','','');
+     this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','','','','','');
      this.userService.ShowInvernaderos(this.user).subscribe(
       response =>{
         this.Invenaderos= response;
@@ -99,7 +99,7 @@ export class UsuarioComponent implements OnInit{
 
     //--USUARIO--
     else{
-       this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','');
+       this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','','');
    		this.userService.ShowInvernaderos(this.user).subscribe(
       response =>{
         this.Invenaderos= response;
@@ -129,7 +129,7 @@ export class UsuarioComponent implements OnInit{
       
          },
       error =>{
-        console.log(<any>error);
+       // console.log(<any>error);
       }
     );
     }

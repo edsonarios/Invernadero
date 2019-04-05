@@ -31,8 +31,16 @@ Login(e){
 	e.preventDefault();
 	var username=e.target.elements[0].value;
 	var password=e.target.elements[1].value;
-	this.user = new User('','','','','','','',username,password,'');
+
+	//Convierte todo a minusculas
+	username= username.toLowerCase();
+	password= password.toLowerCase();
+
+	this.user = new User('','','','','','','',username,password,'','');
+
+	
 	//obtenemos todo el valor de el usuario
+	
 	this._userService.SingUp(this.user).subscribe(
 			response =>{	
 
@@ -46,26 +54,31 @@ Login(e){
 					{
 					localStorage.setItem('role','user');
 
-					this.router.navigate(['/Usuario/Producto/Listar']);
+					this.router.navigate(['/Usuario/Monitoreo']);
 					}
-				else{
-					if(this.identity.result['tipo']=='root'){
+				if(this.identity.result['tipo']=='root'){
 					localStorage.setItem('role','root');
 					this.router.navigate(['/Administrador/Cuentas/Usuarios']);
 					}
-					else
-					{
+
+				if(this.identity.result['tipo']=='admin'){
 					localStorage.setItem('role','admin');
 					
 					this.router.navigate(['/Administrador/Cuentas/Usuarios']);
-					}
-				}		
+				}
+				if(this.identity.result['tipo']=='tester'){
+					localStorage.setItem('role','tester');
+					
+					this.router.navigate(['/Tester/Cuentas']);
+				}
+					
 			
 
 			},
 			error =>{
 			
 			this.status='denied'
+			window.alert("Denegado");
 
 			}
 		)

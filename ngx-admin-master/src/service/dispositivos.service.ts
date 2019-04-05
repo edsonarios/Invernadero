@@ -15,9 +15,9 @@ export class DispositivoService{
 	ObtenerDispositivos(){
 		return this._http.get(this.url+'mostrarDispositivos').map(res=> res.json())
 	}
-	crearDispositivo(mod,marc,nroPD,nroPA){
+	crearDispositivo(mod,marc,nroPD,nroPA,img){
 		let headers= new Headers({'Content-Type':'application/json'});
-		return this._http.post(this.url+'addDispositivo',{modelo:mod,marca:marc,nroDigitales:nroPD,nroAnalogicos:nroPA}, {headers:headers})
+		return this._http.post(this.url+'addDispositivo',{modelo:mod,marca:marc,nroDigitales:nroPD,nroAnalogicos:nroPA,imagenControlador:img}, {headers:headers})
 		.map(res => res.json())
 	}
 	eliminar(id){

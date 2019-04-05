@@ -16,6 +16,35 @@ import { fundido } from '../../../animation';
     animations: [fundido]
 })
 export class InvernaderosDetalleComponent {
+
+
+  Controladores=[
+  {
+    'id':'1',
+    'uuid':'Arduino',
+    'marcaC':'Uno',
+    'modeloC':'Arduino-Uno',
+    'nroPines':20,
+    'connected':'true',},
+    {
+    'id':'2',
+    'uuid':'Arduino',
+    'marcaC':'Mega',
+    'modeloC':'Arduino-Mega',
+    'nroPines':82,
+    'connected':'false',},
+    {
+    'id':'2',
+    'uuid':'Arduino',
+    'marcaC':'Uno',
+    'modeloC':'Arduino-Uno',
+    'nroPines':22,
+    'connected':'true',}]
+
+
+  NumberControlador=0;
+  Pines=2;
+
 public inv: Invernadero;
   public details;
   public Controller;
@@ -49,9 +78,9 @@ constructor(private ControlService: ControladorService,
     private pinService: PinesService,
 		private router:Router){	
 
-console.log(this.Devices);
+//console.log(this.Devices);
 //RECOGE TODOS LOS DATOS VINCULADOS A ESTE INVERNADERO
-	this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),'','','','','','','','','','');
+	this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),'','','','','','','','','','','');
   this.invService.show(this.inv).subscribe(
       response =>{
         this.details=response;
@@ -75,7 +104,7 @@ console.log(this.Devices);
   this.ControlService.showControlador(localStorage.getItem('admin_user_inv_id')).subscribe(
       response =>{
         this.Controller=response;
-
+        this.NumberControlador=this.Controladores.length;
         console.log(this.Controller);
         
       },
@@ -87,7 +116,7 @@ console.log(this.Devices);
   this.pinService.ShowDevices(localStorage.getItem('admin_user_inv_id')).subscribe(
     response=>{
       this.Devices=response;
-      //console.log(this.Devices);
+      console.log(this.Devices);
       for (var i = 0; i < this.Devices.length; ++i) {
         for (var j = 0; j < this.Devices[i].length; ++j) {
             this.pinService.muestraPin(this.Devices[i][j]['sensorId']).subscribe(
@@ -95,8 +124,8 @@ console.log(this.Devices);
            
            this.descripcion=response.descripcionPin;
            this.pinDepende=response.nroPin;  
-           //console.log('ESTE ES LA DESCRIPCION');
-           //console.log(this.descripcion);
+           console.log('ESTE ES LA DESCRIPCION');
+           console.log(this.descripcion);
           },
         error=>{
         console.log(<any>error);
@@ -116,19 +145,19 @@ console.log(this.Devices);
     );
 }
 volver(){
-      this.router.navigate(['/Administrador/Cuentas/Detalle']);
+      this.router.navigate(['/Administrador/Invernaderos/Listar']);
 }
-camaras(){
-      this.router.navigate(['/Administrador/Camaras']);
-}
+
 editar(){
   
       this.router.navigate(['/Administrador/Invernaderos/Editar']);
 
 }
-
-add(num){
-  localStorage.setItem('idControlador',num);
+VincularControlador(){
+  this.router.navigate(['/Administrador/Componentes/Controlador']);
+}
+HabilitarPines(IDcontrol){
+  localStorage.setItem('idControlador',IDcontrol);
 
    this.router.navigate(['/Administrador/Componentes/Pin']);
 }

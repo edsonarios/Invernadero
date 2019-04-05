@@ -2,8 +2,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { UsuarioComponent } from './usuario.component';
+
 import { ReporteComponent } from './reporte/reporte.component';
 import { InfoComponent } from './info/info.component';
+import { MonitoreoComponent } from './monitoreo/monitoreo.component';
+import { HorariosComponent } from './horarios/horarios.component';
+import { ControlManualComponent } from './control_manual/control_manual.component'; 
 
 const routes: Routes = [{
   path: '',
@@ -18,16 +22,16 @@ const routes: Routes = [{
       component: InfoComponent,
     },
     {
-    path: 'Control',
-    loadChildren: './control_manual/control_manual.module#ControlManualModule',
+      path: 'Horarios',
+      component: HorariosComponent,
     },
     {
-    path: 'Producto',
-    loadChildren: './producto/producto.module#ProductoModule',
+      path: 'Control_Manual',
+      component: ControlManualComponent,
     },
-    {
+   {
     path: 'Monitoreo',
-    loadChildren: './monitoreo/monitoreo.module#MonitoreoModule',
+    component: MonitoreoComponent,
     },
     {
     path: 'Cuenta',
@@ -35,7 +39,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'Producto',
+      redirectTo: 'Monitoreo',
       pathMatch: 'full',
     },
   ],
