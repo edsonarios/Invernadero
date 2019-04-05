@@ -12,12 +12,14 @@ import { fundido } from '../../../animation';
 })
 export class CuentasUsuariosComponent {
 public role=localStorage.getItem('role');
-public usuario;
+public Usuarios=[];
+public Administradores=[];
+public Testers=[];
+
 public hiddenUser='false';
 public hiddenAdmin='false';
-public admin;
+public hiddenTester='false';
 
-	
 constructor(private router:Router,
 	private userService: UserService){	
 
@@ -25,13 +27,12 @@ constructor(private router:Router,
 	localStorage.removeItem('admin_user_id');
 	localStorage.removeItem('admin_user_password');
 
-
 	if (localStorage.getItem('role')=='root') {
 		this.userService.obtenerAdmins().subscribe(
 			response =>{
-				this.admin=response;
+				this.Administradores=response;
 				//console.log(this.admin);
-				if(this.admin.length>0){
+				if(this.Administradores.length>0){
 					this.hiddenAdmin='true';
 				}
 			},
@@ -43,10 +44,23 @@ constructor(private router:Router,
 
 	this.userService.obtenerUsuarios().subscribe(
 			response =>{
-				this.usuario=response;
-				//console.log(this.usuario);
-				if(this.usuario.length>0){
+				this.Usuarios=response;
+				//console.log(this.Usuarios);
+				if(this.Usuarios.length>0){
 					this.hiddenUser='true';
+				}
+			},
+			error =>{
+				console.log(<any>error)
+			}
+			);
+
+	this.userService.obtenerTesters().subscribe(
+			response =>{
+				this.Testers=response;
+				//console.log(this.Testers);
+				if(this.Testers.length>0){
+					this.hiddenTester='true';
 				}
 			},
 			error =>{
@@ -56,23 +70,14 @@ constructor(private router:Router,
 
 }
 
-AddUser(){
-		this.router.navigate(['/Administrador/Cuentas/Agregar']);
-	}
-DetalleUsuario(id,correo,password){
-	
+
+DetalleUsuario(id){
 	localStorage.setItem('admin_user_id',id);
-	localStorage.setItem('admin_user_correo',correo);
-	localStorage.setItem('admin_user_password',password);
+	
 
 	this.router.navigate(['/Administrador/Cuentas/Detalle']);
 	
 }
-EnviarMensaje(id,correo){
-	localStorage.setItem('admin_user_id',id);
-	localStorage.setItem('admin_user_correo',correo);
 
-	this.router.navigate(['/Administrador/Mensajes/Escribir']);
-}
 
 }

@@ -18,7 +18,7 @@
  const ModAgent = require('../mod-agent')
  const sendDatos = 2000
  const intervalAutomatization = sendDatos
- const IP = '192.168.0.25'
+ const IP = '192.168.0.30'
  //host para la api
  const Host = `http://${IP}:3000/`
  //const Host = `http://192.168.0.25:3000/`
@@ -233,6 +233,8 @@ port.on('error',function(err){
     
     if(estado[i]==1){
       if(clasePin[i]==1){
+        console.log("este i")
+        console.log(i)
         switch(i){
           case i:agent.addMetric(descripcion[i], function getRss () {
                     return temp[i]
@@ -665,55 +667,62 @@ this.pinMode(12, five.Pin.PWM);
       }
     });
     // MULTIPLE BOARD FIN ////////////////////////////////////////////////////////////////
-     //LOOP DE AUTOMATIZACION SEGUN SENSORES
 
+// SENSOR DE PROXIMIDAD //////////////////////////////////////////////////////////////////////////////
+     this.each(function(board) {
+      if (board.id === "B") {
+      /////////////////////////////////////////////////////////////////////
+      var proximity = new five.Proximity({
+        controller: "HCSR04",
+        pin: 12,
+        board:board
+      });
 
+      proximity.on("data", function() {
+        console.log("Proximity: ");
+        console.log("  cm  : ", this.cm);
+        console.log("-----------------");
+      });
 
+      proximity.on("change", function() {
+        //temp[72]=this.cm
+        console.log("The obstruction has moved.");
+      });
+/*
+      agent.addMetric("Sensor de Tanque", function getRss () {
+        return temp[i]
+      })
+      */
+
+      /////////////////////////////////////////////////////////////////////
+      }
+    });
+// SENSOR DE TEMPERATURA DE AGUA //////////////////////////////////////////////////////////////////////////////
+    this.each(function(board) {
+      if (board.id === "C") {
+      /////////////////////////////////////////////////////////////////////
+      var thermometer = new five.Thermometer({
+        controller: "DS18B20",
+        pin: 12
+      });
+    
+      thermometer.on("change", function() {
+        console.log(this.celsius + "°C");
+        //temp[72]=this.celsius
+        // console.log("0x" + this.address.toString(16));
+      });
+      /////////////////////////////////////////////////////////////////////
+      }
+    });
+
+    
     //Funcion que cambia el numero de pin si lo requiera (Controlino si requiere cambio de pin)
     function cambioPines(pin){
       
       if(pin==12){return pin=13}
       
       return pin 
-      
-      // console.log("dentro de la funcion---------------------------------------------------")
-      // console.log(payload)
-      //this.digitalWrite(parseInt(payload.actuador.type),payload.actuador.value)
-      //this.digitalWrite(13, 1);
-      
-      // switch(parseInt(payload.actuador.type)){
-      //   case 0:D0.write(payload.actuador.value); break;
-      //   case 1:D1.write(payload.actuador.value); break;
-      //   case 2:D2.write(payload.actuador.value); break;
-      //   case 3:D3.write(payload.actuador.value); break;
-      //   case 4:D4.write(payload.actuador.value); break;
-      //   case 5:D5.write(payload.actuador.value); 
-      //   // temp[18]=10;
-      //   // temp[19]=10;
-      //   // console.log("temperatura a 10")
-      //   break;
-      //   case 6:D6.write(payload.actuador.value); 
-      //   // temp[18]=25;
-      //   // temp[19]=25;
-      //   // console.log("temperatura a 25")
-      //   break;
-      //   case 7:D7.write(payload.actuador.value); 
-      //   temp[14]=10;
-      //   console.log("temperatura a 10")
-      //   break;
-      //   case 8:D8.write(payload.actuador.value); 
-      //   temp[14]=25;
-      //   console.log("temperatura a 25")
-      //   break;
-      //   case 9:D9.write(payload.actuador.value); 
-      //   temp[14]=35;
-      //   console.log("temperatura a 35")
-      //   break;
-      //   case 10:D10.write(payload.actuador.value); break;
-      //   case 11:D11.write(payload.actuador.value); break;
-      //   case 12:D12.write(payload.actuador.value); break;
-      //   case 13:D13.write(payload.actuador.value); break;
-      // } 
+            
     }
 
     
@@ -932,15 +941,32 @@ async function abrirPuertas(idP, nroP, pos){
               
                   TiempoApertura=TiempoApertura+TiempoPausa
                   setTimeout(function() {
-                  
+                    var descr
+                    var nPin
+                    
+                    for (let k = 0; k < descripcion.length; k++) {
+                      if(descripcion[j]+'Off'==descripcion[k]){
+                        nPin=nroPin[k]
+                        descr=descripcion[j]
+                      }
+                    
+                    }
                   //abrir puerta, enciende el motor para abrir
                   var HoraYFecha = new Date()
                   var Hora = HoraYFecha.getHours()
                   var Minuto = HoraYFecha.getMinutes()
                   var Segundos = HoraYFecha.getSeconds()
                   console.log("tiempo actividad :"+TiEsperaInactividad)
+                  //PIN ABRIR
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522296902}`
+                  
+                  client.publish("actuador", payload)
+                  clientLocal.publish("actuador", payload)
+                  
+                  //PIN POLARIDAD
+                  console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Encendiendo motor : "+descr)
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1517522296902}`
                   
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
@@ -957,10 +983,7 @@ async function abrirPuertas(idP, nroP, pos){
                       client.publish("actuador", payload)
                       clientLocal.publish("actuador", payload)
 
-                      if(temp[j2]<220){
 
-                        console.log("\x1b[31m","error no termino de abrir : "+descripcion[j])
-                      }
                       
                     }, TiempoFuncionMotor)
                     
@@ -1168,6 +1191,14 @@ async function cerrarPuertas(idP, nroP, pos){
                   var Minuto = HoraYFecha.getMinutes()
                   var Segundos = HoraYFecha.getSeconds()
                   console.log("tiempo actividad :"+TiEsperaInactividad)
+                   //PIN ABRIR
+                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
+                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522296902}`
+                   
+                   client.publish("actuador", payload)
+                   clientLocal.publish("actuador", payload)
+                   
+                   //PIN POLARIDAD
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Encendiendo motor : "+descr)
                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1517522296902}`
                   //console.log(payload)
@@ -1242,25 +1273,6 @@ async function finalCarrera(pin,value,pos) {
     
   
 }
-async function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
-async function cambioMilisegundos(cadena) {
-  var a=parseInt(cadena.substring(3,5))
-  var b=parseInt(cadena.substring(6,8))
-  
-  var c = b*1000
-  var d= (a*60)*1000
-  var time = d+c
-  return time
-}
-
 
  // mensaje que se muestra por consola mientras se espera a que se inicie la placa
  console.log("\nEsperando a que inicialice el dispositivo...")

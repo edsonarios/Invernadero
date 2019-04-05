@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 //importando los servicios
 
 import { DispositivoService } from '../../../../service/dispositivos.service';
-
+import { GLOBAL } from '../../../../service/global';
 import { fundido } from '../../../animation';
 @Component({
   selector: 'ngx-administrador-controladores-catalogo',
@@ -14,9 +14,11 @@ import { fundido } from '../../../animation';
 })
 export class ControladoresCatalogoComponent {
 public Controller;
-	
+		public url:string;
 constructor(private router:Router,
 	private dispositiveService: DispositivoService){
+
+	this.url=GLOBAL.url;
 	this.dispositiveService.ObtenerDispositivos().subscribe(
 			response =>{
 				this.Controller=response;

@@ -9,7 +9,7 @@ export class User{
 		public telefono: string,
 		public correo: string,
 		public password: string,
-		public conectado: string
-
+		public conectado: string,
+		public change: string
 		){}
 }

@@ -10,7 +10,7 @@ export class Invernadero{
 		public tiempoIntermitencia:string,
 		public usuarioId: string,
 		public tiempoFuncionMotor: string,
-		public tiempoPausa: string
-		
+		public tiempoPausa: string,
+		public logo: string
 		){}
 }

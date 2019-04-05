@@ -1,26 +1,113 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //importar servicios
 import { InvernaderoService } from '../../../../service/invernadero.service';
 import { Invernadero } from '../../../../model/invernadero';
+import { UploadService } from '../../../../service/upload.service';
+import { GLOBAL } from '../../../../service/global';
 
 import { fundido } from '../../../animation';
 @Component({
   selector: 'ngx-administrador-invernaderos-agregar',
   styleUrls: ['./invernaderos_agregar.component.scss'],
   templateUrl: './invernaderos_agregar.component.html',
- 	providers: [InvernaderoService],
+ 	providers: [InvernaderoService,UploadService],
     animations: [fundido]
 })
 export class InvernaderosAgregarComponent {
+firstForm: FormGroup;
+SecondForm: FormGroup;
+ThirdForm: FormGroup;
+
 
 public inv: Invernadero;
+
+  imageUrl: string = "/assets/images/upload-default.png";
+  fileToUpload: File = null;
+public url:string;
+  public filesToUpload: Array<File>;
 	
 constructor(private router:Router,
-		private invService: InvernaderoService){	
+		private invService: InvernaderoService,
+		private fb: FormBuilder,
+		private uploadService: UploadService){	
 
-	this.inv = new Invernadero('','','','','0','0','0','',localStorage.getItem('admin_user_id'),'0','0');
+	this.url=GLOBAL.url;
+
+	this.firstForm = this.fb.group({
+      DepartamentoCtrl: ['', Validators.required],
+      ProvinciaCtrl: ['', Validators.required],
+      UbicacionCtrl: ['', Validators.required],
+    });
+
+    this.SecondForm = this.fb.group({
+      TempMaxCtrl: ['', Validators.required],
+      TempMediaCtrl: ['', Validators.required], 
+      TempMinCtrl: ['', Validators.required],
+ 	  TempIntermitenciaCtrl: ['', Validators.required],
+      TempPausaCtrl: ['', Validators.required],
+      TempMotorCtrl: ['', Validators.required],
+    });
+    this.ThirdForm = this.fb.group({
+      
+    });
+
+
+	this.inv = new Invernadero('','','','','35','27','20','00:00:00',localStorage.getItem('admin_user_id'),'00:00:00','00:00:00','');
 }
+
+showInv(){
+	console.log("Invernadero Actualmente");
+	console.log(this.inv);
+}
+ handleFileInput(file: FileList,fileInput:any) {
+
+    this.fileToUpload = file.item(0);
+    console.log(this.fileToUpload);
+
+    //Show image preview
+    var reader = new FileReader();
+    reader.onload = (event:any) => {
+      this.imageUrl = event.target.result;
+    }
+    reader.readAsDataURL(this.fileToUpload);
+
+    this.filesToUpload=<Array<File>>fileInput.target.files;
+  }
+
+onFirstSubmit() {
+    this.firstForm.markAsDirty();
+  }
+
+  onSecondSubmit() {
+    this.SecondForm.markAsDirty();
+  }
+  onThirdSubmit() {
+    this.ThirdForm.markAsDirty();
+  }
+  AgregaInvernadero(){
+  		//console.log('LA URL ES: '+this.url+'guardarImagen');
+		//console.log('ENTRA AL METODO');
+		this.uploadService.makeFileRequest(this.url+'guardarImagen',[],this.filesToUpload,'','image').then((result:any)=>{this.inv.logo=result.image;
+					
+					
+					//console.log("Nombre Result:"+result['nombre']);
+					this.inv.logo=result['nombre'];
+					
+					this.invService.Añadir(this.inv).subscribe(
+						response =>{
+							console.log(response);
+						},
+						error =>{
+							console.log(<any>error)
+						}
+					)
+							});
+ 
+
+}
+
 addinv(elem){
 
 		//TIEMPO DE iNTERMITENCIA

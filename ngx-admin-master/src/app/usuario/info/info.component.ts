@@ -43,7 +43,7 @@ constructor(private invService: InvernaderoService,
 	localStorage.setItem('route','info');
 	
 	//RECOGE TODOS LOS DATOS VINCULADOS A ESTE INVERNADERO
-	this.inv = new Invernadero(localStorage.getItem('user_inv_id'),'','','','','','','','','','');
+	this.inv = new Invernadero(localStorage.getItem('user_inv_id'),'','','','','','','','','','','');
   this.invService.show(this.inv).subscribe(
       response =>{
         this.details=response;
@@ -95,7 +95,7 @@ CambiarDatos(e){
     
       this.tiempoIntermitencia='00:'+min+':'+sec;
 
-      this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),departamento,ubicacion,provincia,tempMax,tempMin,tempMedia,this.tiempoIntermitencia,localStorage.getItem('admin_user_id'),'','');
+      this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),departamento,ubicacion,provincia,tempMax,tempMin,tempMedia,this.tiempoIntermitencia,localStorage.getItem('admin_user_id'),'','','');
      // console.log(this.inv);
       
       

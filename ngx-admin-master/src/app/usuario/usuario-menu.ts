@@ -6,6 +6,39 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
+    title: 'Monitoreo',
+    icon: 'ion-eye',
+    link: '/Usuario/Monitoreo',
+  },
+  {
+    title: 'Control Manual',
+    icon: 'ion-ios-gear',
+    link: '/Usuario/Control_Manual',
+  },
+  {
+    title: 'Horarios',
+    icon: 'ion-ios-time',
+    link: '/Usuario/Horarios',
+  },
+  {
+    title: 'Reporte',
+    icon: 'ion-ios-compose',
+    link: '/Usuario/Reporte',
+  },
+  {
+    title: 'Info Invernadero',
+    icon: 'ion-information',
+    link: '/Usuario/Info',
+  }
+];
+
+/*
+[
+   {
+    title: 'MENU',
+    group: true,
+  },
+  {
     title: 'producto',
     icon: 'ion-leaf',
     link: '/Usuario/Producto/Listar',
@@ -30,10 +63,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
       title: 'Camaras de Seguridad',
       link: '/Usuario/Monitoreo/Camaras',
     },
-   
     ],
   }, 
-  
   {
     title: 'Control Manual',
     icon: 'ion-gear-b',
@@ -41,7 +72,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
       title: 'Actuadores',
       link: '/Usuario/Control/Actuadores',
-
     },
     {
       title: 'Horarios de Riego',
@@ -55,12 +85,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'ion-ios-compose',
     link: '/Usuario/Reporte',
   },
-   {
+  {
     title: 'Info Invernadero',
     icon: 'ion-information',
     link: '/Usuario/Info',
   },
- 
-
-  
 ];
+
+*/

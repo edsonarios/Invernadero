@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
-//import { ToasterModule } from 'angular2-toaster';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { ThemeModule } from '../../@theme/theme.module';
-import {  MonitoreoRoutingModule, routedComponents } from './monitoreo-routing.module';
+import { MonitoreoComponent } from './monitoreo.component';
+import { D3BarComponent } from './d3-bar.component';
+
 
 @NgModule({
   imports: [
     ThemeModule,
-    MonitoreoRoutingModule,
     NgxEchartsModule,
-   // ToasterModule,
+    NgxChartsModule
   ],
   declarations: [
-    ...routedComponents,
+    MonitoreoComponent,
+    D3BarComponent,
   ],
 })
 export class MonitoreoModule { }

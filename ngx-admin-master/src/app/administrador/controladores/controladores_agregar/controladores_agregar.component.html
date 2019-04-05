@@ -26,13 +26,23 @@
             <input type="text" name="NumeroAnalogicos" placeholder="Numero Pines Analogicos"  class="form-control"/>
           </div><br>
         </div>
+        <div class="col-md-6 offset-md-3">
+         <form #imageForm=ngForm >
 
+                  <label class="fileContainer">
+                      <button  nbButton  shape="rectangle"  status="info" size="xsmall" fullWidth  >Subir Imagen</button>
+                      <input  type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files,$event)">
+                  </label>
+                  <br>
+                  <img [src]="imageUrl"  style="width:250px;height:200px">
+                </form>
+              </div>
         <br>
         <br>
             
         <div class="col-md-12">
            <div class="btn-group  btn-group-full-width ">
-            <input type="submit"  class="btn btn-success " value="Agregar" >
+            <input type="submit"  class="btn btn-success " value="Agregar" [disabled]="Image.value=='' || !imageForm.valid">
            <input type="button" class="btn btn-danger " value="Cancelar" (click)="volver()">
                         
           </div>

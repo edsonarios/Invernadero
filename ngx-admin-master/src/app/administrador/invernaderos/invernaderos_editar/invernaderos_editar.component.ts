@@ -41,7 +41,7 @@ constructor(private router:Router,
 
 
 //RECOGE TODOS LOS DATOS VINCULADOS A ESTE INVERNADERO
-	this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),'','','','','','','','','','');
+	this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),'','','','','','','','','','','');
   this.invService.show(this.inv).subscribe(
       response =>{
         this.details=response;
@@ -133,7 +133,7 @@ editInvernadero(e){
     }
 
 
-  		this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),departamento,ubicacion,provincia,tempMax,tempMin,tempMedia,'00:'+min+':'+sec,localStorage.getItem('admin_user_id'),'00:'+min2+':'+sec2,'00:'+min3+':'+sec3);
+  		this.inv = new Invernadero(localStorage.getItem('admin_user_inv_id'),departamento,ubicacion,provincia,tempMax,tempMin,tempMedia,'00:'+min+':'+sec,localStorage.getItem('admin_user_id'),'00:'+min2+':'+sec2,'00:'+min3+':'+sec3,'');
   		//console.log(this.inv);
       
       

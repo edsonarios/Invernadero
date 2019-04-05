@@ -972,7 +972,8 @@ api.post('/invernadero', async (req, res, next) => {
       tempMedia: varInv.tempMedia,
       tiempoIntermitencia: varInv.tiempoIntermitencia,
       tiempoPausa: varInv.tiempoPausa,
-      tiempoFuncionMotor: varInv.tiempoFuncionMotor
+      tiempoFuncionMotor: varInv.tiempoFuncionMotor,
+      logo: varInv.logo
     })
   
   res.send(varUs) 
@@ -1519,5 +1520,19 @@ api.get('/productosProducidos', async (req, res, next) => {
  })
 
 */
+
+api.post('/enviarNoti', async (req, res) =>{
+  const notific = req.body
+  console.log(req.body)
+   if(notific == 'ok')
+     res.send({title: 'fallo de  tal..'},
+     {body: 'descripcion..'}
+    ) 
+    console.log(req.body)
+    res.send({message: 'error al enviar...'})
+})
+
+
+
 
 module.exports = api

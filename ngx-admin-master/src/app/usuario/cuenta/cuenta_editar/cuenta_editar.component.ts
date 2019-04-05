@@ -26,7 +26,7 @@ this.router.navigate(['/Usuario/Cuenta/Perfil']);
 
 
 }
-actualizarPass(e){
+actualizarPass(e){/*
 	console.log('Actualizando');
 	e.preventDefault();
 		var PasswordOld=e.target.elements[0].value;
@@ -72,7 +72,7 @@ actualizarPass(e){
         
       }
     );
-    this.router.navigate(['/Usuario/Cuenta/Perfil']);
+    this.router.navigate(['/Usuario/Cuenta/Perfil']);*/
 }
 
 

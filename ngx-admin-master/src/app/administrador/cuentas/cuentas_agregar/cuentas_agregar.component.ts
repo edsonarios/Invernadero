@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component , OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //importar servicio, 
 import { User } from '../../../../model/user';
 import { UserService } from '../../../../service/user.service';
@@ -13,36 +14,81 @@ import { fundido } from '../../../animation';
   animations: [fundido]
  
 })
-export class CuentasAgregarComponent {
+export class CuentasAgregarComponent implements OnInit{
 public role =localStorage.getItem('role');
 public user: User;
-	
+
+
+
+  firstForm: FormGroup;
+  secondForm: FormGroup;
+  thirdForm: FormGroup;
+
 constructor(private router:Router,
-		private userService: UserService){	
+		private userService: UserService,
+		private fb: FormBuilder){	
 	if (localStorage.getItem('role')=='root') {
-			this.user = new User('','','','','','','','','','');
+			this.user = new User('','','','','','','','','','false','true');
 		}
 		else{
-			this.user = new User('','','','','user','','','','','');
+			this.user = new User('','','','','user','','','','','false','true');
 		}
 }
-onSubmit(){
-		console.log(this.user);
-		this.user.conectado='false';
-		
-		this.userService.register(this.user).subscribe(
-			response =>{
-				this.user = response.user;
-			},
-			error =>{
-				console.log(<any>error)
-			}
-		)
-		this.router.navigateByUrl('/add', {skipLocationChange: true}).then(()=>
-    	this.router.navigate(['/Administrador/Cuentas/Usuarios']));
-    	
-	
-	}
+  ngOnInit() {
+    this.firstForm = this.fb.group({
+      NombreCtrl: ['', Validators.required],
+      ApPatCtrl: ['', Validators.required],
+      ApMatCtrl: ['', Validators.required],
+      DirecCtrl: ['', Validators.required],
+      TelCtrl: ['', Validators.required],
+      CorreoCtrl: ['', [Validators.required, Validators.email]],
+    });
+
+    this.secondForm = this.fb.group({
+     // secondCtrl: ['', Validators.required],
+    });
+
+    this.thirdForm = this.fb.group({
+      PassCtrl:['', Validators.required],
+    });
+  } 
+  prueba(){
+    console.log(this.user);
+  }
+  onFirstSubmit() {
+    this.firstForm.markAsDirty();
+  }
+
+  onSecondSubmit() {
+    this.secondForm.markAsDirty();
+  }
+
+  onThirdSubmit() {
+    this.thirdForm.markAsDirty();
+  }
+AgregaCuenta(){
+console.log(this.user);
+    
+    this.userService.register(this.user).subscribe(
+      response =>{
+        this.user = response.user;
+      },
+      error =>{
+        console.log(<any>error)
+      }
+    );
+    
+}
+
+  SelectAdmin(){
+    this.user.tipo='admin';
+  }
+  SelectTester(){
+this.user.tipo='tester';
+  }
+  SelectUser(){
+this.user.tipo='user';
+  }
 	volver(){
       this.router.navigate(['/Administrador/Cuentas/Usuarios']);
 }

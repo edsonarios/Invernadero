@@ -1,0 +1,120 @@
+<!-- AREA DE INVERNADEROS -->
+<ol class="breadcrumb">
+  <li><a href="/#/Administrador/Cuentas/Usuarios">Control de Cuentas</a></li><b>/</b>   
+  <li><a href="/#/Administrador/Cuentas/Detalle">Detalles de Cuenta</a></li><b>/</b>
+  <li>Invernaderos</li>
+  </ol>
+
+<div class="col-md-12" [@fadeIn]>
+  <div class="col-md-4 offset-md-4" >
+    <nb-card>
+      <nb-card-body>
+        <nb-actions size="large">
+          <nb-action (click)="volver()">
+            <i class="ion-arrow-left-a text-success"></i><span>Volver</span>
+          </nb-action>
+          <nb-action  (click)="Agregar()" >
+            <i class="ion-ios-plus-outline text-info"></i><span>Añadir</span>
+          </nb-action>
+        <nb-action (click)="dashboard()" >
+            <i class="ion-ios-eye-outline text-primary"></i><span>Dashboard</span>
+          </nb-action>     
+        </nb-actions>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+
+    
+  <!-- Mensaje de no invernaderos-->
+  <div class="col-md-6 offset-md-3" *ngIf="NumberInvernaderos==0">
+    <nb-card>
+      <nb-card-body>
+        <br>
+         <span align="center"><h1>:( Esta Cuenta no tiene Invernaderos</h1></span>
+      </nb-card-body>
+    </nb-card>
+  </div>
+<div class="row" *ngIf="NumberInvernaderos!=0">
+  <div class="col-md-6" *ngFor="let n of Invernaderos ; let i=index" >
+
+    <nb-card >
+      <div class="row">
+        <div class="col-md-4">
+        <img  src="assets/images/invernadero.png" class="tn">
+         </div>
+        <div class="col-md-8">
+             <table class="table ">
+        
+      <tbody>
+        <tr >
+          <td><b>Departamento</b></td>
+          <td>{{Invernaderos[i]['departamento']}}</td>
+        </tr>
+        <tr >
+          <td><b>Provincia</b></td>
+          <td>{{Invernaderos[i]['provincia']}}</td>
+        </tr>
+        <tr >
+          <td><b>Ubicacion</b></td>
+          <td>{{Invernaderos[i]['ubicacion']}}</td>
+        </tr>
+        </tbody>
+      </table>
+        </div>  
+      </div>
+      
+     
+      <button class="BtnUser" nbButton  shape="rectangle"  status="info" size="xsmall" fullWidth  (click)="VerInvernadero(Invernaderos[i]['id'])">Ver Invernadero</button>
+ </nb-card> 
+
+    
+</div>
+ 
+
+
+ </div>
+</div>
+<!--
+<h2 class="grid-h" *ngIf="role=='user'">Lista de Invernaderos</h2>
+<div class="row" *ngIf="role=='user'">
+  <div class="col-md-3" *ngFor="let n of Invernaderos;let i=index" >
+
+    <nb-card >
+      <nb-card-header><img  src="assets/images/invernadero.png" class="tn"></nb-card-header>
+      <nb-card-body>
+       <table class="table ">
+        
+      <tbody>
+        <tr >
+          <td><b>Departamento</b></td>
+          <td>{{Invernaderos[i]['departamento']}}</td>
+        </tr>
+        <tr >
+          <td><b>Provincia</b></td>
+          <td>{{Invernaderos[i]['provincia']}}</td>
+        </tr>
+        <tr >
+          <td><b>Ubicacion</b></td>
+          <td>{{Invernaderos[i]['ubicacion']}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-outline-info btn-block btn-tn" (click)="DetalleInvernadero(Invernaderos[i]['id'])" > Ver Invernadero</button>
+    </nb-card-footer>
+ </nb-card>
+
+  </div>
+
+  <div class="col-md-3 "> 
+    <br>
+    <br>
+    <br>
+      <a href="#/Administrador/Invernaderos/Agregar"><img src="assets/images/add.png"  class="add"></a>
+  </div>
+
+</div>
+
+-->

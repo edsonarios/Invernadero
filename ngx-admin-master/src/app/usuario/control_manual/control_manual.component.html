@@ -1,0 +1,114 @@
+
+
+<span align="center"><h1>CONTROL MANUAL</h1></span>
+<div class="row">
+  <div class="col-md-6 ">
+  <nb-card>
+    <nb-card-body>
+      <span align="center"><h1>Parametros de Temperatura</h1></span>
+            <div class="row Sensores">
+                 <form>
+                  <span align="center"><h6>Temp Max</h6></span>
+              <div class="value-button" id="decrease" (click)="BtnCtrlTemp('Max','Down')"><i class="ion-minus-round"></i></div>
+              <input type="number" id="number" value="{{TempMax}}" disabled/>
+              <div class="value-button" id="increase" (click)="BtnCtrlTemp('Max','Up')"><i class="ion-plus-round"></i></div>
+            </form>
+              
+              <form>
+                  <span align="center"><h6>Temp Media</h6></span>
+              <div class="value-button" id="decrease" (click)="BtnCtrlTemp('Media','Down')"><i class="ion-minus-round"></i></div>
+              <input type="number" id="number" value="{{TempMedia}}" disabled/>
+              <div class="value-button" id="increase" (click)="BtnCtrlTemp('Media','Up')"><i class="ion-plus-round"></i></div>
+            </form>
+              
+              <form>
+                  <span align="center"><h6>Temp Min</h6></span>
+              <div class="value-button" id="decrease" (click)="BtnCtrlTemp('Min','Down')"><i class="ion-minus-round"></i></div>
+              <input type="number" id="number" value="{{TempMin}}" disabled/>
+              <div class="value-button" id="increase" (click)="BtnCtrlTemp('Min','Up')"><i class="ion-plus-round"></i></div>
+            </form>
+              
+
+
+            </div>
+    </nb-card-body>
+  </nb-card>
+
+  <nb-card>
+    <nb-card-body>
+    <span align="center"><h1>Bombas de Agua</h1></span>
+     <ngx-status-card title="Bomba 1" type="success" Tipo="Bomba" Flujo="true">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+
+              <ngx-status-card-off title="Bomba 2" type="success" Tipo="Bomba" Flujo="true">
+              <i class="nb-power-circled"></i>
+
+            </ngx-status-card-off>
+               <ngx-status-card title="Bomba 3" type="success" Tipo="Bomba" Flujo="false">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+               <ngx-status-card title="Bomba 4" type="success" Tipo="Bomba" Flujo="false">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+    </nb-card-body>
+  </nb-card>
+   <nb-card>
+      <nb-card-body>
+        <span align="center"><h1>Puertas</h1></span>
+            <ngx-status-card title="Puerta 1" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+
+              <ngx-status-card-off title="Puerta 2" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card-off>
+      </nb-card-body>
+    </nb-card>
+
+</div>
+   <div class="col-md-6">
+    <nb-card>
+      <nb-card-body>
+        <span align="center"><h1>Ventiladores</h1></span>
+               <ngx-status-card title="Ventilador 1" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+
+              <ngx-status-card-off title="Ventilador 2" type="success" >
+              <i class="nb-power-circled"></i>
+            </ngx-status-card-off>
+               <ngx-status-card title="Ventilador 3" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+               <ngx-status-card title="Ventilador 4" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+      </nb-card-body>
+    </nb-card>
+     <nb-card>
+      <nb-card-body>
+        <span align="center"><h1>Ventanas</h1></span>
+            <ngx-status-card-off title="Ventana 1" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card-off>
+
+              <ngx-status-card-off title="Ventana 2" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card-off>
+               <ngx-status-card title="Ventana 3" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card>
+              <ngx-status-card-off title="Ventana 4" type="success">
+              <i class="nb-power-circled"></i>
+            </ngx-status-card-off> 
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+
+ 
+    
+</div>
+
+

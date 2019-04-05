@@ -26,7 +26,7 @@ public user: User;
   public password;
 	
 constructor(private router:Router,
-	private userService: UserService){	
+	private userService: UserService){	/*)
 
 	if (localStorage.getItem('user_inv_id')!=null) {
   this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','');
@@ -52,7 +52,7 @@ console.log(this.user);
 }
 else{
   console.log('Usted no tiene Invernadero');
-}
+}*/
 	
 }
 

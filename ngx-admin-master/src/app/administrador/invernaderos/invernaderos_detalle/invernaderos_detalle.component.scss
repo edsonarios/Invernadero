@@ -1,10 +1,83 @@
 @import '../../../@theme/styles/themes';
 @import '~bootstrap/scss/mixins/breakpoints';
-@import '~@nebular/theme/styles/global/bootstrap/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
   .breadcrumb{
     background-color: nb-theme(layout-bg);
+  }
+  nb-action{
+    cursor: pointer;
+  }
+  nb-list-item{
+    border:none;
+    padding-top:0px;
+    padding-bottom:0px;
+  }
+  div.header.attrib{
+    padding-bottom: -20px;
+  }
+  .name
+  {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .font-main .font-header .name{
+    font-size: 1rem;
+    font-weight: nb-theme(font-weight-bold);
+  }
+
+.font-row {
+    &:first-child {
+      margin-bottom: 2rem;
+    }
+
+    .header {
+      align-items: baseline;
+    }
+
+  }
+ .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    //padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    //border-bottom: 1px solid nb-theme(separator);
+    color: nb-theme(color-fg-heading);
+
+    &:last-child {
+      border-bottom: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    div:first-child {
+      flex: 2;
+      -ms-flex: 2 1 auto;
+      line-height: 1;
+      align-items: flex-end;
+
+      h1, h2, h3, h4, h5, h6 {
+        margin-bottom: 0;
+      }
+    }
+
+    .variants {
+      flex: 2;
+      -ms-flex: 1 1 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      span {
+        padding-right: 1rem;
+        padding-left: 1rem;
+        font-size: 1rem;
+      }
+    }
+
+    
   }
 .add{
   width: 70%;
@@ -17,7 +90,8 @@
   aling-content: center;
 }
 i{
-  padding-right: 20px;
+   padding-left:20%;
+   padding-right: 20%;
    font-size: 25px;
 }
 .tn{
@@ -43,5 +117,13 @@ i{
     /deep/ nb-card.large-card {
       height: nb-theme(card-height-medium);
     }
+       i{
+   padding-left:25%;
+   font-size: 25px;
+}
+nb-actions{
+  //border: black 1px solid;
+  margin-left:-11px;
+}
   }
 }
