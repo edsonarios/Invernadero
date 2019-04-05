@@ -914,6 +914,12 @@ api.get('/obtenerUsuarios', async (req, res, next) => {
   
   res.send(varUser)
  })
+
+ api.get('/obtenerTester', async (req, res, next) => {
+  const user = 'tester'
+  const varUser = await Usuario.findUser(user)
+  res.send(varUser)
+ })
  
  api.get('/obtenerAdmins', async (req, res, next) => {
   const user = 'admin'
