@@ -34,6 +34,13 @@
       }
     }
   }
+
+  .animado{
+      animation: pulse 1s infinite;
+    }
+    .animado2{
+      animation: pulse 4s infinite;
+    }
 ///
 h1{
   font-family: 'Yanone Kaffeesatz', sans-serif;
@@ -189,6 +196,18 @@ h1{
       }
     }
   }
+@include keyframes(pulse) {
+    0% {
+     transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
 
   @include media-breakpoint-down(xs) {
     nb-card-body {

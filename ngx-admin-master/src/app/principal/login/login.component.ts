@@ -54,7 +54,7 @@ Login(e){
 					{
 					localStorage.setItem('role','user');
 
-					this.router.navigate(['/Usuario/Monitoreo']);
+					this.router.navigate(['/Usuario/Dashboard']);
 					}
 				if(this.identity.result['tipo']=='root'){
 					localStorage.setItem('role','root');

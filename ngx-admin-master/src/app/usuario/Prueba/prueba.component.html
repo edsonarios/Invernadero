@@ -1,0 +1,15 @@
+<p class="text-info" *ngIf="Val==0">Prueba con dos componentes (Monitoreo-Control Manual)</p>
+<p class="text-success" *ngIf="Val==1"> Prueba con Arquitectura del invernadero</p>
+<div class="col-lg-12" *ngIf="Val==0">
+	<div class="row">
+	<div class="col-lg-6" >
+		<ngx_usuario_Monitoreo></ngx_usuario_Monitoreo>
+	</div>
+	<div class="col-lg-6" >
+		<ngx_Tester_control_manual></ngx_Tester_control_manual>
+	</div>
+	</div>
+</div>
+<div class="col-lg-12" style="border:1px solid white;" *ngIf="Val==1">
+	 <ngx-rooms></ngx-rooms>
+</div>

@@ -12,7 +12,7 @@ import { User } from '../../model/user';
     <ngx-one-column-layout>
       <nb-menu [items]="menu"></nb-menu>
       <router-outlet *ngIf="exist=='true'"> 
-      <!--
+      
        <div class="col-md-6 offset-md-3" *ngIf="hidden=='true'">
        <span align="center"><h6>Seleccione su Invernadero</h6></span>
        <nb-card>
@@ -32,7 +32,7 @@ import { User } from '../../model/user';
        </div>
        </nb-card-body>
        </nb-card>
-       </div>-->
+       </div>
       </router-outlet>
     </ngx-one-column-layout>
   `,
@@ -63,7 +63,7 @@ export class UsuarioComponent implements OnInit{
   }
 
   ngOnInit(){
-    
+
     //--ADMINISTRADOR--
     if (localStorage.getItem('role')=='admin'||localStorage.getItem('role')=='root') {
      this.user = new User(localStorage.getItem('admin_user_id'),'','','','','','','','','','');
@@ -72,7 +72,8 @@ export class UsuarioComponent implements OnInit{
         this.Invenaderos= response;
         //console.log(this.Invenaderos);
         //comprueba si existe un invernadero instanciado de forma local y si no este mismo lo asigna
-         if (localStorage.getItem('user_inv_id')== null && this.Invenaderos.length>=1) {
+         if (localStorage.getItem('user_inv_id')== null && this.Invenaderos.length>0) {
+           console.log("Existe un invernadero!!! se procede a asignar el localstorage");
            localStorage.setItem('user_inv_id',this.Invenaderos[0]['id']);
             this.dato=localStorage.getItem('user_inv_id');
           }

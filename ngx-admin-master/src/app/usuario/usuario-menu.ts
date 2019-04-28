@@ -6,6 +6,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
+    title: 'Dashboard',
+    icon: 'ion-bug',
+    link: '/Usuario/Dashboard',
+  },
+  {
     title: 'Monitoreo',
     icon: 'ion-eye',
     link: '/Usuario/Monitoreo',
@@ -24,6 +29,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Reporte',
     icon: 'ion-ios-compose',
     link: '/Usuario/Reporte',
+    hidden: true,
   },
   {
     title: 'Info Invernadero',

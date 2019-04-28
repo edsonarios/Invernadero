@@ -9,6 +9,8 @@ import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 import { HorariosComponent } from './horarios/horarios.component';
 import { ControlManualComponent } from './control_manual/control_manual.component'; 
 
+import { PruebaComponent } from './Prueba/prueba.component';
+
 const routes: Routes = [{
   path: '',
   component: UsuarioComponent,
@@ -38,8 +40,12 @@ const routes: Routes = [{
     loadChildren: './cuenta/cuenta.module#CuentaModule',
     },
     {
+      path: 'Dashboard',
+      component: PruebaComponent,
+    },
+    {
       path: '',
-      redirectTo: 'Monitoreo',
+      redirectTo: 'Dashboard',
       pathMatch: 'full',
     },
   ],

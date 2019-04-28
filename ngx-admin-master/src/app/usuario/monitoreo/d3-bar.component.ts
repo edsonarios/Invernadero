@@ -19,10 +19,7 @@ import { Observable } from 'rxjs/Rx';
 })
 export class D3BarComponent implements OnDestroy {
   results = [
-    { name: 'Bomba 1', value: 100 },
-    { name: 'Bomba 2', value: 30 },
-    { name: 'Bomba 3', value: 20 },
-    { name: 'Bomba 4', value: 40 },
+    { name: 'Tanque 1', value: 100 },
   ];
   showLegend = false;
   showXAxis = true;
@@ -42,7 +39,7 @@ export class D3BarComponent implements OnDestroy {
         domain: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight, colors.dangerLight],
       };
     });
-  //  this.NumAleatoreo();
+   this.NumAleatoreo();
    
   }
 NumAleatoreo(){
@@ -50,8 +47,12 @@ NumAleatoreo(){
     numbers.subscribe(x =>{
       //alert("10 second");
     this.results[0].value= Math.round(Math.random() * (100 - 0) + 0);
-      console.log(this.results);
-   this.NumAleatoreo();
+    this.results[1].value= Math.round(Math.random() * (100 - 0) + 0);
+    this.results[2].value= Math.round(Math.random() * (100 - 0) + 0);
+    this.results[3].value= Math.round(Math.random() * (100 - 0) + 0);
+
+      //console.log(this.results);
+   //this.NumAleatoreo();
     });
   }
   ngOnDestroy(): void {

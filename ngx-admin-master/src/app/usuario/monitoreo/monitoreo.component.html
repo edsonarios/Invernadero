@@ -1,176 +1,199 @@
+<span align="center"><h2>MONITOREO</h2></span>
+<div class="col-lg-12" [@fadeIn]>
 <div class="row">
 	<div class="col-md-6" >
-		<div class="row">
-			<div class="col-md-4">
+
+		<div class="row" >
+		
+			<div class="col-xxxl-6 col-xxl-8 col-lg-12 col-md-6" *ngFor="let n of SensorTH ; let i=index">
 				<nb-card >
 				  <nb-card-body>
-				    <div class="Title">
-				      <span>Sensor 1</span>
-				    </div>
-				    <div class="daily-forecast">
-				      <div class="info">
-				        <div class="temperature">
-				          <span>{{ValTemp1}}&deg;</span>
-				        </div>
-				        <div class="icon">
-				           <i class="ion-leaf text-success" *ngIf="ValTemp1>=20&&ValTemp1<25"></i>
-				           <i class="ion-leaf text-warning" *ngIf="ValTemp1>24&&ValTemp1<30"></i>
-				            <i class="ion-leaf text-danger" *ngIf="ValTemp1>29"></i>
-				        </div>
-				      </div>
+				  	<ngx-chart-sensor title="{{SensorTH[i]}}" type="{{SensorTH[i]}}" uuid="{{Sensoruuid[i]}}"></ngx-chart-sensor>
+				  	<button nbButton outline status="info" class="btn-icon" (click)="openWindow(SensorTH[i],Sensoruuid[i])" 
+				  	style="float: right;">
+              <i class="ion-stats-bars"></i>
+            </button>
+				  	<ng-template #contentTemplate let-data>
+				  		nombre: {{ data.text }}
+				       <ngx-electricity type="{{SensorTH[i]}}" uuid="{{Sensoruuid[i]}}"></ngx-electricity>
+				    </ng-template>
+				  </nb-card-body>
+				</nb-card>
+			</div>
+			<div class="col-xxxl-6 col-xxl-8 col-lg-12 col-md-6" *ngFor="let n of SensorTanque ; let i=index">
+				<nb-card >
+				  <nb-card-body>
+				  	<ngx-chart-sensor title="{{SensorTanque[i]}}" type="{{SensorTanque[i]}}" uuid="{{TanqueUuid[i]}}"></ngx-chart-sensor>
+				  </nb-card-body>
+				</nb-card>
+			</div>
+			<div class="col-xxxl-6 col-xxl-8 col-lg-12 col-md-6" *ngFor="let n of SensorAgua ; let i=index">
+				<nb-card >
+				  <nb-card-body>
+				  	<ngx-chart-sensor title="{{SensorAgua[i]}}" type="{{SensorAgua[i]}}" uuid="{{AguaUuid[i]}}"></ngx-chart-sensor>
+				  </nb-card-body>
+				</nb-card>
+			</div>
+		</div>
+		<!--<div class="col-md-12">
+				<nb-card>
+	      <nb-card-header><span align="center"><h2><b> Estado Tanques de Agua</b></h2></span></nb-card-header>
+	      <nb-card-body>
+	        <ngx-d3-bar></ngx-d3-bar>
+	      </nb-card-body>
+	    </nb-card>
+			</div>-->
+		
+		</div>
+		<div class="col-md-6">
+			<!-- Section Actuadores -->
+			<div *ngFor="let n of Controller ; let i=index" >
+			  <h3><b>Controlador :</b>{{Controller[i]['modeloC']}}-{{Controller[i]['marcaC']}}</h3>
+			  <h3><b>Estado :</b><span class="text-success" *ngIf="Controller[i]['connected']==true"> Conectado</span>
+			     <span class="text-danger" *ngIf="Controller[i]['connected']==false"> Desconectado</span>
+			   </h3>
+			<div class="row">
+				<div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-6" >
+                  
+                    <nb-card class="list-card" >
+                    	<nb-card-body>
+                    	<span align="center"><h4><b> Bombas</b></h4></span>
+			               <br>
+			                <nb-alert status="warning" *ngIf="Devices[i][0].length==0">
+						  No Hay Bombas Instanciadas
+						</nb-alert>
+			               <div class="daily-forecast" *ngIf="Devices[i][0].length>0">
 				      <div class="details">
 				        <div class="parameter">
-				          <span class="parameter-name">Temp max</span>
-				          <span class="parameter-value">23&deg;</span>
+				          <span class="parameter-name">Nombre</span>
+				          <span class="parameter-value" *ngFor="let n of Devices[i][0]; let j=index">{{Devices[i][0][j]['descripcionPin']}}</span>
 				        </div>
 				        <div class="parameter">
-				          <span class="parameter-name">Temp min</span>
-				          <span class="parameter-value">19&deg;</span>
+				          <span class="parameter-name">Estado</span>
+				          <div *ngFor="let n of Devices[i][0]; let j=index">
+				          <span class="parameter-value text-success" *ngIf="Devices[i][0][j]['accionPin']=='1'">Encendido</span>
+				          <span class="parameter-value text-danger" *ngIf="Devices[i][0][j]['accionPin']=='0'">Apagado</span>
+				      	  </div>
+				        </div>
+				        <div class="parameter">
+				          <span class="parameter-name">Flujo</span>
+				          <div *ngFor="let n of Devices[i][0]; let j=index">
+				         	<ngx-span-flujo type="{{FlujoMectricsController[i][j]}}" uuid="{{FlujoMectricsControllerUuid[i][j]}}"></ngx-span-flujo>
+				      	  </div>
 				        </div>
 				      
 				      </div>
 				    </div>
-				  </nb-card-body>
-				</nb-card>
-			</div>
-				<div class="col-md-4">
-					<nb-card >
-				  <nb-card-body>
-				    <div class="Title">
-				      <span>Sensor 2</span>
-				    </div>
-				    <div class="daily-forecast">
-				      <div class="info">
-				        <div class="temperature">
-				          <span>{{ValTemp2}}&deg;</span>
-				        </div>
-				        <div class="icon">
-				          <i class="ion-leaf text-success" *ngIf="ValTemp2>=20&&ValTemp2<25"></i>
-				           <i class="ion-leaf text-warning" *ngIf="ValTemp2>24&&ValTemp2<30"></i>
-				            <i class="ion-leaf text-danger" *ngIf="ValTemp2>29"></i>
-				        </div>
-				      </div>
-				      <div class="details">
-				        <div class="parameter">
-				          <span class="parameter-name">Temp max</span>
-				          <span class="parameter-value">23&deg;</span>
-				        </div>
-				        <div class="parameter">
-				          <span class="parameter-name">Temp Min</span>
-				          <span class="parameter-value">19&deg;</span>
-				        </div>
-				        
-				      </div>
-				    </div>
-				  </nb-card-body>
-				</nb-card>
-				</div>
-		<div class="col-md-12">
-			<nb-card>
-      <nb-card-header><span align="center"><h2><b> Estado Tanques de Agua</b></h2></span></nb-card-header>
-      <nb-card-body>
-        <ngx-d3-bar></ngx-d3-bar>
-      </nb-card-body>
-    </nb-card>
-			</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="row">
-				<div class="col-md-6" >
-                  
-                    <nb-card class="list-card" >
-                    	<nb-card-body>
-                    	
-                    	<span align="center"><h2><b> Bombas</b></h2></span>
-                    <table class="table table-striped">
-                  <thead>
-                  <tr>
-                    <td><h4><b>Nombre </b></h4></td>
-                    <td><h4><b>Estado </b></h4></td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let n of bombas; let j=index">
 
-                    <td><b>bombas {{j+1}}</b></td>
-                    <td ><h5 class="text-success">ENCENDIDO</h5> </td>
-                    
-                  </tr>
-                  </tbody>
-                </table>
-
-            </nb-card-body>
-        </nb-card>
-    </div>
-    <div class="col-md-6" >
-                  
-                    <nb-card class="list-card" >
-                    	<nb-card-body>
-                <span align="center"><h2><b> ventanas</b></h2></span>
-                    <table class="table table-striped">
-                  <thead>
-                  <tr>
-                    <td><h4><b>Nombre </b></h4></td>
-                    <td><h4><b>Estado </b></h4></td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let n of ventanas; let j=index">
-
-                    <td><b>ventanas {{j+1}}</b></td>
-                    <td ><h5 class="text-success">ENCENDIDO</h5> </td>
-                    
-                  </tr>
-                  </tbody>
-                </table>
-
-</nb-card-body></nb-card></div>
-<div class="col-md-6" >
+			            </nb-card-body>
+			        </nb-card>
+			    </div>
+			    <div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-6" >
                   
                     <nb-card class="list-card" >
                     	<nb-card-body>
                 <span align="center"><h2><b> Ventiladores</b></h2></span>
-                    <table class="table table-striped">
-                  <thead>
-                  <tr>
-                    <td><h4><b>Nombre </b></h4></td>
-                    <td><h4><b>Estado </b></h4></td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let n of Ventiladores; let j=index">
+                <br>
+                 <nb-alert status="warning" *ngIf="Devices[i][1].length==0">
+						  No Hay Ventiladores Instanciados
+						</nb-alert>
+                    <div class="daily-forecast" *ngIf="Devices[i][1].length>0">
+				      <div class="details">
+				        <div class="parameter">
+				          <span class="parameter-name">Nombre</span>
+				          <span class="parameter-value" *ngFor="let n of Devices[i][1]; let j=index">{{Devices[i][1][j]['descripcionPin']}}</span>
+				        </div>
+				        <div class="parameter">
+				          <span class="parameter-name">Estado</span>
+				          <div *ngFor="let n of Devices[i][1]; let j=index">
+				          <span class="parameter-value text-success" *ngIf="Devices[i][1][j]['accionPin']=='1'">Encendido</span>
+				          <span class="parameter-value text-danger" *ngIf="Devices[i][1][j]['accionPin']=='0'">Apagado</span>
+				      	  </div>
+				        </div>
+				      
+				      </div>
+				    </div>
+					</nb-card-body>
+				</nb-card>
+			</div>
+			    <div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-6" >
+                  
+                    <nb-card class="list-card" >
+                    	<nb-card-body>
+                <span align="center"><h4><b> ventanas</b></h4></span>
+                <br>
+                 <nb-alert status="warning" *ngIf="Devices[i][2].length==0">
+						  No Hay Ventanas Instanciadas
+						</nb-alert>
+                  	<div class="daily-forecast" *ngIf="Devices[i][2].length>0">
+				      <div class="details">
+				        <div class="parameter">
+				          <span class="parameter-name">Nombre</span>
+				          <span class="parameter-value" *ngFor="let n of Devices[i][2]; let j=index">
+				          {{Devices[i][2][j][0]['descripcionPin']}}</span>
+				        </div>
+				        <div class="parameter">
+				          <span class="parameter-name">Estado</span>
+				          <div *ngIf="Devices[i][2][j][0]['clasePin']=='2'">
+				          <div *ngFor="let n of Devices[i][2]; let j=index">
+					          <span class="parameter-value text-success" *ngIf="Devices[i][2][j][2]['accionPin']=='1'&&Devices[i][2][j][3]['accionPin']=='0'">Abierto</span>
+					          <span class="parameter-value text-success" *ngIf="Devices[i][2][j][2]['accionPin']=='0'&&Devices[i][2][j][3]['accionPin']=='1'">Error</span>
+					          <span class="parameter-value text-danger" *ngIf="Devices[i][2][j][2]['accionPin']=='0'&&Devices[i][2][j][3]['accionPin']=='0'">Cerrado</span>
+				      	  </div>
+				          </div>
+				          <div>
+				          	<div *ngFor="let n of Devices[i][2]; let j=index">
+					          <span class="parameter-value text-success" *ngIf="Devices[i][2][j][1]['sensorId']=='1'">Encendido</span>
+					          <span class="parameter-value text-danger" *ngIf="Devices[i][2][j][1]['sensorId']=='0'">Apagado</span>
+				      	  </div>
+				          </div>
+				          
+				        </div>
+				      
+				      </div>
+				    </div>
 
-                    <td><b>Ventiladores {{j+1}}</b></td>
-                    <td ><h5 class="text-success">ENCENDIDO</h5> </td>
-                    
-                  </tr>
-                  </tbody>
-                </table>
+					</nb-card-body>
+				</nb-card>
+			</div>
 
-</nb-card-body></nb-card></div>
-<div class="col-md-6" >
+			<div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-6" >
                   
                     <nb-card class="list-card" >
                     	<nb-card-body>
 
                 <span align="center"><h2><b> puertas</b></h2></span>
-                    <table class="table table-striped">
-                  <thead>
-                  <tr>
-                    <td><h4><b>Nombre </b></h4></td>
-                    <td><h4><b>Estado </b></h4></td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let n of puertas; let j=index">
-
-                    <td><b>puertas {{j+1}}</b></td>
-                    <td ><h5 class="text-success">ENCENDIDO</h5> </td>
-                    
-                  </tr>
-                  </tbody>
-                </table>
+                <br>
+                 <nb-alert status="warning" *ngIf="Devices[i][3].length==0">
+						  No Hay Puertas Instanciadas
+						</nb-alert>
+                 <div class="daily-forecast" *ngIf="Devices[i][3].length>0">
+				      <div class="details">
+				        <div class="parameter">
+				          <span class="parameter-name">Nombre</span>
+				          <span class="parameter-value" *ngFor="let n of Devices[i][3]; let j=index">
+				          {{Devices[i][3][j][0]['descripcionPin']}}</span>
+				        </div>
+				        <div class="parameter">
+				          <span class="parameter-name">Estado</span>
+				          <div *ngIf="Devices[i][3][j][0]['clasePin']=='2'">
+				          <div *ngFor="let n of Devices[i][3]; let j=index">
+					          <span class="parameter-value text-success" *ngIf="Devices[i][3][j][2]['accionPin']=='1'&&Devices[i][3][j][3]['accionPin']=='0'">Abierto</span>
+					          <span class="parameter-value text-success" *ngIf="Devices[i][3][j][2]['accionPin']=='0'&&Devices[i][3][j][3]['accionPin']=='1'">Error</span>
+					          <span class="parameter-value text-danger" *ngIf="Devices[i][3][j][2]['accionPin']=='0'&&Devices[i][3][j][3]['accionPin']=='0'">Cerrado</span>
+				      	  </div>
+				          </div>
+				          <div>
+				          	<div *ngFor="let n of Devices[i][3]; let j=index">
+					          <span class="parameter-value text-success" *ngIf="Devices[i][3][j][1]['sensorId']=='1'">Encendido</span>
+					          <span class="parameter-value text-danger" *ngIf="Devices[i][3][j][1]['sensorId']=='0'">Apagado</span>
+				      	  </div>
+				          </div>
+				          
+				        </div>
+				      
+				      </div>
+				    </div>
                   </nb-card-body>
                 
 
@@ -180,7 +203,8 @@
 	
 			</div>
 		</div>
+		</div>
 		      
 </div>
 
-
+</div>

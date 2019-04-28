@@ -9,7 +9,7 @@ import {
   NbThemeService,
 } from '@nebular/theme';
 
-import { StateService } from '../../../@core/data/state.service';
+import { StateService } from '../../../@core/utils';
 @Component({
   selector: 'ngx-one-column-layout',
   styleUrls: ['./one-column.layout.scss'],

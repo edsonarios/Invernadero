@@ -17,5 +17,10 @@ import { StatusCardOffComponent } from './status-card-off/status-card-off.compon
  	 StatusCardOffComponent,
  	 
   ],
+  exports:[
+  ControlManualComponent,
+  StatusCardComponent,
+    StatusCardOffComponent,
+  ],
 })
 export class ControlManualModule { }

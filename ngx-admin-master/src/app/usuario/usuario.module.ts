@@ -9,6 +9,8 @@ import { MonitoreoModule } from './monitoreo/monitoreo.module';
 import { HorariosModule } from './horarios/horarios.module';
 import { ControlManualModule } from './control_manual/control_manual.module';
 
+import { PruebaModule } from './Prueba/prueba.module';
+
 import { UsuarioRoutingModule } from './usuario-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 
@@ -26,6 +28,8 @@ const PAGES_COMPONENTS = [
     MonitoreoModule,
     HorariosModule,
     ControlManualModule,
+
+    PruebaModule,
 
     
   ],

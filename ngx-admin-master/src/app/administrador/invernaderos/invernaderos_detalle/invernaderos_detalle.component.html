@@ -27,7 +27,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12" *ngIf="NumberControlador==0">
+  <div class="col-md-12" *ngIf="Controller.length==0">
      <nb-card>
       <nb-card-header>
              <span align="center"><h1>Informacion de el invernadero</h1></span>
@@ -114,7 +114,7 @@
           </nb-card>
   </div>
 
-  <div class="col-md-12" *ngIf="NumberControlador!=0">
+  <div class="col-md-12" *ngIf="Controller.length>0">
      <nb-card>
       <nb-card-header>
              <span align="center"><h1>Informacion de el invernadero</h1></span>
@@ -203,7 +203,13 @@
                           </div>
                         </div>
                        
-                         <button nbButton  shape="round"  status="info" size="xsmall" fullWidth (click)="HabilitarPines(Controller[i]['id'])">Habilitar Pines</button>
+                    
+                               <div class="btn-group  btn-group-full-width ">
+                                     <button nbButton  shape="rectangle"  status="info" size="xsmall" fullWidth (click)="HabilitarPines(Controller[i]['id'])">Habilitar Pines</button>
+                              <button nbButton  shape="rectangle"  status="danger" size="xsmall" fullWidth (click)="delete(Controller[i]['id'])">Eliminar</button>
+            
+                        
+          </div>
                             </nb-card-body>
                           </nb-card>
                         </nb-list-item>      
@@ -224,11 +230,11 @@
 
 <!-- Seccion de Controladores y Pines -->
 <div class="col-lg-12" [@fadeIn]>
-  <nb-card *ngIf="Controlador!='0'&&Pines==0">
+  <nb-card *ngIf="NumberControlador!=0&&Pines==0">
       <span align="center"><h1>:( No hay pines conectados </h1></span>
   </nb-card>
 
-  <nb-card *ngIf="Controlador!='0'&&Pines!=0">
+  <nb-card *ngIf="NumberControlador!=0&&Pines!=0">
       <nb-card-header>
         <span align="center"><h1>Actuadores y Sensores </h1></span>
         <span align="center"><h3>(Pines) </h3></span>

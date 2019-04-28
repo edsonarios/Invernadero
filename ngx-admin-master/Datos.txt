@@ -1,4 +1,4 @@
-aj----------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
 									>>> principal <<< /sample-layout
 -----------------------------------------------------------------------------------------------------------------
 
@@ -206,3 +206,14 @@ stop port used: lsof -i:4200
 
 
 API.js [966]
+
+Pendiente por agregar-revisar
+* Usuario.component.ts
+* Control manual temperatura max,media,min
+* Testers
+* Pantalla Completa invernadero con Imagen Industrial
+
+	- Component init
+	- Css init
+	- Module init
+	- Draw Components 
