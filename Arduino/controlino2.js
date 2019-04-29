@@ -7,7 +7,7 @@
  //const { parsePayload } = require('../mod-mqtt/utils')
 
  var ports = [
-  { id: "A", port: "COM4" },//MEGA
+  { id: "A", port: "COM16" },//MEGA
   { id: "B", port: "COM3" }, //DS
   { id: "C", port: "COM9" } //proximidad
 ];
@@ -15,7 +15,8 @@
 //configuramos nuestra placa arduino en una variable
  var board = new five.Board({
   //port: "/dev/ttyACM0"
-  port: "COM4"
+  //port: "COM5"
+  port: "COM7"
   
  })
  
@@ -98,22 +99,22 @@ board.on("ready", function() {
 
   ///// SENSOR DE TEMPERATURA DE AGUA ///////////////////////////////////////////////////////////////////////////////  
   //ConfigurableFirmData DS18
-  /*
+  
   var thermometer = new five.Thermometer({
     controller: "DS18B20",
-    pin: 3
+    pin: 12
   });
 
   thermometer.on("change", function() {
     console.log(this.celsius + "°C");
     // console.log("0x" + this.address.toString(16));
   });
-  */
+  
   ////////////////////////////////////////////////////////////////////////////////////  
 
   //// PWM ////////////////////////////////////////////////////////////////////////////////  
   
-  
+  /*
   this.pinMode(8, five.Pin.PWM);
   //this.analogWrite(12, 100);
   var tiempo=5
@@ -127,7 +128,7 @@ board.on("ready", function() {
     
     }, 500)
     
-   this.digitalWrite(13, 1);
+   this.digitalWrite(13, 1);*/
    //this.digitalWrite(12, 1);
    //var led = new five.Led(13);
 

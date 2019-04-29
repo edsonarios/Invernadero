@@ -6,9 +6,13 @@
  const { parsePayload } = require('../mod-mqtt/utils')
 
  var ports = [
-  { id: "A", port: "COM4" }//MEGA
-  //{ id: "B", port: "COM3" } //DS
-  //{ id: "C", port: "COM9" } //proximidad
+  /*{ id: "A", port: "COM5" },//MEGA
+  { id: "B", port: "COM16" }, //Agua
+  { id: "C", port: "COM6" } //Proximidad
+  */
+  { id: "A", port: "/dev/ttyUSB0" },//MEGA
+  { id: "B", port: "/dev/ttyUSB2" }, //Agua
+  { id: "C", port: "/dev/ttyUSB1" } //Proximidad
 ];
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -16,9 +20,10 @@
  //Inicializamos el agente
  const agentID = "arduino"
  const ModAgent = require('../mod-agent')
- const sendDatos = 2000
+ const sendDatos = 4000
  const intervalAutomatization = sendDatos
- const IP = '192.168.0.30'
+ //const IP = '192.168.0.19'
+ const IP = '173.212.204.188'
  //host para la api
  const Host = `http://${IP}:3000/`
  //const Host = `http://192.168.0.25:3000/`
@@ -28,8 +33,9 @@
    agentID: agentID,
  })
  //Entrada de variable para los sensores de temperatura
- var sensorCOM = 'COM3'
- 
+ var sensorCOM = '/dev/ttyUSB3'
+ //var sensorCOM = '/dev/ttyUSB3'
+
  //iniciamos cliente mqtt
  //const client = mqtt.connect('mqtt://173.212.235.89')
  const client = mqtt.connect(`mqtt://${IP}`)
@@ -96,7 +102,7 @@ var A3 = new five.Sensor("A3")
 var A4 = new five.Sensor("A4")
 var A5 = new five.Sensor("A5")
 var A15 = new five.Sensor("A15")
-var otra=5
+
 // SENSORES //////////////////////////////////////////////////////////////////////////////////
 ///Serial comunication
 const Serialport=require('serialport');
@@ -110,6 +116,7 @@ parser.on('open ',function(){
     console.log('coneccion is opend');
 });
 parser.on('data',function(data){
+  //console.log(data)
     if(dthSw==1){
       for (let i = 0; i < data.length/6; i++) {
        SensoresDTH.push(parseFloat(data.substring((6*i),(6*i+5))))
@@ -118,8 +125,10 @@ parser.on('data',function(data){
     }else{
       for (let i = 0; i < SensoresDTH.length; i++) {
         SensoresDTH[i] = parseFloat(data.substring((6*i),(6*i+5)))
-        temp[i+totalPinesMega] = SensoresDTH[i]
-        otra+=5
+        if(!isNaN(SensoresDTH[i])){
+          temp[i+totalPinesMega] = SensoresDTH[i]  
+        }
+        
       }
     }
     
@@ -146,7 +155,7 @@ port.on('error',function(err){
                   })
                   A0.on("change", function() {
                     //temp[i-1] = A0.value
-                    temp[i-1] = dth
+                    temp[i-1] = A0.value
                     })
                   break
           case 16:agent.addMetric(descripcion[i-1], function getRss () {
@@ -233,8 +242,6 @@ port.on('error',function(err){
     
     if(estado[i]==1){
       if(clasePin[i]==1){
-        console.log("este i")
-        console.log(i)
         switch(i){
           case i:agent.addMetric(descripcion[i], function getRss () {
                     return temp[i]
@@ -258,19 +265,88 @@ port.on('error',function(err){
     this.each(function(board) {
       if (board.id === "A") {
         
-        
-//Se debe instanciar todos los pines del dispositivo
-this.pinMode(2, five.Pin.PWM);
-this.pinMode(3, five.Pin.PWM);
-this.pinMode(4, five.Pin.PWM);
-this.pinMode(5, five.Pin.PWM);
-this.pinMode(6, five.Pin.PWM);
-this.pinMode(7, five.Pin.PWM);
-this.pinMode(8, five.Pin.PWM);
-this.pinMode(9, five.Pin.PWM);
-this.pinMode(10, five.Pin.PWM);
-this.pinMode(11, five.Pin.PWM);
-this.pinMode(12, five.Pin.PWM);
+        //Se debe instanciar todos los pines del dispositivo
+        this.pinMode(2, five.Pin.PWM);
+        this.pinMode(3, five.Pin.PWM);
+        this.pinMode(4, five.Pin.PWM);
+        this.pinMode(5, five.Pin.PWM);
+        this.pinMode(6, five.Pin.PWM);
+        this.pinMode(7, five.Pin.PWM);
+        this.pinMode(8, five.Pin.PWM);
+        this.pinMode(9, five.Pin.PWM);
+        this.pinMode(10, five.Pin.PWM);
+        this.pinMode(11, five.Pin.PWM);
+        this.pinMode(12, five.Pin.PWM);
+//21
+        ///FLUJO DE AGUA//////////////////////////////////////////////////////////////////////////////
+        this.pinMode(14, five.Pin.INPUT);
+        var pulses = 0;
+        this.digitalRead(14, function(value) {
+          // send the pin status to flowSignal helper
+          flowSignal(value);
+          //console.log(value);
+        });
+
+        setInterval(function() {
+          var litres = 0;
+          
+          if(pulses>5){
+            litres=1
+          }else{
+            litres=0
+          }
+          //console.log("estos son litros",litres)
+          pulses =0;
+          temp[76] = litres
+        }, 1000);
+
+        function flowSignal (value) {
+          if (value === 0) {
+            return;
+          }
+          if (value === 1) {
+            pulses ++;
+          }
+          
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+///VENTANA GIROS //////////////////////////////////////////////////////////////////////////////
+        /* this.pinMode(21, five.Pin.INPUT);
+         //para pin 7
+         this.analogWrite(7, 80);
+         var pulses2 = 0;
+         this.digitalRead(21, function(value) {
+           // send the pin status to flowSignal helper
+           flowSignal2(value);
+           //console.log(value);
+         });
+ 
+         setInterval(function() {
+           var litres = 0;
+           
+           if(pulses2>5){
+             litres=1
+           }else{
+             litres=0
+           }
+           
+         }, 10000);
+ 
+         function flowSignal2 (value) {
+           if (value === 0) {
+             return;
+           }
+           if (value === 1) {
+             pulses2 ++;
+             console.log("pulsos2",pulses2)
+           }
+           
+         }
+ */
+/////////////////////////////////////////////////////////////////////////////////
+
 
         /////////////////////////////////////////////////////////////////////////////////
         this.loop(intervalAutomatization, () => {
@@ -456,12 +532,7 @@ this.pinMode(12, five.Pin.PWM);
           for (let i = 0; i < hId.length; i++) {
             var H=parseInt(hIni[i].substring(0,2))
             var M=parseInt(hIni[i].substring(3,5))
-            //console.log(H)
-            //console.log(M)
             var date = new Date()
-            
-            
-    
             if(!hAux[i]){
               if(H==date.getHours() && M==date.getMinutes()){
                 
@@ -469,8 +540,6 @@ this.pinMode(12, five.Pin.PWM);
     
                 //convertir a milisegundos
                 var duracion = parseInt(hDur[i].substring(3,5))*60000
-                
-                
                 var idBomba =  ObtPines.find(m => m.id === hPinId[i])
     
                 var HoraYFecha = new Date()
@@ -517,7 +586,7 @@ this.pinMode(12, five.Pin.PWM);
             this.analogWrite(pinPWM, potencia);
             
             if(potencia<=250){
-              potencia+=5
+              potencia+=17
             }else{
               switchPWM=0
               potencia=0
@@ -544,11 +613,15 @@ this.pinMode(12, five.Pin.PWM);
               
               console.log("\x1b[37m",Hora+":"+Minuto +":"+Segundos)
               console.log("\x1b[37m",payload)
-              /*
+              
               //ejecuta acciones en los pines
               if(payload.actuador.type >1 && payload.actuador.type <13){
                 
                 if(payload.actuador.value==1){
+                  if(switchPWM==1){
+                    this.analogWrite(pinPWM, 255);
+                  }
+                  
                   potencia=0
                   switchPWM=1
                   pinPWM=payload.actuador.type
@@ -560,12 +633,10 @@ this.pinMode(12, five.Pin.PWM);
                 }
                 
                 
-              }*/
-              if(payload.actuador.type == 6){payload.actuador.type=14}
-              if(payload.actuador.type == 7){payload.actuador.type=15}
-              //if(payload.actuador.type >13){
+              }
+              if(payload.actuador.type >=13){
                 this.digitalWrite(payload.actuador.type,payload.actuador.value)
-              //}
+              }
               
               
               
@@ -573,16 +644,11 @@ this.pinMode(12, five.Pin.PWM);
             //if que sirve para detener el motor de una puerta o ventana si ya detecta el final de carrera
             if(swww==1){
               if(topic=="control"){
-                //console.log("\x1b[37m",payload)   
                 if(payload.actuador.value==1 ){
                   for (let j = 14; j < idPin.length; j++) {
                     
                     if(payload.actuador.type+""==nroPin[j]+""){
                       for (let k = 0; k < idPin.length; k++) {
-                        // console.log(topic +" " +payload)
-                        // console.log(payload.actuador.type)
-                        // console.log(nroPin[j])
-                        //console.log(depende[j]+" "+idPin[k])
                         if(depende[j]==idPin[k] ){
                           var payload1 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296904}`
                             client.publish("actuador", payload1)
@@ -639,14 +705,9 @@ this.pinMode(12, five.Pin.PWM);
                hPinId.push(parseInt(payload.bomba))
                hId.push(parseInt(payload.id))
                hAux.push(false)
-               
-    
             }
             if(topic=="eliminarRiego"){
               console.log("Se Elimino un horario de riego")
-              // console.log(payload)
-              // console.log(payload.id)
-              // console.log(hId)
               
               for (let index = 0; index < hIni.length; index++) {
                 if(hId[index]==parseInt(payload.id)){
@@ -668,48 +729,40 @@ this.pinMode(12, five.Pin.PWM);
     });
     // MULTIPLE BOARD FIN ////////////////////////////////////////////////////////////////
 
-// SENSOR DE PROXIMIDAD //////////////////////////////////////////////////////////////////////////////
+// SENSOR DE AGUA //////////////////////////////////////////////////////////////////////////////
      this.each(function(board) {
       if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
+
+      /*var thermometer = new five.Thermometer({
+        controller: "DS18B20",
+        pin: 12,
+        board:board
+      });
+    
+      thermometer.on("change", function() {
+        //console.log(this.celsius + "°C");
+        temp[74]=this.celsius;
+        // console.log("0x" + this.address.toString(16));
+      });*/
+
+      /////////////////////////////////////////////////////////////////////
+      }
+    });
+// SENSOR DE PROXIMIDAD //////////////////////////////////////////////////////////////////////////////
+    this.each(function(board) {
+      if (board.id === "C") {
+      /////////////////////////////////////////////////////////////////////
+      
       var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12,
         board:board
       });
 
-      proximity.on("data", function() {
-        console.log("Proximity: ");
-        console.log("  cm  : ", this.cm);
-        console.log("-----------------");
-      });
-
       proximity.on("change", function() {
-        //temp[72]=this.cm
-        console.log("The obstruction has moved.");
-      });
-/*
-      agent.addMetric("Sensor de Tanque", function getRss () {
-        return temp[i]
-      })
-      */
-
-      /////////////////////////////////////////////////////////////////////
-      }
-    });
-// SENSOR DE TEMPERATURA DE AGUA //////////////////////////////////////////////////////////////////////////////
-    this.each(function(board) {
-      if (board.id === "C") {
-      /////////////////////////////////////////////////////////////////////
-      var thermometer = new five.Thermometer({
-        controller: "DS18B20",
-        pin: 12
-      });
-    
-      thermometer.on("change", function() {
-        console.log(this.celsius + "°C");
-        //temp[72]=this.celsius
-        // console.log("0x" + this.address.toString(16));
+        temp[75]=this.cm
+        //console.log("The obstruction has moved.");
       });
       /////////////////////////////////////////////////////////////////////
       }
@@ -772,21 +825,17 @@ async function conf(){
     })
   }
   //la variable tiempoMotorAuxi se agarra el tiempo como string y aqui se lo transforma a numeros enteros en milisegundos
-for (let i = 0; i < tiempoMotorAuxi.length; i++) {
-  var a=parseInt(tiempoMotorAuxi[i].substring(3,5))
-  var b=parseInt(tiempoMotorAuxi[i].substring(6,8))
-  
-  var c = b*1000
-  var d= (a*60)*1000
-  var time = d+c
-  tiempoMotor.push(time)
-  
-}
-console.log(ObtPines)
-  
-  
-
-  
+  for (let i = 0; i < tiempoMotorAuxi.length; i++) {
+    var a=parseInt(tiempoMotorAuxi[i].substring(3,5))
+    var b=parseInt(tiempoMotorAuxi[i].substring(6,8))
+    
+    var c = b*1000
+    var d= (a*60)*1000
+    var time = d+c
+    tiempoMotor.push(time)
+    
+  }
+//console.log(ObtPines)
 }
 
 //Funcion que instancia los parametros de temperatura y tiempointermitencia
@@ -936,7 +985,7 @@ async function abrirPuertas(idP, nroP, pos){
       for (let j2 = 0; j2 < idPin.length;j2++) {
         
           if(idPin[j]==depende[j2]){
-
+            //este pin debe cambiar, debe ser el sensor de giros
             if(descripcion[j2].indexOf('finalOn')>=0 && temp[j2]<200){
               
                   TiempoApertura=TiempoApertura+TiempoPausa
@@ -1011,6 +1060,90 @@ async function abrirPuertas(idP, nroP, pos){
 
     
   
+}
+async function cerrarPuertas(idP, nroP, pos){
+  TiEsperaInactividad = 120
+  //encender ventiladores apenas inicia la funcion, para todos los ventiladores que dependan del sensor
+  for (let j = 0; j < idPin.length; j++) {
+    
+    if(sensorId[j]==idP){
+      
+      for (let j2 = 0; j2 < idPin.length;j2++) {
+
+          if(idPin[j]==depende[j2]){
+      
+            if(descripcion[j2].indexOf('finalOff')>=0 && temp[j2]<200){
+      
+              TiempoApertura=TiempoApertura+TiempoPausa
+                
+                setTimeout(function() {
+                  var descr
+                  var nPin
+                  
+                  for (let k = 0; k < descripcion.length; k++) {
+                    if(descripcion[j]+'Off'==descripcion[k]){
+                      nPin=nroPin[k]
+                      descr=descripcion[j]
+                    }
+                  
+                  }
+                  //abrir puerta, enciende el motor para abrir
+                  var HoraYFecha = new Date()
+                  var Hora = HoraYFecha.getHours()
+                  var Minuto = HoraYFecha.getMinutes()
+                  var Segundos = HoraYFecha.getSeconds()
+                  console.log("tiempo actividad :"+TiEsperaInactividad)
+                   //PIN ABRIR
+                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
+                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522296902}`
+                   
+                   client.publish("actuador", payload)
+                   clientLocal.publish("actuador", payload)
+                   
+                   //PIN POLARIDAD
+                  console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Encendiendo motor : "+descr)
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1517522296902}`
+                  //console.log(payload)
+                  client.publish("actuador", payload)
+                  clientLocal.publish("actuador", payload)
+                  
+                  //pasado 10 segundos apaga el motor
+                  setTimeout(function() {
+                    var HoraYFecha = new Date()
+                    var Hora = HoraYFecha.getHours()
+                    var Minuto = HoraYFecha.getMinutes()
+                    var Segundos = HoraYFecha.getSeconds()
+                    
+                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - deteniendo motor : "+descr)
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":0},"timestamp":1517522296902}`
+                    client.publish("actuador", payload)
+                    clientLocal.publish("actuador", payload)
+                    
+                    if(temp[j2]<200){
+                      console.log("\x1b[31m","error no termino de cerrar : "+descripcion[j].substring(0,descripcion[j].length))
+                    }
+                    
+                  }, TiempoFuncionMotor)
+                
+                }, TiempoApertura)
+            
+              
+            }
+            
+          }
+          
+        }
+
+      
+      
+    }
+  }
+  setTimeout(function() {
+
+    swPuertas[pos]=false
+    descansoVentilador[pos]=false
+    //console.log("cerrar----------------------------------------")
+  }, TiempoApertura+10000)
 }
 async function abrirPuertas2(idP, nroP, pos){
   TiEsperaInactividad = 120
@@ -1159,90 +1292,7 @@ async function cerrarPuertas2(idP, nroP, pos){
     
   
 }
-async function cerrarPuertas(idP, nroP, pos){
-  TiEsperaInactividad = 120
-  //encender ventiladores apenas inicia la funcion, para todos los ventiladores que dependan del sensor
-  for (let j = 0; j < idPin.length; j++) {
-    
-    if(sensorId[j]==idP){
-      
-      for (let j2 = 0; j2 < idPin.length;j2++) {
 
-          if(idPin[j]==depende[j2]){
-      
-            if(descripcion[j2].indexOf('finalOff')>=0 && temp[j2]<200){
-      
-              TiempoApertura=TiempoApertura+TiempoPausa
-                
-                setTimeout(function() {
-                  var descr
-                  var nPin
-                  
-                  for (let k = 0; k < descripcion.length; k++) {
-                    if(descripcion[j]+'Off'==descripcion[k]){
-                      nPin=nroPin[k]
-                      descr=descripcion[j]
-                    }
-                  
-                  }
-                  //abrir puerta, enciende el motor para abrir
-                  var HoraYFecha = new Date()
-                  var Hora = HoraYFecha.getHours()
-                  var Minuto = HoraYFecha.getMinutes()
-                  var Segundos = HoraYFecha.getSeconds()
-                  console.log("tiempo actividad :"+TiEsperaInactividad)
-                   //PIN ABRIR
-                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
-                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522296902}`
-                   
-                   client.publish("actuador", payload)
-                   clientLocal.publish("actuador", payload)
-                   
-                   //PIN POLARIDAD
-                  console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Encendiendo motor : "+descr)
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1517522296902}`
-                  //console.log(payload)
-                  client.publish("actuador", payload)
-                  clientLocal.publish("actuador", payload)
-                  
-                  //pasado 10 segundos apaga el motor
-                  setTimeout(function() {
-                    var HoraYFecha = new Date()
-                    var Hora = HoraYFecha.getHours()
-                    var Minuto = HoraYFecha.getMinutes()
-                    var Segundos = HoraYFecha.getSeconds()
-                    
-                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - deteniendo motor : "+descr)
-                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":0},"timestamp":1517522296902}`
-                    client.publish("actuador", payload)
-                    clientLocal.publish("actuador", payload)
-
-                    if(temp[j2]<200){
-                      console.log("\x1b[31m","error no termino de cerrar : "+descripcion[j].substring(0,descripcion[j].length))
-                    }
-                    
-                  }, TiempoFuncionMotor)
-                
-                }, TiempoApertura)
-            
-              
-            }
-            
-          }
-          
-        }
-
-      
-      
-    }
-  }
-  setTimeout(function() {
-
-    swPuertas[pos]=false
-    descansoVentilador[pos]=false
-    //console.log("cerrar----------------------------------------")
-  }, TiempoApertura+10000)
-}
 
 async function finalCarrera(pin,value,pos) {
   
