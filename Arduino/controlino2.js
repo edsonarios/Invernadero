@@ -99,7 +99,7 @@ board.on("ready", function() {
 
   ///// SENSOR DE TEMPERATURA DE AGUA ///////////////////////////////////////////////////////////////////////////////  
   //ConfigurableFirmData DS18
-  
+  /*
   var thermometer = new five.Thermometer({
     controller: "DS18B20",
     pin: 12
@@ -109,7 +109,7 @@ board.on("ready", function() {
     console.log(this.celsius + "°C");
     // console.log("0x" + this.address.toString(16));
   });
-  
+  */
   ////////////////////////////////////////////////////////////////////////////////////  
 
   //// PWM ////////////////////////////////////////////////////////////////////////////////  

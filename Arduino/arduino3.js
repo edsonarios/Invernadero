@@ -10,9 +10,9 @@
   { id: "B", port: "COM16" }, //Agua
   { id: "C", port: "COM6" } //Proximidad
   */
-  { id: "A", port: "/dev/ttyUSB0" },//MEGA
-  { id: "B", port: "/dev/ttyUSB2" }, //Agua
-  { id: "C", port: "/dev/ttyUSB1" } //Proximidad
+  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "B", port: "/dev/ttyUSB1" }, //Agua
+  { id: "C", port: "/dev/ttyUSB0" } //Proximidad
 ];
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -33,7 +33,7 @@
    agentID: agentID,
  })
  //Entrada de variable para los sensores de temperatura
- var sensorCOM = '/dev/ttyUSB3'
+ var sensorCOM = '/dev/ttyUSB2'
  //var sensorCOM = '/dev/ttyUSB3'
 
  //iniciamos cliente mqtt
@@ -733,8 +733,8 @@ port.on('error',function(err){
      this.each(function(board) {
       if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
-
-      /*var thermometer = new five.Thermometer({
+/*
+      var thermometer = new five.Thermometer({
         controller: "DS18B20",
         pin: 12,
         board:board
@@ -744,8 +744,8 @@ port.on('error',function(err){
         //console.log(this.celsius + "°C");
         temp[74]=this.celsius;
         // console.log("0x" + this.address.toString(16));
-      });*/
-
+      });
+*/
       /////////////////////////////////////////////////////////////////////
       }
     });
@@ -1322,6 +1322,38 @@ async function finalCarrera(pin,value,pos) {
       
     
   
+}
+
+async function notificacion(){
+  FCM = require('fcm-node');
+
+var SERVER_API_KEY='AAAAkWZnNe4:APA91bF3UUdN10No7yMkJ2k0SXRR4TvlbxSq1EwD8_MBdeOxbRYP37tcXVeyrvlkxbKw0mSQx8GTpf4IGzswW5tG4veMJb7J2Pa1cjGg6PVLG6vXQOpct2LFjk4EKT2pFbmonhvSR5w9';//put your api key here
+
+var validDeviceRegistrationToken = 'fqVVUT623TQ:APA91bFKHC5ldpYC4N5eQnw9GwKtxNs8mAEA6BsRFJ2CbgkfmYTu2AhU3YQKMZonahVRD-V0xGXRAcCN52CSWUg4tfNHmJimFj-J53RozsHeG9H1v058tIxjx59oUEnNkG1XAyWB9fu2'; //put a valid device token here
+
+
+var fcmCli= new FCM(SERVER_API_KEY);
+
+var payloadOK = {
+    to: validDeviceRegistrationToken,
+    data: { //Algunos datos (Opcional)
+        dato1: 'dato opcional 1',
+        dato2: 'dato opcional 2',
+        dato3: 'dato opcional 3'
+    },
+    priority: 'high',
+    content_available: true,
+    notification: { //Notificacion
+        title: 'TITULO DE NOTIFICACION',                    //TITULO
+        body: 'MENSAJE DE LA NOTIFICACION',                 //CUERPO
+        sound : "default", badge: "1"                       //EXTRAS
+    }
+};
+
+fcmCli.send(payloadOK,function(err,res){
+  callbackLog('sendOK',err,res);
+});
+
 }
 
  // mensaje que se muestra por consola mientras se espera a que se inicie la placa

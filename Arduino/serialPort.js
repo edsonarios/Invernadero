@@ -1,5 +1,5 @@
-//var sensorCOM = '/dev/ttyUSB1'
-var sensorCOM = 'COM3'
+var sensorCOM = '/dev/ttyUSB2'
+//var sensorCOM = 'COM3'
 const Serialport=require('serialport');
 //parsers ver lectura
 const Readline=Serialport.parsers.Readline;
