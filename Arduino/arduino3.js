@@ -11,7 +11,7 @@
   { id: "C", port: "COM6" } //Proximidad
   */
   { id: "A", port: "/dev/ttyUSB3" },//MEGA
-  { id: "B", port: "/dev/ttyUSB1" }, //Agua
+  { id: "B", port: "/dev/ttyUSB3" }, //Agua
   { id: "C", port: "/dev/ttyUSB0" } //Proximidad
 ];
  //configuramos nuestra placa arduino en una variable
