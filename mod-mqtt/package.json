@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.14.3",
+    "nodemon": "^1.19.0",
     "standard": "^10.0.3"
   },
   "dependencies": {

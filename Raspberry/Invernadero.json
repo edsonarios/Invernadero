@@ -1,0 +1,14 @@
+{
+    "apps" : [
+    {
+      "name"        : "mqtt",
+      "script"      : "./mod-mqtt/server.js",
+      "watch"       : true
+    },
+    {
+        "name"        : "controlino",
+        "script"      : "./Arduino/controlino.js",
+        "watch"       : true
+    }
+    ]
+  }

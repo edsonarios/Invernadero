@@ -1,0 +1,25 @@
+{
+    "name": "arduino",
+    "version": "1.0.0",
+    "description": "A Plataform simple IOT - Arduino",
+    "main": "controlino2.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "NODE_ENV=production node controlino.js"
+    },
+    "dependencies": {
+      "async-mqtt": "^1.0.1",
+      "express": "^4.16.4",
+      "express-asyncify": "^1.0.0",
+      "johnny-five": "^0.13.1",
+      "mqtt": "^2.18.8",
+      "node-dht-sensor": "0.0.34",
+      "request": "^2.88.0",
+      "request-promise-native": "^1.0.7",
+      "socket.io": "^2.2.0"
+    },
+    "devDependencies": {},
+    "author": "",
+    "license": "MIT"
+  }
+  
