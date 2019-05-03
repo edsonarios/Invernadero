@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "async-mqtt": "^2.2.1",
+    "fcm-node": "^1.4.0",
     "johnny-five": "^0.13.1",
     "plotly": "^1.0.6",
     "request": "^2.88.0",

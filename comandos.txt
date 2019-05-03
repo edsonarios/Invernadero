@@ -564,6 +564,6 @@ VENTANAS
 15	14
 on/off 	polaridad
 1   	0   	enciende y gira a la izquierda
-1	1	enciende y gira a la derecha
+1	    1	enciende y gira a la derecha
 
 1 PIN PARA TRANSFORMADOR

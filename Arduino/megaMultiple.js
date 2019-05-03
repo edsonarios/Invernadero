@@ -1,7 +1,7 @@
 var five = require("johnny-five");
 var ports = [
-       { id: "A", port: "COM4" },//MEGA
-       { id: "B", port: "COM3" } //DS
+       //{ id: "A", port: "/dev/ttyUSB0" },//MEGA
+       { id: "B", port: "/dev/ttyUSB1" } //DS
        //{ id: "C", port: "COM9" } //proximidad
      ];
 
@@ -14,12 +14,12 @@ boards.on("ready", function() {
   // (connected and available for communication)
 
   // Access them by their ID:
-  var led = new five.Led({
+  /*var led = new five.Led({
     pin: 13,
     board: this.byId("A")
   });
 
-  led.blink(1000);
+  led.blink(1000);*/
   //this.digitalWrite(13, 1);
 
   // |this| is an array-like object containing references
@@ -28,16 +28,16 @@ boards.on("ready", function() {
     if (board.id === "B") {
       // Initialize an Led instance on pin 13 of
       // each initialized board and strobe it.
-      /*var thermometer = new five.Thermometer({
+      var thermometer = new five.Thermometer({
         controller: "DS18B20",
-        pin: 3,
+        pin: 12,
         board:board
       });
     
       thermometer.on("change", function() {
         console.log(this.celsius + "°C");
         // console.log("0x" + this.address.toString(16));
-      });*/
+      });
     
     }
   });
@@ -46,7 +46,7 @@ boards.on("ready", function() {
     if (board.id === "C") {
       // Initialize an Led instance on pin 13 of
       // each initialized board and strobe it.
-      var proximity = new five.Proximity({
+      /*var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 6,
         board:board
@@ -60,7 +60,7 @@ boards.on("ready", function() {
     
       proximity.on("change", function() {
         console.log("The obstruction has moved.");
-      });
+      });*/
     }
   });
   /*

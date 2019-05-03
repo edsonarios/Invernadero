@@ -1,6 +1,8 @@
 //ConfigurableFirmData
 var five = require("johnny-five");
-var board = new five.Board();
+var board = new five.Board({
+  port: "COM5"
+});
 var Stream = require('stream');
 var flow_stream = new Stream();
 var plotly = require('plotly')('workshop','v6w5xlbx9j');
@@ -20,14 +22,14 @@ var pulses = 0;
 var lastFlowRateTimer = 0;
 
 board.on("ready", function() {
-  this.pinMode(2, five.Pin.INPUT);
+  this.pinMode(14, five.Pin.INPUT);
   lastFlowPinState = 0;
 
   // Check Digital Pin to see if theres a change
-  var x = this.digitalRead(2, function(value) {
+  var x = this.digitalRead(14, function(value) {
     // send the pin status to flowSignal helper
     flowSignal(value);
-    console.log(value);
+    //console.log(value);
   });
 
   // Set how often to Emit data to Plotly
@@ -37,6 +39,7 @@ board.on("ready", function() {
     litres /= 60;
     var data = {x:getDateString(), y:litres};
     flow_stream.emit('data', JSON.stringify(data)+'\n');
+    console.log("estos son los listros",lastFlowRateTimer)
   }, 1000);
 
   // Set up Graph + Initialize stream + Pipe to stream
