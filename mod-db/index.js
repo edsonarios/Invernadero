@@ -15,6 +15,7 @@ const setupHorario = require('./lib/horario')
 const setupDispositivo = require('./lib/dispositivo')
 const setupCamara = require('./lib/camara')
 const setupNotificacion = require('./lib/notificacion')
+const setuptokenNotificacion = require('./lib/tokenNotificacion')
 
 const defaults = require('defaults')
 
@@ -31,6 +32,7 @@ const setupHorarioModel = require('./models/horario')
 const setupDispositivoModel = require('./models/dispositivo')
 const setupCamaraModel = require('./models/camara')
 const setupNotificacionModel = require('./models/notificacion')
+const setuptokenNotificacionModel = require('./models/tokenNotificacion')
 
 module.exports = async function (config) {
   config = defaults(config, {
@@ -61,6 +63,7 @@ module.exports = async function (config) {
   const DispositivoModel = setupDispositivoModel(config)
   const CamaraModel = setupCamaraModel(config)
   const NotificacionModel = setupNotificacionModel(config)
+  const TokenNotificacionModel = setuptokenNotificacionModel(config)
 
   AgentModel.hasMany(MetricModel)
   MetricModel.belongsTo(AgentModel, {onDelete: 'CASCADE'})
@@ -100,6 +103,11 @@ module.exports = async function (config) {
     UsuarioModel.hasMany(NotificacionModel)
     NotificacionModel.belongsTo(UsuarioModel, {onDelete: 'CASCADE'})
 
+     //relacion usuario tokens para notificaciones
+     UsuarioModel.hasMany(TokenNotificacionModel)
+     TokenNotificacionModel.belongsTo(UsuarioModel, {onDelete: 'CASCADE'})
+ 
+
   await sequelize.authenticate()
 
   if (config.setup) {
@@ -120,6 +128,7 @@ module.exports = async function (config) {
   const Dispositivo = setupDispositivo(DispositivoModel)
   const Camara = setupCamara(CamaraModel, InvernaderoModel)
   const Notificacion = setupNotificacion(NotificacionModel, UsuarioModel)
+  const TokenNotificacion = setuptokenNotificacion(TokenNotificacionModel, UsuarioModel)
 
   return {
     Agent,
@@ -134,6 +143,7 @@ module.exports = async function (config) {
     Horario,
     Dispositivo,
     Camara,
-    Notificacion
+    Notificacion,
+    TokenNotificacion
   }
 }

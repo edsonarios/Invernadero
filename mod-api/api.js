@@ -49,6 +49,7 @@ api.use('*', async (req, res, next) => {
     Dispositivo = services.Dispositivo
     Horario = services.Horario
     Camara = services.Camara
+    Notification = services.Notification
     
 
   }
@@ -1532,6 +1533,29 @@ api.post('/enviarNoti', async (req, res) =>{
     res.send({message: 'error al enviar...'})
 })
 
+
+
+//Agrega un nuevo invernadero con un id usuario
+api.post('/notificacion', async (req, res, next) => {
+  
+  const varInv = req.body    
+  
+    //añade un nuevo producto
+    const varUs = await Notification.create(varInv.usuarioId, {
+      departamento: varInv.departamento,
+      ubicacion: varInv.ubicacion,
+      provincia: varInv.provincia,
+      tempMaxima: varInv.tempMaxima,
+      tempMinima: varInv.tempMinima,
+      tempMedia: varInv.tempMedia,
+      tiempoIntermitencia: varInv.tiempoIntermitencia,
+      tiempoPausa: varInv.tiempoPausa,
+      tiempoFuncionMotor: varInv.tiempoFuncionMotor,
+      logo: varInv.logo
+    })
+  
+  res.send(varUs) 
+}) 
 
 
 
