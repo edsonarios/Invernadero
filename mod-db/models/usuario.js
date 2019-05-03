@@ -46,6 +46,10 @@ module.exports = function setupUsuarioModel (config) {
     change: {
       type: Sequelize.STRING,
       allowNull: false
+    },
+    token: {
+      type: Sequelize.STRING,
+      allowNull: false
     }
 
   })

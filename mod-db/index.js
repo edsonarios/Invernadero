@@ -14,6 +14,7 @@ const setupUsuario = require('./lib/usuario')
 const setupHorario = require('./lib/horario')
 const setupDispositivo = require('./lib/dispositivo')
 const setupCamara = require('./lib/camara')
+const setupNotificacion = require('./lib/notificacion')
 
 const defaults = require('defaults')
 
@@ -29,7 +30,7 @@ const setupUsuarioModel = require('./models/usuario')
 const setupHorarioModel = require('./models/horario')
 const setupDispositivoModel = require('./models/dispositivo')
 const setupCamaraModel = require('./models/camara')
-
+const setupNotificacionModel = require('./models/notificacion')
 
 module.exports = async function (config) {
   config = defaults(config, {
@@ -59,6 +60,7 @@ module.exports = async function (config) {
   const HorarioModel = setupHorarioModel(config)
   const DispositivoModel = setupDispositivoModel(config)
   const CamaraModel = setupCamaraModel(config)
+  const NotificacionModel = setupNotificacionModel(config)
 
   AgentModel.hasMany(MetricModel)
   MetricModel.belongsTo(AgentModel, {onDelete: 'CASCADE'})
@@ -94,6 +96,10 @@ module.exports = async function (config) {
     InvernaderoModel.hasMany(CamaraModel)
     CamaraModel.belongsTo(InvernaderoModel, {onDelete: 'CASCADE'})
 
+    //relacion usuario notficacion
+    UsuarioModel.hasMany(NotificacionModel)
+    NotificacionModel.belongsTo(UsuarioModel, {onDelete: 'CASCADE'})
+
   await sequelize.authenticate()
 
   if (config.setup) {
@@ -113,6 +119,7 @@ module.exports = async function (config) {
   const Horario = setupHorario(HorarioModel, PinesModel)
   const Dispositivo = setupDispositivo(DispositivoModel)
   const Camara = setupCamara(CamaraModel, InvernaderoModel)
+  const Notificacion = setupNotificacion(NotificacionModel, UsuarioModel)
 
   return {
     Agent,
@@ -126,6 +133,7 @@ module.exports = async function (config) {
     Usuario,
     Horario,
     Dispositivo,
-    Camara
+    Camara,
+    Notificacion
   }
 }
