@@ -10,9 +10,9 @@
   { id: "B", port: "COM16" }, //Agua
   { id: "C", port: "COM6" } //Proximidad
   */
-  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "A", port: "/dev/ttyUSB0" },//MEGA
   { id: "B", port: "/dev/ttyUSB3" }, //Agua
-  { id: "C", port: "/dev/ttyUSB0" } //Proximidad
+  { id: "C", port: "/dev/ttyUSB1" } //Proximidad
 ];
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -733,10 +733,10 @@ port.on('error',function(err){
      this.each(function(board) {
       if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
-/*
+
       var thermometer = new five.Thermometer({
         controller: "DS18B20",
-        pin: 12,
+        pin: 10,
         board:board
       });
     
@@ -745,7 +745,7 @@ port.on('error',function(err){
         temp[74]=this.celsius;
         // console.log("0x" + this.address.toString(16));
       });
-*/
+
       /////////////////////////////////////////////////////////////////////
       }
     });

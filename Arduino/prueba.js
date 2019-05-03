@@ -3,7 +3,7 @@
  const five = require("johnny-five")
  //configuramos nuestra placa arduino en una variable
  var board = new five.Board({
-    port: "/dev/ttyUSB1"
+    //port: "/dev/ttyUSB1"
  })
  
  // funcion que se ejecuta cuando la placa ya esta lista
@@ -23,7 +23,7 @@ var thermometer = new five.Thermometer({
       });
 */
 ////////////////////////////////////////////////////////////////////////////////////////
-      var proximity = new five.Proximity({
+      /*var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12
         
@@ -37,7 +37,7 @@ var thermometer = new five.Thermometer({
     
       proximity.on("change", function() {
         console.log("The obstruction has moved.");
-      });
+      });*/
 ////////////////////////////////////////////////////////////////////////////////////////
 })
 
