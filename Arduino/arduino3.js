@@ -734,18 +734,44 @@ port.on('error',function(err){
       if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
 
-      var thermometer = new five.Thermometer({
+      var thermometer1 = new five.Thermometer({
         controller: "DS18B20",
         pin: 10,
         board:board
       });
     
-      thermometer.on("change", function() {
+      thermometer1.on("change", function() {
+        //console.log(this.celsius + "°C");
+        temp[74]=thermometer1.celsius;
+        //temp[74]=this.celsius;
+        // console.log("0x" + this.address.toString(16));
+      });
+/*
+      var thermometer2 = new five.Thermometer({
+        controller: "DS18B20",
+        pin: 10,
+        board:board
+      });
+    
+      thermometer2.on("change", function() {
         //console.log(this.celsius + "°C");
         temp[74]=this.celsius;
         // console.log("0x" + this.address.toString(16));
       });
 
+
+      var thermometer3 = new five.Thermometer({
+        controller: "DS18B20",
+        pin: 8,
+        board:board
+      });
+    
+      thermometer3.on("change", function() {
+        //console.log(this.celsius + "°C");
+        temp[76]=this.celsius;
+        // console.log("0x" + this.address.toString(16));
+      });
+*/
       /////////////////////////////////////////////////////////////////////
       }
     });
@@ -754,14 +780,36 @@ port.on('error',function(err){
       if (board.id === "C") {
       /////////////////////////////////////////////////////////////////////
       
-      var proximity = new five.Proximity({
+      var proximity1 = new five.Proximity({
         controller: "HCSR04",
         pin: 12,
         board:board
       });
 
-      proximity.on("change", function() {
-        temp[75]=this.cm
+      proximity1.on("change", function() {
+        temp[77]=this.cm
+        //console.log("The obstruction has moved.");
+      });
+
+      var proximity2 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 11,
+        board:board
+      });
+
+      proximity2.on("change", function() {
+        temp[78]=this.cm
+        //console.log("The obstruction has moved.");
+      });
+
+      var proximity3 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 10,
+        board:board
+      });
+
+      proximity3.on("change", function() {
+        temp[79]=this.cm
         //console.log("The obstruction has moved.");
       });
       /////////////////////////////////////////////////////////////////////

@@ -16,6 +16,8 @@ ngx-admin-master    server.js
 UUID CONTROLINO 30
 controlino.js
 
+//Instalar Arduino-IDE en LINUX
+apt-get install arduino arduino-core 
 
 //Instalar code studio en ubuntu (despues de descargar el archivo, abrir la terminal ahi luego ejecutar el siguiente comando)
 sudo dpkg -i nombredelarchivo
