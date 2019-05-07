@@ -95,14 +95,6 @@ horarios()
 // mensaje que se muestra por consola informandonos de que la placa esta lista
  console.log("Placa lista.")
 
-var A0 = new five.Sensor("A0")
-var A1 = new five.Sensor("A1")
-var A2 = new five.Sensor("A2")
-var A3 = new five.Sensor("A3")
-var A4 = new five.Sensor("A4")
-var A5 = new five.Sensor("A5")
-var A15 = new five.Sensor("A15")
-
 // SENSORES //////////////////////////////////////////////////////////////////////////////////
 ///Serial comunication
 const Serialport=require('serialport');
@@ -150,7 +142,7 @@ port.on('error',function(err){
       if(clasePin[i-1]==1){
         
         switch(i){
-          case 15:agent.addMetric(descripcion[i-1], function getRss () {
+/*          case 15:agent.addMetric(descripcion[i-1], function getRss () {
                     return temp[i-1]
                   })
                   A0.on("change", function() {
@@ -158,79 +150,18 @@ port.on('error',function(err){
                     temp[i-1] = A0.value
                     })
                   break
-          case 16:agent.addMetric(descripcion[i-1], function getRss () {
-                    return temp[i-1]
-                  })
-                  A1.on("change", function() {
-                    temp[i-1] = A1.value
-                    
-                    })
-                  break
-          case 17:agent.addMetric(descripcion[i-1], function getRss () {
-                    return temp[i-1]
-                  })
-                  A2.on("change", function() {
-                    temp[i-1] = A2.value-20
-                   
-                    })
-                  break
-          case 18:agent.addMetric(descripcion[i-1], function getRss () {
-                    return temp[i-1]
-                  })
-                  A3.on("change", function() {
-                    temp[i-1] = A3.value
-                    })
-                  break
-          case 19:agent.addMetric(descripcion[i-1], function getRss () {
-                    return temp[i-1]
-                  })
-                  A4.on("change", function() {
-                    temp[i-1] = A4.value
-                    })
-                  break
-          case 20:agent.addMetric(descripcion[i-1], function getRss () {
-                    return temp[i-1]
-                  })
-                  A5.on("change", function() {
-                    temp[i-1] = A5.value
-                    })
-                  break
+*/
         }
       }
       if(clasePin[i-1]==3){
         
-        switch(i){
+        /*switch(i){
           case 15:A0.on("change", function() {
                     //temp[i-1] = A0.value+20
                     
                     })
                   break
-          case 16:A1.on("change", function() {
-                    //temp[i-1] = A1.value
-                    
-                    })
-                  break
-          case 17:A2.on("change", function() {
-                    //temp[i-1] = A2.value-20
-                   
-                    })
-                  break
-          case 18:A3.on("change", function() {
-                    
-                    //temp[i-1] = A3.value
-                    })
-                  break
-          case 19:A4.on("change", function() {
-                    
-                    //temp[i-1] = A4.value
-                    })
-                  break
-          case 20:A5.on("change", function() {
-                    
-                    //temp[i-1] = A5.value
-                    })
-                  break
-        }
+        }*/
       }
     }
     
@@ -238,27 +169,19 @@ port.on('error',function(err){
 
   //PARA SENSORES DTH, seran pines analogicos falsos ////////////////////////////////////////////////////////////////////////////////
   // En el sistema empieza en A16, y en arduino empieza en 70
-  for (let i = totalPinesMega; i < estado.length; i++) {
-    
+  for (let i = 54; i < estado.length; i++) {
     if(estado[i]==1){
       if(clasePin[i]==1){
-        switch(i){
-          case i:agent.addMetric(descripcion[i], function getRss () {
-                    return temp[i]
-                  })
-                  break
-        }
+        agent.addMetric(descripcion[i], function getRss () {
+          return temp[i]
+        })
       }
-      
     }
-    
   }
 
   //AGENTE CONECTADO
     agent.connect()
 
-
-    var ssww=0
     var ssww2=0
     var swww=0
     // MULTIPLE BOARD////////////////////////////////////////////////////////////////
@@ -278,37 +201,45 @@ port.on('error',function(err){
         this.pinMode(11, five.Pin.PWM);
         this.pinMode(12, five.Pin.PWM);
 //21
-        ///FLUJO DE AGUA//////////////////////////////////////////////////////////////////////////////
-        this.pinMode(14, five.Pin.INPUT);
-        var pulses = 0;
-        this.digitalRead(14, function(value) {
-          // send the pin status to flowSignal helper
-          flowSignal(value);
-          //console.log(value);
-        });
-
-        setInterval(function() {
-          var litres = 0;
-          
-          if(pulses>5){
-            litres=1
-          }else{
-            litres=0
+        ///FLUJO DE AGUA 1//////////////////////////////////////////////////////////////////////////////
+        for (let i = 54; i <= totalPinesMega; i++) {
+          if(estado[i-1]==1){
+             if(clasePin[i-1]==1){
+                this.pinMode(i, five.Pin.INPUT);
+                this.digitalRead(i, function(value) {
+                // send the pin status to flowSignal helper
+                flowSignal(i,value);
+                //console.log(i,value);
+                });
+                //console.log(i)
+             }
           }
-          //console.log("estos son litros",litres)
-          pulses =0;
-          temp[76] = litres
-        }, 1000);
-
-        function flowSignal (value) {
-          if (value === 0) {
-            return;
-          }
+       }
+       function flowSignal (i,value) {
           if (value === 1) {
-            pulses ++;
+             pulsesFlow[i]++;
           }
-          
-        }
+       }
+
+       setInterval(function() {
+          for (let i = 54; i <totalPinesMega; i++) {
+             if(estado[i-1]==1){
+                if(clasePin[i-1]==1){
+                   if(pulsesFlow[i]>5){
+                      temp[i] = 1
+                      //console.log("hay flujo : ",i)
+                   }else{
+                      temp[i] = 0
+                      //console.log("no hay flujo : ",i)
+                   }
+                   pulsesFlow[i]=0
+                }
+                
+              }
+
+          }
+
+        }, 2000);
 
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -728,7 +659,7 @@ port.on('error',function(err){
       }
     });
     // MULTIPLE BOARD FIN ////////////////////////////////////////////////////////////////
-
+/*
 // SENSOR DE AGUA //////////////////////////////////////////////////////////////////////////////
      this.each(function(board) {
       if (board.id === "B") {
@@ -746,32 +677,7 @@ port.on('error',function(err){
         //temp[74]=this.celsius;
         // console.log("0x" + this.address.toString(16));
       });
-/*
-      var thermometer2 = new five.Thermometer({
-        controller: "DS18B20",
-        pin: 10,
-        board:board
-      });
-    
-      thermometer2.on("change", function() {
-        //console.log(this.celsius + "°C");
-        temp[74]=this.celsius;
-        // console.log("0x" + this.address.toString(16));
-      });
 
-
-      var thermometer3 = new five.Thermometer({
-        controller: "DS18B20",
-        pin: 8,
-        board:board
-      });
-    
-      thermometer3.on("change", function() {
-        //console.log(this.celsius + "°C");
-        temp[76]=this.celsius;
-        // console.log("0x" + this.address.toString(16));
-      });
-*/
       /////////////////////////////////////////////////////////////////////
       }
     });
@@ -785,9 +691,16 @@ port.on('error',function(err){
         pin: 12,
         board:board
       });
-
+      
+      //95 es 100% - 15 es 0%
+      var proximidadDato1 = 0
+      var proximidadMaximo1 = 95
+      var proximidadMinimo1 = 15
       proximity1.on("change", function() {
-        temp[77]=this.cm
+        proximidadDato1 =this.cm
+        proximidadDato1 -=proximidadMinimo1
+        temp[77]=((proximidadDato1/(proximidadMaximo1-proximidadMinimo1))*100).toFixed(2)
+        //temp[77]=this.cm
         //console.log("The obstruction has moved.");
       });
 
@@ -796,9 +709,15 @@ port.on('error',function(err){
         pin: 11,
         board:board
       });
-
+      //95 es 100% - 15 es 0%
+      var proximidadDato2 = 0
+      var proximidadMaximo2 = 95
+      var proximidadMinimo2 = 15
       proximity2.on("change", function() {
-        temp[78]=this.cm
+        proximidadDato2 =this.cm
+        proximidadDato2 -=proximidadMinimo2
+        temp[78]=((proximidadDato2/(proximidadMaximo2-proximidadMinimo2))*100).toFixed(2)
+        //temp[78]=this.cm
         //console.log("The obstruction has moved.");
       });
 
@@ -808,14 +727,21 @@ port.on('error',function(err){
         board:board
       });
 
+      //95 es 100% - 15 es 0%
+      var proximidadDato3 = 0
+      var proximidadMaximo3 = 95
+      var proximidadMinimo3 = 15
       proximity3.on("change", function() {
-        temp[79]=this.cm
+        proximidadDato3 =this.cm
+        proximidadDato3 -=proximidadMinimo3
+        temp[79]=((proximidadDato3/(proximidadMaximo3-proximidadMinimo3))*100).toFixed(2)
+        //temp[79]=this.cm
         //console.log("The obstruction has moved.");
       });
       /////////////////////////////////////////////////////////////////////
       }
     });
-
+*/
     
     //Funcion que cambia el numero de pin si lo requiera (Controlino si requiere cambio de pin)
     function cambioPines(pin){

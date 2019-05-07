@@ -551,19 +551,16 @@ PARA ASTERISK
 wscat -s echo -c ws://192.168.0.27:8088/ws
 
 ////////////////////////////////////////////////////////////////////////////////
-Buenas tardes Ingeniero, le comento que tenemos los siguientes problemas, y a continuacion sus posibles soluciones
-Problemas
-1. Cada sensor utiliza su propio FirmData, no pueden coexistir los sensores 
-Solucion
 
-1. Utilizar un Arduino Diferente para Cada sensor y cada uno con su propio FirmData
-2. Utilizar 2 Arduinos
-    2.1. 1er Arduino Solo Enviara todos los sensores que no pueden utilizar FirmData Standar, y todo en programacion de Arduino IDE. Se debe hacer la prueba cono
-    2.2. 2do Arduino Se encargara de mandar señales o encender todos los actuadores, y recibir por puerto serial todos los datos del arduino 1 (NodeJS). Igual podra controlar todos los sensores que puedan funcionar con FirmData Standar
-    2.3 Cambiar todos los sensores posibles a otros que puedan funcionar con FirmData Standar
-3. Crear un firmdata personalizado
+/////////////////////////////////////////////////////////
+//////////////////  HERRAMIENTAS ESCRITORIO     /////////////////////
+/////////////////////////////////////////////////////////
 
+Crear acceso directo en linux 
+ln -s /root/Invernadero/ /root/Desktop/
+      Ruta a acceder      Donde se ubicara el acceso directo 
 
+////////////////////////////////////////////////////////////////////////////////
 
 VENTANAS
 

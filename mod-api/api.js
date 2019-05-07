@@ -25,7 +25,7 @@ const api = asyncify(express.Router())
 api.use(bodyParser.urlencoded({extended:false}))
 api.use(bodyParser.json())
 
-let services, Agent, Metric,Usuario, Invernadero, Controlador, HistorialProducto, HistorialSensor, Pines, Producto, Dispositivo, Horario, Camara
+let services, Agent, Metric,Usuario, Invernadero, Controlador, HistorialProducto, HistorialSensor, Pines, Producto, Dispositivo, Horario, Camara, Notification,TokenNotificacion
 
 api.use('*', async (req, res, next) => {
   if (!services) {
@@ -50,7 +50,7 @@ api.use('*', async (req, res, next) => {
     Horario = services.Horario
     Camara = services.Camara
     Notification = services.Notification
-    
+    TokenNotificacion = services.TokenNotificacion
 
   }
   res.header("Access-Control-Allow-Origin", "*");
@@ -1535,26 +1535,30 @@ api.post('/enviarNoti', async (req, res) =>{
 
 
 
-//Agrega un nuevo invernadero con un id usuario
-api.post('/notificacion', async (req, res, next) => {
+//Se loguea y verifica si tiene un token, sino añade
+api.post('/addTokenNotificacions', async (req, res, next) => {
   
-  const varInv = req.body    
-  
-    //añade un nuevo producto
-    const varUs = await Notification.create(varInv.usuarioId, {
-      departamento: varInv.departamento,
-      ubicacion: varInv.ubicacion,
-      provincia: varInv.provincia,
-      tempMaxima: varInv.tempMaxima,
-      tempMinima: varInv.tempMinima,
-      tempMedia: varInv.tempMedia,
-      tiempoIntermitencia: varInv.tiempoIntermitencia,
-      tiempoPausa: varInv.tiempoPausa,
-      tiempoFuncionMotor: varInv.tiempoFuncionMotor,
-      logo: varInv.logo
-    })
-  
-  res.send(varUs) 
+  var params = req.body
+  var Objeto = await Usuario.findOne(params.correo)
+    
+  if(Objeto){
+    if(Objeto.password === params.password){
+      const Objeto2 = await TokenNotificacion.findOne(Objeto.id,params.token)
+      if(!Objeto2){
+        var Objeto3 = await TokenNotificacion.create(Objeto.id, {
+          token: params.token
+        })
+        res.send({message: "Logueado y token guardado"})  
+      }else{
+        res.send({message: "Logueado pero ya tiene token guardado"})  
+      }
+      
+    }else{
+      res.send({message: "error al introducir la contraseña"})  
+    }
+  }else{
+    res.send({message: "el usuario no existe"})
+  }
 }) 
 
 
