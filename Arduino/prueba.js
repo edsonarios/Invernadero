@@ -11,7 +11,7 @@
 // mensaje que se muestra por consola informandonos de que la placa esta lista
  console.log("Placa lista.")
 ////////////////////////////////////////////////////////////////////////////////////////
- 
+ /*
 var thermometer = new five.Thermometer({
         controller: "DS18B20",
         pin: 10
@@ -21,9 +21,9 @@ var thermometer = new five.Thermometer({
         console.log(this.celsius + "°C");
         // console.log("0x" + this.address.toString(16));
       });
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////////
-      /*var proximity = new five.Proximity({
+      var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12
         
@@ -37,7 +37,7 @@ var thermometer = new five.Thermometer({
     
       proximity.on("change", function() {
         console.log("The obstruction has moved.");
-      });*/
+      });
 ////////////////////////////////////////////////////////////////////////////////////////
 })
 
