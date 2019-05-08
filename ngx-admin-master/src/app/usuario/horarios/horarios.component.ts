@@ -31,7 +31,7 @@ constructor(private horaService:HorarioService,
 		this.horaService.mostrarHorarios(localStorage.getItem('user_inv_id')).subscribe(
       response =>{
       	this.horario=response;
-        //console.log(this.horario);
+        console.log(this.horario);
       },
       error =>{
         
@@ -74,7 +74,7 @@ eliminarHorario(id){
     );
 
     this.router.navigateByUrl('/producto', {skipLocationChange: true}).then(()=>
-     this.router.navigate(['/Usuario/Control/Horarios']));
+     this.router.navigate(['/Usuario/Horarios']));
       
 }
 addHour(elem,id,uuid){
@@ -112,7 +112,7 @@ addHour(elem,id,uuid){
       }
     );
     this.router.navigateByUrl('/producto', {skipLocationChange: true}).then(()=>
-     this.router.navigate(['/Usuario/Control/Horarios']));
+     this.router.navigate(['/Usuario/Horarios']));
 }
 			
 }
