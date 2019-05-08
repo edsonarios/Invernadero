@@ -78,12 +78,15 @@ constructor(
     this._controlService.ObtenerControladores(localStorage.getItem('user_inv_id')).subscribe(
       response =>{
         this.Controller2 = response
+        console.log("arduino")
+        console.log(this.Controller2)
+        console.log("arduino")
 
         //this.datos = response
         if (Array.isArray(response)) {
           response.forEach(m => {
             
-                      this._sensorService.metricsUuid("arduino").subscribe(
+                      this._sensorService.metricsUuid(this.Controller2[0]['uuid']).subscribe(
                         response =>{
                           aux=m.uuid
                           this.NumeroControlador++
