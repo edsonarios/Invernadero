@@ -14,8 +14,9 @@ const md_upload = multipart({ uploadDir: './uploads/product'})
 
 const fs = require('fs')
 const path = require('path')
-//
 
+//Notificaion
+const FCM = require('fcm-node')
 
 const config = require('./config')
 
@@ -25,7 +26,7 @@ const api = asyncify(express.Router())
 api.use(bodyParser.urlencoded({extended:false}))
 api.use(bodyParser.json())
 
-let services, Agent, Metric,Usuario, Invernadero, Controlador, HistorialProducto, HistorialSensor, Pines, Producto, Dispositivo, Horario, Camara, Notification,TokenNotificacion
+let services, Agent, Metric,Usuario, Invernadero, Controlador, HistorialProducto, HistorialSensor, Pines, Producto, Dispositivo, Horario, Camara, Notificacion,TokenNotificacion
 
 api.use('*', async (req, res, next) => {
   if (!services) {
@@ -49,7 +50,7 @@ api.use('*', async (req, res, next) => {
     Dispositivo = services.Dispositivo
     Horario = services.Horario
     Camara = services.Camara
-    Notification = services.Notification
+    Notificacion = services.Notificacion
     TokenNotificacion = services.TokenNotificacion
 
   }
@@ -992,7 +993,7 @@ res.send(varUs)
 
 
 // Con ID del usuario Obtiene todos los invernaderos
-api.post('/obtenerInvernaderos', async (req, res, next) => { 
+api.post('/obtenerInvernaderos', async (req, res, next) => {
   var usuarioId = req.body
   var id = usuarioId.id
   const varInv = await Invernadero.findById(id)
@@ -1553,27 +1554,63 @@ api.post('/addTokenNotificacions', async (req, res, next) => {
   }
 }) 
 
-api.get('/getTokenNotificacion/:uuid', async (req, res) => {
-  const { uuid } = req.params
+api.get('/postNotificacion/:uuid/:title/:body', async (req, res) => {
+  const { uuid , title , body } = req.params
   const result  = await Controlador.findByUuid(uuid)
-  const pin = await Pines.findBomba(result.invernaderoId)
-  /*
-  let varios = []
+  const varUs = await Invernadero.findOne2(result.id)
+  const usu = await Usuario.findUno(varUs.usuarioId)
+  const token = await TokenNotificacion.findAll(usu.id)
+  const noti = await Notificacion.create(2,{
+      titulo:title, 
+      cuerpo:body
+  })
   
-  for (let i = 0; i < pin.length; i++) {
-    console.log("-----------------------------------------")
-    console.log(pin[i].id)
-    var horario = await Horario.findAll(pin[i].id)
+  var SERVER_API_KEY='AAAA_mbOYVk:APA91bGgUEkx19pOnVuveK4PGZn3rnbx1rPydrjp7riA349i9qSI8zLNoObLlW8bl8vuZqMWI2VDy78Z3JB7HDzDeVbvtD6rR0VbNQLRcYgp34xkuRNi5Z4aeOWJM0gwwuEfBXqsvdZd';//put your api key here
+  var fcmCli= new FCM(SERVER_API_KEY);
 
-    let varios2 = []
-    for (let j = 0; j < horario.length; j++) {
-      varios.push(horario[j])
-    }
+  //de henry
+  //e0j1Nu-huBI:APA91bErzIWUzaGerjNWxD9GplvXUrWBVbaq_itNlelElDg4MimVILVCkItfIvE-yFXIZKP_KRN0_6tI-30BTjdAjsliP5i3l9gtiHvFnR2TXX-I726C63MdAPACdLqU9AU7EjVKb0cP
+  if (Array.isArray(token)) {
+    token.forEach(m => {
+      //console.log(m.token)
+              var payloadOK = {
+                to: m.token,
+                priority: 'high',
+                content_available: true,
+                notification: { //Notificacion
+                    title: title,                    //TITULO
+                    body: body,                 //CUERPO
+                    sound : "default", badge: "1"                       //EXTRAS
+                }
+              };
+            var callbackLog = function (sender, err, res) {
+              console.log(sender,uuid)
+            };
+          
+            function sendOK()
+            {
+                fcmCli.send(payloadOK,function(err,res){
+                    callbackLog('sendOK',err,res);
+                });
+            }
+            sendOK();
+            
+
+    })
   }
 
-  res.send(varios)
- */
+  res.send({message: "Notificacion Enviada"})  
+ 
+
 })
+
+// Con ID del usuario Obtiene todas las Notificaciones
+api.post('/getNotificaciones', async (req, res, next) => {
+  var params = req.body
+  const varInv = await Notificacion.findAll(params.id)
+  
+ res.send(varInv)
+}) 
 
 
 

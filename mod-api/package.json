@@ -30,9 +30,12 @@
     "express-formidable": "^1.2.0",
     "express-jwt": "^5.3.0",
     "express-jwt-permissions": "^1.0.0",
+    "fcm-node": "^1.4.1",
+    "fcm-notification": "^2.0.0",
     "jsonwebtoken": "^8.1.0",
     "mod-db": "file:../mod-db",
     "path": "^0.12.7",
-    "pg": "^7.4.1"
+    "pg": "^7.4.1",
+    "retry": "^0.9.0"
   }
 }

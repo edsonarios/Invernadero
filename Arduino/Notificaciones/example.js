@@ -1,10 +1,10 @@
 
 FCM = require('fcm-node');
 
-var SERVER_API_KEY='AAAAkWZnNe4:APA91bF3UUdN10No7yMkJ2k0SXRR4TvlbxSq1EwD8_MBdeOxbRYP37tcXVeyrvlkxbKw0mSQx8GTpf4IGzswW5tG4veMJb7J2Pa1cjGg6PVLG6vXQOpct2LFjk4EKT2pFbmonhvSR5w9';//put your api key here
+var SERVER_API_KEY='AAAA_mbOYVk:APA91bGgUEkx19pOnVuveK4PGZn3rnbx1rPydrjp7riA349i9qSI8zLNoObLlW8bl8vuZqMWI2VDy78Z3JB7HDzDeVbvtD6rR0VbNQLRcYgp34xkuRNi5Z4aeOWJM0gwwuEfBXqsvdZd';//put your api key here
 
-var validDeviceRegistrationToken = 'fqVVUT623TQ:APA91bFKHC5ldpYC4N5eQnw9GwKtxNs8mAEA6BsRFJ2CbgkfmYTu2AhU3YQKMZonahVRD-V0xGXRAcCN52CSWUg4tfNHmJimFj-J53RozsHeG9H1v058tIxjx59oUEnNkG1XAyWB9fu2'; //put a valid device token here
-
+var validDeviceRegistrationToken = 'fWwer6JW9dI:APA91bHWr4LxwF8wEllEVl5PgvU9Q_Tw9MBiF1PVDJlAnDktf25-IZBbMxhRqXkVcfGYCQdayFGtMpoektcgawf8phB6wjovIACkdjDL9s-qzEYAQgK00G5ug4a2AWL2zK439WZd4JAt'; //put a valid device token here
+//fWwer6JW9dI:APA91bHWr4LxwF8wEllEVl5PgvU9Q_Tw9MBiF1PVDJlAnDktf25-IZBbMxhRqXkVcfGYCQdayFGtMpoektcgawf8phB6wjovIACkdjDL9s-qzEYAQgK00G5ug4a2AWL2zK439WZd4JAt
 
 var fcmCli= new FCM(SERVER_API_KEY);
 
@@ -18,8 +18,8 @@ var payloadOK = {
     priority: 'high',
     content_available: true,
     notification: { //Notificacion
-        title: 'TITULO DE NOTIFICACION',                    //TITULO
-        body: 'MENSAJE DE LA NOTIFICACION',                 //CUERPO
+        title: 'Error de bomba 1',                    //TITULO
+        body: 'Ya valio madres la bomba.. aguas..!!!',                 //CUERPO
         sound : "default", badge: "1"                       //EXTRAS
     }
 };

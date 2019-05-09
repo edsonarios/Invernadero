@@ -36,8 +36,13 @@ module.exports = function setupInvernadero (InvernaderoModel, UsuarioModel) {
         id
       }
     })
-    
-    
+  }
+  async function findOne2(id){
+    return InvernaderoModel.findOne({
+      where: {
+        id
+      }
+    })
   }
   async function destroyAll(id){
     return await InvernaderoModel.destroy({
@@ -59,6 +64,7 @@ module.exports = function setupInvernadero (InvernaderoModel, UsuarioModel) {
     updateInvernadero,
     findById,
     findOne,
+    findOne2,
     destroyAll,
     destroy
   }

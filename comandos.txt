@@ -478,17 +478,6 @@ Cabezeras en el midellware para acceder a todo
 
 
 PARA COPIAR AL VPS
-mod-db/lib/horario
-mod-db/lib/pines
-mod-api/api
-horario.component.ts
-y su html
-actuadores.component.ts
-en control manual y monitoreo
-electricity-chart.component.ts
-
-bomba 1 = pin 13
-bomba 2 = pin 9
 WATSS app
 MENSAJE ENVIADO = 600BYTES
 MENSAJE RECIVIDO = 400BYTES
@@ -538,7 +527,7 @@ select * from "tabla";
 //////////////////  SSH     /////////////////////
 /////////////////////////////////////////////////////////
 SERVIDOR SSH
-ssh root@173.212.204.188
+sshpass -p LP53a77tB5 ssh root@173.212.204.188
 password: LP53a77tB5
 
 INGRESAR SSH RED LOCAL

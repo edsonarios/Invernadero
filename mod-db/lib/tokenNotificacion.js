@@ -23,9 +23,17 @@ module.exports = function setuptokenNotificacion (TokenNotificacionModel,Usuario
     
     
   }
+  async function findAll(usuarioId){
+    return TokenNotificacionModel.findAll({
+      where: {
+        usuarioId
+      }
+    })
+  }
   return {
     create,
-    findOne
+    findOne,
+    findAll
   }
 
 }

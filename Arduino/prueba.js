@@ -1,10 +1,16 @@
 
  // incluimos la libreria j5
  const five = require("johnny-five")
+ const request = require('request-promise-native')
  //configuramos nuestra placa arduino en una variable
  var board = new five.Board({
     //port: "/dev/ttyUSB1"
  })
+
+ const IP = 'localhost'
+ //host para la api
+ const Host = `http://${IP}:3000/`
+ const agentID = "edson@edson"
  
  // funcion que se ejecuta cuando la placa ya esta lista
  board.on("ready", function() {
@@ -23,7 +29,7 @@ var thermometer = new five.Thermometer({
       });
 */
 ////////////////////////////////////////////////////////////////////////////////////////
-      var proximity = new five.Proximity({
+      /*var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12
         
@@ -37,9 +43,32 @@ var thermometer = new five.Thermometer({
     
       proximity.on("change", function() {
         console.log("The obstruction has moved.");
-      });
+      });*/
 ////////////////////////////////////////////////////////////////////////////////////////
+notificacion("Error bomba 1", "alv ya nos fuimos")
 })
+
+async function notificacion(title, body){
+  
+  const options = {
+    method: 'GET',
+    url: Host+`api/postNotificacion/${agentID}/${title}/${body}`,
+    //url: `http://173.212.235.89:3000/api/obtenerPines/${agentID}`,
+    json: true
+  }
+  
+  let result
+  
+  try {
+    result = await request(options)
+  } catch (e) {
+    this.error = e.error.error
+    return
+  }
+  console.log(result)
+
+
+}
 
 // mensaje que se muestra por consola mientras se espera a que se inicie la placa
  console.log("\nEsperando a que inicialice el dispositivo...")

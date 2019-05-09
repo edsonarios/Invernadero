@@ -533,7 +533,7 @@ port.on('error',function(err){
         client.on('message', (topic, payload) => {
         
           payload = parsePayload(payload)
-          
+          //console.log(payload)
           if(payload.agent.uuid==agentID){
             if(topic=="actuador"){
               TiEsperaInactividad = 120
@@ -614,10 +614,12 @@ port.on('error',function(err){
               var Hora = HoraYFecha.getHours()
               var Minuto = HoraYFecha.getMinutes()
               var Segundos = HoraYFecha.getSeconds()
-              console.log(hIni)
-              console.log(hDur)
-              console.log(hPinId)
-              console.log(hId)
+              
+              //imprime todos los horarios de riego
+              for (let i = 0; i < hIni.length; i++) {
+                console.log(i,hIni[i],hDur[i],hPinId[i],hId[i])
+              }
+
               console.log(Hora+":"+Minuto +":"+Segundos+" Actualiza por peticion del front")
               for (let i = 54; i < idPin.length; i++) {
                 if(clasePin[i]==3 && estado[i]==1){
@@ -651,12 +653,17 @@ port.on('error',function(err){
               console.log("Se Elimino un horario de riego")
               console.log(payload)
               
-              for (let index = 0; index < hIni.length; index++) {
-                if(hId[index]==parseInt(payload.id)){
-                  hIni.splice(index,1)
-                  hDur.splice(index,1)
-                  hPinId.splice(index,1)
-                  hId.splice(index,1)
+              for (let i = 0; i < hIni.length; i++) {
+                if(hIni[i]==payload.hora && hDur[i]==payload.duracion && hPinId[i]==parseInt(payload.bomba)){
+                  console.log(hIni[i])
+                  console.log(hDur[i])
+                  console.log(hPinId[i])
+                  console.log(hId[i])
+                  hIni.splice(i,1)
+                  hDur.splice(i,1)
+                  hPinId.splice(i,1)
+                  hId.splice(i,1)
+                  
                 }
                 
               }

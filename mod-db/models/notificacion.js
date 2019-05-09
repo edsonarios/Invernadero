@@ -15,6 +15,6 @@ module.exports = function setupNotificacionModel (config) {
     cuerpo: {
       type: Sequelize.STRING,
       allowNull: false
-    },
+    }
   })
 }
