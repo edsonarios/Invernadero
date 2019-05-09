@@ -1329,16 +1329,8 @@ api.get('/mostrarHorarioControlador/:uuid', async (req, res) => {
     for (let j = 0; j < horario.length; j++) {
       varios.push(horario[j])
     }
-
-    //varios.push(varios2)
-    //console.log(horario)
-    //varios.push(horario)
   }
 
-      
-  
-  
-  
   res.send(varios)
  
 })
@@ -1521,7 +1513,7 @@ api.get('/productosProducidos', async (req, res, next) => {
  })
 
 */
-
+/// NOTIFICACIONES /////////////////////////////////////////////////////////////////////
 api.post('/enviarNoti', async (req, res) =>{
   const notific = req.body
   console.log(req.body)
@@ -1560,6 +1552,28 @@ api.post('/addTokenNotificacions', async (req, res, next) => {
     res.send({message: "el usuario no existe"})
   }
 }) 
+
+api.get('/getTokenNotificacion/:uuid', async (req, res) => {
+  const { uuid } = req.params
+  const result  = await Controlador.findByUuid(uuid)
+  const pin = await Pines.findBomba(result.invernaderoId)
+  /*
+  let varios = []
+  
+  for (let i = 0; i < pin.length; i++) {
+    console.log("-----------------------------------------")
+    console.log(pin[i].id)
+    var horario = await Horario.findAll(pin[i].id)
+
+    let varios2 = []
+    for (let j = 0; j < horario.length; j++) {
+      varios.push(horario[j])
+    }
+  }
+
+  res.send(varios)
+ */
+})
 
 
 

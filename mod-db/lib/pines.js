@@ -198,8 +198,10 @@ module.exports = function setupControlador (PinesModel, ControladorModel) {
     return await PinesModel.findAll({
       where:{
         controladorId: id,
-        descripcionPin: {[op.like]: 'bomba%'}
-      }
+        descripcionPin: {[op.like]: 'bomba%'},
+        estado:1
+      },
+      order: [[ 'id', 'ASC' ]],
     })
   }
   async function findActuadorActive(id,actuador){
