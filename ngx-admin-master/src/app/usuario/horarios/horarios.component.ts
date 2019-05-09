@@ -61,18 +61,24 @@ constructor(private horaService:HorarioService,
       }
     );
 }
-eliminarHorario(id,uuid){
+eliminarHorario(id_horario,id,uuid,Hora,duracion){
+  /*console.log("esta es la id Horario: "+id_horario);
+  console.log("ESTA ES LA ID bomba:"+id);
+  console.log("ESTA ES LA UUID: "+uuid);
+  console.log("ESTA ES LA HORA: "+Hora);
+  console.log("ESTA ES LA DURACION: "+duracion);*/
 
-  this.horaService.eliminarHorario(id).subscribe(
+  this.horaService.eliminarHorario(id_horario).subscribe(
       response =>{
         this.horario=response;
+        console.log(response);
       },
       error =>{
         
       }
     );
 
-   var a = `{"agent":{"uuid":"${uuid}"},"id":"${id}"}`
+   var a = `{"agent":{"uuid":"${uuid}"},"hora":"${Hora}","duracion":"${duracion}","bomba":"${id}"}`
     console.log(a);
     this.socket.emit('eliminarRiego', a)
     

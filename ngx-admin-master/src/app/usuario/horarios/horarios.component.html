@@ -30,7 +30,7 @@
           <td>{{k+1}}</td>
           <td> <h4>{{horario[i][j][k]['horaInicio']}} </h4></td>
           <td> <h6>{{horario[i][j][k]['duracion'].substring(3,5)}} Min.</h6></td>
-          <td> <h1><i class="nb-trash btn-danger" style="border-radius: 8px" (click)="eliminarHorario(horario[i][j][k]['id'],Controller[i]['uuid'])"></i></h1></td>
+          <td> <h1><i class="nb-trash btn-danger" style="border-radius: 8px" (click)="eliminarHorario(horario[i][j][k]['id'],bombas[i][j]['id'],Controller[i]['uuid'],horario[i][j][k]['horaInicio'],horario[i][j][k]['duracion'])"></i></h1></td>
         </tr>
         </tbody>
       </table>
