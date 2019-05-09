@@ -82,22 +82,36 @@ eliminarHorario(id,uuid){
       
 }
 addHour(elem,id,uuid){
-  var Hora=elem.target.elements[0].value;
-  var Minuto =elem.target.elements[1].value;
-  var duracion=elem.target.elements[2].value;
+  var time_Hora=parseInt(elem.target.elements[0].value);
+  var time_Minuto =parseInt(elem.target.elements[1].value);
+  var time_duracion=parseInt(elem.target.elements[2].value);
+  var Hora;
+  var Minuto;
+  var duracion
 
-  if(Hora<10)
+  if(time_Hora<10)
     {
-      Hora='0'+Hora;
+      Hora='0'+time_Hora;
     }
-    if(Minuto<10)
+   else{
+     Hora=time_Hora;
+   }
+    if(time_Minuto<10)
     {
-      Minuto='0'+Minuto;
+      Minuto='0'+time_Minuto;
     }
-    if(duracion<10)
+     else{
+     Minuto=time_Minuto;
+   }
+    if(time_duracion<10)
     {
-      duracion='0'+duracion;
+      duracion='0'+time_duracion;
     }
+     else{
+     duracion=time_duracion;
+   }
+    console.log("tiempo---> "+Hora+':'+Minuto+':00');
+    console.log("Duracion---> "+'00:'+duracion+':00');
 
 
     var a = `{"agent":{"uuid":"${uuid}"},"hora":"${Hora}:${Minuto}:00","duracion":"00:${duracion}:00","bomba":"${id}"}`
@@ -117,6 +131,7 @@ addHour(elem,id,uuid){
     );
     this.router.navigateByUrl('/producto', {skipLocationChange: true}).then(()=>
      this.router.navigate(['/Usuario/Horarios']));
+    
 }
 			
 }
