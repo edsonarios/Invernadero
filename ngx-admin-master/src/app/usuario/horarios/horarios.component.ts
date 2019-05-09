@@ -53,7 +53,7 @@ constructor(private horaService:HorarioService,
       response =>{
         this.Controller=response;
 
-        //console.log(this.Controller);
+        console.log(this.Controller);
         
       },
       error =>{
@@ -61,17 +61,21 @@ constructor(private horaService:HorarioService,
       }
     );
 }
-eliminarHorario(id){
+eliminarHorario(id,uuid){
 
   this.horaService.eliminarHorario(id).subscribe(
       response =>{
         this.horario=response;
-        console.log(response);
       },
       error =>{
         
       }
     );
+
+   var a = `{"agent":{"uuid":"${uuid}"},"id":"${id}"}`
+    console.log(a);
+    this.socket.emit('eliminarRiego', a)
+    
 
     this.router.navigateByUrl('/producto', {skipLocationChange: true}).then(()=>
      this.router.navigate(['/Usuario/Horarios']));

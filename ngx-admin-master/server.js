@@ -72,6 +72,13 @@ io.on('connect', socket => {
     
     //console.log("\x1b[31m",payload)
   })
+   
+     socket.on('eliminarRiego', payload => {
+    //publica mediante mqtt el objeto json
+    client.publish("eliminarRiego", payload)
+    
+    console.log("\x1b[31m",payload)
+  })
 
     socket.on('nuevoRiego', payload => {
     //publica mediante mqtt el objeto json
