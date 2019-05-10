@@ -4,7 +4,7 @@ const debug = require('debug')('mod:api:routes')
 const express = require('express')
 const asyncify = require('express-asyncify')
 const auth = require('express-jwt')
-const guard = require('express-jwt-permissions')()
+//const guard = require('express-jwt-permissions')()
 const db = require('mod-db')
 //const request = require('request-promise-native')
 var bodyParser = require('body-parser')
@@ -1560,7 +1560,7 @@ api.get('/postNotificacion/:uuid/:title/:body', async (req, res) => {
   const varUs = await Invernadero.findOne2(result.id)
   const usu = await Usuario.findUno(varUs.usuarioId)
   const token = await TokenNotificacion.findAll(usu.id)
-  const noti = await Notificacion.create(2,{
+  const noti = await Notificacion.create(usu.id,{
       titulo:title, 
       cuerpo:body
   })

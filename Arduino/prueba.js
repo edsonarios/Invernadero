@@ -7,8 +7,9 @@
     //port: "/dev/ttyUSB1"
  })
 
- const IP = 'localhost'
- //host para la api
+ //const IP = 'localhost'
+ const IP = '173.212.204.188'
+  //host para la api
  const Host = `http://${IP}:3000/`
  const agentID = "edson@edson"
  
@@ -45,7 +46,7 @@ var thermometer = new five.Thermometer({
         console.log("The obstruction has moved.");
       });*/
 ////////////////////////////////////////////////////////////////////////////////////////
-notificacion("Error bomba 1", "alv ya nos fuimos")
+notificacion("Error bomba 2", "bomba no encendida")
 })
 
 async function notificacion(title, body){
