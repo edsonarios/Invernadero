@@ -19,7 +19,17 @@
     <nb-action >
       <nb-user [nbContextMenu]="userMenu" [name]="user?.name" [picture]="user?.picture"></nb-user>
     </nb-action>
-    
+    <nb-action icon="nb-notifications"  badgeText="{{notifications.length}}"
+                 badgeStatus="danger" [nbPopover]="templateRef" nbPopoverPlacement="bottom">
+    </nb-action>
+    <ng-template #templateRef>
+  
+    <div *ngFor="let n of notifications ; let i=index" >
+      <label class="text-info">{{notifications[i]['titulo']}}</label><br>
+      <span style="padding-top: 0px;padding-bottom: 0px;"> {{notifications[i]['cuerpo']}}</span><hr>
+    </div>
+  
+</ng-template>
    
   </nb-actions>
 </div>

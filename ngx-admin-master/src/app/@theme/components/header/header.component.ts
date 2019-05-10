@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
-
+import { UserService } from '../../../../service/user.service';
+import { User } from '../../../../model/user';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { filter } from 'rxjs/operators/filter';
 import 'rxjs/add/operator/map';
@@ -11,11 +12,15 @@ import { Observable } from 'rxjs/Observable';
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
+    providers: [UserService],
 })
 export class HeaderComponent implements OnInit {
  status=localStorage.getItem('role');
 
   @Input() position = 'normal';
+
+  notifications;
+public usuario: User;
 
   user: any;
   userMenu=[];
@@ -24,7 +29,7 @@ tag = 'my-context-menu';
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
-         //     private userService: UserService,
+            private userService: UserService,
               private analyticsService: AnalyticsService,
               private router:Router) {
 
@@ -50,6 +55,19 @@ tag = 'my-context-menu';
   }
 
   ngOnInit() {
+
+   this.usuario = new User(localStorage.getItem('user_id'),'','','','','','','','','','');
+ this.userService.Notifications(this.usuario).subscribe(
+      response =>{
+        this.notifications=response;
+        console.log("estas son las notificaciones del usuario ID: "+localStorage.getItem('user_id'));
+        console.log(this.notifications);
+      },
+      error =>{
+        
+      }
+    );
+
  // Agrega los nombres
        if (this.status==null) {
         this.user={ name: 'Nelson Richard Cori Sirpa', picture: 'assets/images/nick.jpg' };

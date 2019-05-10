@@ -44,7 +44,13 @@ export class UserService{
 	obtenerTesters(){
 		return this._http.get(this.url+'obtenerTester').map(res=> res.json())
 	}
+	Notifications(user){
+		let params = JSON.stringify(user);
+		let headers= new Headers({'Content-Type':'application/json'});
 
+		return this._http.post(this.url+'getNotificaciones',params, {headers:headers})
+		.map(res => res.json())
+	}
 
 	detalleUsuario(iduser){
 		let params = JSON.stringify(iduser);
