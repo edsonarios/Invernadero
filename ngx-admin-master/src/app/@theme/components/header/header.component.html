@@ -25,7 +25,7 @@
     <ng-template #templateRef>
   
     <div *ngFor="let n of notifications ; let i=index" >
-      <label class="text-info">{{notifications[i]['titulo']}}</label><br>
+      ({{notifications[i]['createdAt'].substring(11,19)}})-<label class="text-info">{{notifications[i]['titulo']}}</label><br>
       <span style="padding-top: 0px;padding-bottom: 0px;"> {{notifications[i]['cuerpo']}}</span><hr>
     </div>
   
