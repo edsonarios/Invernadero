@@ -46,7 +46,7 @@ var thermometer = new five.Thermometer({
         console.log("The obstruction has moved.");
       });*/
 ////////////////////////////////////////////////////////////////////////////////////////
-notificacion("Error bomba 2", "bomba no encendida")
+notificacion("Error bomba 3", "bomba no encendida")
 })
 
 async function notificacion(title, body){

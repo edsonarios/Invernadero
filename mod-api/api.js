@@ -1536,23 +1536,17 @@ api.post('/addTokenNotificacions', async (req, res, next) => {
     
   if(Objeto){
     if(Objeto.password === params.password){
-      const Objeto2 = await TokenNotificacion.findOne(Objeto.id,params.token)
-      if(!Objeto2){
-        var Objeto3 = await TokenNotificacion.create(Objeto.id, {
-          token: params.token
-        })
-        res.send({message: "Logueado y token guardado"})  
-      }else{
-        res.send({message: "Logueado pero ya tiene token guardado"})  
-      }
-      
+      const Objeto2 = await TokenNotificacion.createOrUpdate(Objeto.id,{
+        token: params.token
+      })
+      res.send({message: "Logueado y token guardado o actualizado"})  
     }else{
       res.send({message: "error al introducir la contraseña"})  
     }
   }else{
     res.send({message: "el usuario no existe"})
   }
-}) 
+})
 
 api.get('/postNotificacion/:uuid/:title/:body', async (req, res) => {
   const { uuid , title , body } = req.params

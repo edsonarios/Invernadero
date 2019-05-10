@@ -13,6 +13,32 @@ module.exports = function setuptokenNotificacion (TokenNotificacionModel,Usuario
       return result.toJSON()
     }
   }
+
+  async function createOrUpdate (id ,tokenNotificacion) {
+    const cond = {
+      where: {
+        token: tokenNotificacion.token
+      }
+    }
+    const usuario = await UsuarioModel.findOne({
+      where: { id }
+    })
+    const existingAgent = await TokenNotificacionModel.findOne(cond)
+
+    if (existingAgent) {
+      Object.assign(tokenNotificacion, { usuarioId: usuario.id })
+      const updated = await TokenNotificacionModel.update(tokenNotificacion, cond)
+      return updated ? TokenNotificacionModel.findOne(cond) : existingAgent
+    }
+
+    
+    if(usuario){
+      Object.assign(tokenNotificacion, { usuarioId: usuario.id })
+      const result = await TokenNotificacionModel.create(tokenNotificacion)
+      return result.toJSON()
+    }
+  }
+
   async function findOne(id,token){
     return TokenNotificacionModel.findOne({
       where: {
@@ -20,8 +46,6 @@ module.exports = function setuptokenNotificacion (TokenNotificacionModel,Usuario
         token:token
       }
     })
-    
-    
   }
   async function findAll(usuarioId){
     return TokenNotificacionModel.findAll({
@@ -32,6 +56,7 @@ module.exports = function setuptokenNotificacion (TokenNotificacionModel,Usuario
   }
   return {
     create,
+    createOrUpdate,
     findOne,
     findAll
   }

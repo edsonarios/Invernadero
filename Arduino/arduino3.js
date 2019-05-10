@@ -904,6 +904,27 @@ async function horarios(){
   console.log(hIni)
   
 }
+async function notificacion(title, body){
+  
+  const options = {
+    method: 'GET',
+    url: Host+`api/postNotificacion/${agentID}/${title}/${body}`,
+    //url: `http://173.212.235.89:3000/api/obtenerPines/${agentID}`,
+    json: true
+  }
+  
+  let result
+  
+  try {
+    result = await request(options)
+  } catch (e) {
+    this.error = e.error.error
+    return
+  }
+  console.log(result,title,body)
+
+
+}
 async function encenderVentilador(idP, nroP,pos){
   console.log("ventilador")
   TiEsperaInactividad = 120
@@ -1304,38 +1325,6 @@ async function finalCarrera(pin,value,pos) {
       
     
   
-}
-
-async function notificacion(){
-  FCM = require('fcm-node');
-
-var SERVER_API_KEY='AAAAkWZnNe4:APA91bF3UUdN10No7yMkJ2k0SXRR4TvlbxSq1EwD8_MBdeOxbRYP37tcXVeyrvlkxbKw0mSQx8GTpf4IGzswW5tG4veMJb7J2Pa1cjGg6PVLG6vXQOpct2LFjk4EKT2pFbmonhvSR5w9';//put your api key here
-
-var validDeviceRegistrationToken = 'fqVVUT623TQ:APA91bFKHC5ldpYC4N5eQnw9GwKtxNs8mAEA6BsRFJ2CbgkfmYTu2AhU3YQKMZonahVRD-V0xGXRAcCN52CSWUg4tfNHmJimFj-J53RozsHeG9H1v058tIxjx59oUEnNkG1XAyWB9fu2'; //put a valid device token here
-
-
-var fcmCli= new FCM(SERVER_API_KEY);
-
-var payloadOK = {
-    to: validDeviceRegistrationToken,
-    data: { //Algunos datos (Opcional)
-        dato1: 'dato opcional 1',
-        dato2: 'dato opcional 2',
-        dato3: 'dato opcional 3'
-    },
-    priority: 'high',
-    content_available: true,
-    notification: { //Notificacion
-        title: 'TITULO DE NOTIFICACION',                    //TITULO
-        body: 'MENSAJE DE LA NOTIFICACION',                 //CUERPO
-        sound : "default", badge: "1"                       //EXTRAS
-    }
-};
-
-fcmCli.send(payloadOK,function(err,res){
-  callbackLog('sendOK',err,res);
-});
-
 }
 
  // mensaje que se muestra por consola mientras se espera a que se inicie la placa
