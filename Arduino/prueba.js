@@ -4,7 +4,7 @@
  const request = require('request-promise-native')
  //configuramos nuestra placa arduino en una variable
  var board = new five.Board({
-    //port: "/dev/ttyUSB1"
+    port: "/dev/ttyUSB1"
  })
 
  //const IP = 'localhost'
@@ -30,7 +30,7 @@ var thermometer = new five.Thermometer({
       });
 */
 ////////////////////////////////////////////////////////////////////////////////////////
-      /*var proximity = new five.Proximity({
+      var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12
         
@@ -44,9 +44,9 @@ var thermometer = new five.Thermometer({
     
       proximity.on("change", function() {
         console.log("The obstruction has moved.");
-      });*/
+      });
 ////////////////////////////////////////////////////////////////////////////////////////
-notificacion("Error bomba 3", "bomba no encendida")
+//notificacion("Error bomba 3", "bomba no encendida")
 })
 
 async function notificacion(title, body){
