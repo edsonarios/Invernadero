@@ -38,6 +38,8 @@ export class UserService{
 	obtenerUsuarios(){
 		return this._http.get(this.url+'obtenerUsuarios').map(res=> res.json())
 	}
+
+
 	obtenerAdmins(){
 		return this._http.get(this.url+'obtenerAdmins').map(res=> res.json())
 	}

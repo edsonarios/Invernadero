@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
   @Input() position = 'normal';
 
-  notifications;
+  notifications = [];
 public usuario: User;
 
   user: any;
@@ -60,8 +60,8 @@ tag = 'my-context-menu';
  this.userService.Notifications(this.usuario).subscribe(
       response =>{
         this.notifications=response;
-        console.log("estas son las notificaciones del usuario ID: "+localStorage.getItem('user_id'));
-        console.log(this.notifications);
+        //console.log("estas son las notificaciones del usuario ID: "+localStorage.getItem('user_id'));
+        //console.log(this.notifications);
       },
       error =>{
         
