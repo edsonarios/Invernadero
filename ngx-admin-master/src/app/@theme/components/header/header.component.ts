@@ -37,17 +37,17 @@ tag = 'my-context-menu';
  if(localStorage.getItem('role')!=null){
 
    if (this.status=="user") {
-      this.userMenu = [{ title: 'Mi Perfil' ,link: '/Usuario/Cuenta/Perfil'},{ title: 'Desconectarse',link: '/Principal/Inicio' }];
+      this.userMenu = [{ title: 'Mi Perfil' ,link: '/Usuario/Cuenta/Perfil'},{ title: 'Desconectarse',link: '/Principal/Login' }];
     }
     if(this.status=="admin"||this.status=="root"){
-      this.userMenu = [{ title: 'Mi Perfil' ,link: '/Administrador/Cuentas/Perfil'},{ title: 'Gestionar',link: '/Administrador/Cuentas/Usuarios' },{ title: 'Desconectarse' ,link: '/Principal/Inicio' }];
+      this.userMenu = [{ title: 'Mi Perfil' ,link: '/Administrador/Cuentas/Perfil'},{ title: 'Gestionar',link: '/Administrador/Cuentas/Usuarios' },{ title: 'Desconectarse' ,link: '/Principal/Login' }];
     }
     if(this.status=="tester"){
-      this.userMenu = [{ title: 'Desconectarse' ,link: '/Principal/Inicio' }];
+      this.userMenu = [{ title: 'Desconectarse' ,link: '/Principal/Login' }];
     }
  }
  else{
-  this.userMenu = [{ title: 'Mi Perfil'},{ title: 'Desconectarse',link: '/Principal/Inicio' }];
+  this.userMenu = [{ title: 'Mi Perfil'},{ title: 'Desconectarse',link: '/Principal/Login' }];
  }
 
 

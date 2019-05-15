@@ -1,97 +1,53 @@
-<!-- Navegacion -->
-<nav class="navbar nav-pills navbar-expand-md navbar-light  sticky-top" style="background-color: #ffffff;">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#"> <img src="assets/images/Logo Patelecom.png" class="logo">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-         <ul class="navbar-nav ml-auto"> 
-        <li class="nav-item active">
-          <a class="nav-link " href="#/Principal/Inicio" ><b><h5 class="menu">Inicio</h5></b></a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" href="#/Principal/AcercaNosotros"> <h5 class="menu">Quienes Somos </h5></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link activado" href="#/Principal/Login"> <h4 class="menu">Iniciar Sesion</h4></a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" href="#/Principal/Contactos"> <h5 class="menu">Contactenos </h5></a>
-        </li>
-         <li class="nav-item dropdown" ngbDropdown>
-        <a class="nav-link dropdown-toggle"  ngbDropdownToggle><h5 class="menu dropdown">Otros</h5></a>
-        <div class="dropdown-menu"  ngbDropdownMenu>
-          <a class="dropdown-item" href="#/Principal/Productos"><h6 class="menu">Otros Productos</h6></a>
-          <a class="dropdown-item" href="#/Principal/Servicios"><h6 class="menu">Otros Servicios</h6></a>
-        </div>
-      </li>
-    
-     <!--
-        <li class="nav-item">
-          <a href="#/Principal/Demo/dashboard"><button type="button" class="btn btn-success btn-md animado"> <font color="white"><b>Probar DEMO</b></font>
-        </button></a>
-        </li>-->
-      <button type="button" class="btn btn-success btn-md" disabled=""> <font color="white"><b>Probar DEMO</b></font>
-        </button>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-<hr>
-<!-- FORMULARIO DE LOGIN -->
 
-<div class="modal-dialog text-center" [@fadeIn]>
-  <div class="col-sm-9 main-section">
-      <div class="modal-content">
-        <div class="col-12 user-img">
-          <img src="assets/images/Sing.png">
-        </div>
-        <div class="col-12" >
-          <div class="alert alert-success" *ngIf="status=='success'">
-            Se ha iniciado Secion Correctamente
-          </div>
-          <div class="alert alert-danger" *ngIf="status=='denied'">
-            Correo o contraseña incorrectos
-          </div>
-          <form  class="form-horizontal" (submit)="Login($event)">
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <input type="text" class="form-control" placeholder="Ingrese su Correo"  >
+    <!-- CODIGO NUEVO -->
+
+
+<div class="container" *ngIf="autentification==false">
+  <form [formGroup]="LoginForm" class="form-signin" (submit)="Autentificador($event)">       
+      <h1 class="form-signin-heading">  <img src="assets/images/logo_page.png" ></h1>
+      <input type="text" 
+             class="form-control" 
+             name="username" 
+             placeholder="Correo Electronico" 
+             required
+             formControlName="CorreoCtrl" 
+             autofocus=""
+             [ngClass]="{'form-control-danger': LoginForm.controls['CorreoCtrl'].invalid && (LoginForm.controls['CorreoCtrl'].dirty || LoginForm.controls['CorreoCtrl'].touched)}" />
+
+              <div *ngIf="LoginForm.controls['CorreoCtrl'].invalid && (LoginForm.controls['CorreoCtrl'].dirty || LoginForm.controls['CorreoCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="LoginForm.controls['CorreoCtrl'].errors">
+                      Introdusca un Correo Electronico
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <input type="password" class="form-control" placeholder="Contraseña" >
+      <input type="password" 
+             class="form-control"
+             name="password" 
+             placeholder="Contraseña" 
+             required
+             formControlName="PasswordCtrl"
+            [ngClass]="{'form-control-danger': LoginForm.controls['PasswordCtrl'].invalid && (LoginForm.controls['PasswordCtrl'].dirty || LoginForm.controls['PasswordCtrl'].touched)}" /> 
+
+              <div *ngIf="LoginForm.controls['PasswordCtrl'].invalid && (LoginForm.controls['PasswordCtrl'].dirty || LoginForm.controls['PasswordCtrl'].touched)" class="alert alert-danger">
+
+                <div *ngIf="LoginForm.controls['PasswordCtrl'].errors">
+                      Introdusca una contraseña
+                </div>
               </div>
-            </div>
+            <nb-alert status="danger" *ngIf="status=='denied'">
+              Usuario y/o Contraseña Incorrectos
+            </nb-alert>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" >Conectarse</button>   
+    </form>
+  <p class="text-center sign-up"><strong>PATELECOM S.R.L.</strong> &copy; 2019 Todos los derechos reservados</p>
+</div>
+<div class="container" *ngIf="autentification==true">
+  <form class="form-signin" >       
+      <h1 class="form-signin-heading">  <img src="assets/images/logo_page.png" ></h1>
+    </form>
+    <span align="center"><h1 class="text-success">Te damos la Bienvenida<br> {{welcome}}</h1></span>
 
-          <div class="col-md-12">
-          <input type="submit" class="btn btn-success btn-block" value="Ingresar">
-        </div>
-          </form>
 
-        </div>
-        <br>
-        <div class="col-12 forgot">
-          <a href="#/Principal/Contactos">Olvide mi contraseña</a>
-        </div>
-      </div>
-  </div>
+  <p class="text-center sign-up"><strong>PATELECOM S.R.L.</strong> &copy; 2019 Todos los derechos reservados</p>
 </div>
 
-
-
-<!-- FOOTER -->
-      <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-          <div class="col-12 col-md">
-            <small style="float:right;"><h6>Desarrollado por: <a href="https://www.facebook.com/nelsonrichardc" target="_blank">RichardSon</a></h6></small>
-            <small class="d-block mb-3 text-muted"><h5>Patelecom S.R.L.<br>&copy; 2019
-              <br>Todos los derechos reservados</h5></small>
-          </div>
-        </div>
-      </footer>
-    

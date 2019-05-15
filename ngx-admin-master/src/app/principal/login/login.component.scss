@@ -3,67 +3,88 @@
 @import '~@nebular/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
-  .solar-card nb-card-header {
-    border: none;
-    padding-bottom: 0;
-  }
-  .main-section{
-    margin: 0 auto;
-    margin-top: 60px;
-    padding: 0;
-  }
-  button:disabled,
-  button[disabled]{
-  background-color: #9afd8c;
-  color: #000000;
-}
- .menu.dropdown{
-    margin-left:30px;
-    padding-right:35px;
-  }
  
-  h6.menu{
-    margin-left:-10px;
-  }
-  .menu:hover{
-  color:DodgerBlue;
-  }
-  .modal-content{
-  background-color: #434e5a;
-  opacity: 0.8;
-  padding: 0 18px;
-  border-radius: 10px;
-  }
-  .user-img img {
-    height: 150px;
-    width: 150px;
-  }
-  .user-img{
-    margin-top: -60px;
-    margin-bottom: 10px;
-  }
-  .form-group{
-    margin-bottom: 25px;
-  }
-  .form-group input{
-    height: 48px;
-    border-radius: 5px;
-    border: 0;
-    font-size: 18px;
-    letter-spacing: 2px;
-    padding-left: 10px;
+ ////
+span{
+  font-size: 20px;
+  text-shadow: #474747 3px 5px 2px;
+}
+.form-signin {
+  max-width: 280px;
+  margin: 0px auto 10px;
+
+  .form-signin-heading {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 0px;
   }
 
-  input.btn.btn-success{
-    background-color: #1c6288;
-    fotn-size: 19px;
-    border-radius: 5px;
-    padding: 7px 14px;
-    border: 1px solid #daf1ff;
+  .checkbox {
+    font-weight: normal;
   }
-  input.btn.btn-success:hover{
-    background-color: #13445e;
+
+  .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    //@include box-sizing(border-box);
   }
+
+  input[type="text"] {
+    margin-bottom: -1px;
+     border-top: 1px solid transparent;
+     border-right: 1px solid transparent;
+     border-left: 1px solid transparent;
+     box-shadow: none;
+    border-radius: 3px 3px 0px 0px;   
+        
+    &:focus {
+      box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);      
+    }
+  }
+
+  input[type="password"] {
+    z-index: 2;
+    margin-bottom: 20px;
+    border-top: none;
+    border-bottom: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-radius: 0px 0px 3px 3px;   
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+
+    &:focus {
+      box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0px 1px 0px 0px rgba(255,255,255,0.5);       
+    }
+  }
+
+  .btn {
+    font-weight: bold;
+    border-radius: 3px;
+    border: none;
+  }
+}
+
+p.sign-up {
+  color: #fff;
+  font-size: 12px;
+}
+img{
+ 
+ width: 110%;
+  height: auto;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: -20px;
+  background-repeat: no-repeat;
+  align-content: center;
+}
+ ///
+
+ 
+ 
+
   .forgot{
     padding: 5px 0 25px;
   }
