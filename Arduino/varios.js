@@ -1,6 +1,6 @@
-var dato = 96
-var maximo = 95
-var minimo = 15
+var dato = 10
+var maximo = 0
+var minimo = 120
 
 var result 
 //95 es 100% - 15 es 0%

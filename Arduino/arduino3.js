@@ -11,13 +11,13 @@
   { id: "C", port: "COM6" } //Proximidad
   */
   { id: "A", port: "/dev/ttyUSB0" },//MEGA
-  //{ id: "B", port: "/dev/ttyUSB3" }, //Agua
-  //{ id: "C", port: "/dev/ttyUSB1" } //Proximidad
+  { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
+  //{ id: "C", port: "/dev/ttyUSB1" } //Agua
 ];
 
  //Entrada de variable para los sensores de temperatura
- var sensorCOM1 = '/dev/ttyUSB1'
- var sensorCOM2 = '/dev/ttyUSB2'
+ var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
+ var sensorCOM2 = '/dev/ttyUSB3' // sensor ds
  //var sensorCOM = '/dev/ttyUSB3'
 
  //configuramos nuestra placa arduino en una variable
@@ -116,7 +116,7 @@ parser1.on('open ',function(){
     console.log('coneccion is opend');
 });
 parser1.on('data',function(data){
-  //console.log(data)
+  console.log(data)
   var a=""
   var b=0
     if(dthSw==1){
@@ -172,7 +172,7 @@ parser2.on('open ',function(){
     console.log('coneccion is opend');
 });
 parser2.on('data',function(data){
-  //console.log(data)
+  console.log(data)
   var a=""
   var b=0
   
@@ -313,10 +313,10 @@ port2.on('error',function(err){
                 if(clasePin[i]==1){
                    if(pulsesFlow[i]>10){
                       temp[i] = 1
-                      //console.log("hay flujo : ",i,pulsesFlow[i])
+                      console.log("hay flujo : ",i,pulsesFlow[i])
                    }else{
                       temp[i] = 0
-                      //console.log("no hay flujo : ",i,pulsesFlow[i])
+                      console.log("no hay flujo : ",i,pulsesFlow[i])
                    }
                    pulsesFlow[i]=0
                 }
@@ -763,7 +763,7 @@ port2.on('error',function(err){
 
 // SENSOR DE AGUA //////////////////////////////////////////////////////////////////////////////
      //this.each(function(board) {
-      //if (board.id === "B") {
+      //if (board.id === "C") {
       /////////////////////////////////////////////////////////////////////
 /*
       var thermometer1 = new five.Thermometer({
@@ -783,10 +783,10 @@ port2.on('error',function(err){
       //}
     //});
 // SENSOR DE PROXIMIDAD //////////////////////////////////////////////////////////////////////////////
-    //this.each(function(board) {
-      //if (board.id === "C") {
+    this.each(function(board) {
+      if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
-      /*
+      
       var proximity1 = new five.Proximity({
         controller: "HCSR04",
         pin: 12,
@@ -795,16 +795,16 @@ port2.on('error',function(err){
       
       //95 es 100% - 15 es 0%
       var proximidadDato1 = 0
-      var proximidadMaximo1 = 95
-      var proximidadMinimo1 = 15
+      var proximidadMaximo1 = 0
+      var proximidadMinimo1 = 120
       proximity1.on("change", function() {
         proximidadDato1 =this.cm
         proximidadDato1 -=proximidadMinimo1
-        temp[77]=((proximidadDato1/(proximidadMaximo1-proximidadMinimo1))*100).toFixed(2)
-        //temp[77]=this.cm
+        temp[81]=((proximidadDato1/(proximidadMaximo1-proximidadMinimo1))*100).toFixed(2)
+        //temp[81]=this.cm
         //console.log("The obstruction has moved.");
       });
-
+/*
       var proximity2 = new five.Proximity({
         controller: "HCSR04",
         pin: 11,
@@ -840,8 +840,8 @@ port2.on('error',function(err){
         //console.log("The obstruction has moved.");
       });*/
       /////////////////////////////////////////////////////////////////////
-      //}
-    //});
+      }
+    });
 
     
     //Funcion que cambia el numero de pin si lo requiera (Controlino si requiere cambio de pin)
