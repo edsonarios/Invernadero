@@ -52,7 +52,7 @@ import { Invernadero } from '../../../../model/invernadero';
     </div>
          <div class="info">
             <div class="temperature">
-                  <span>{{value}} </span>
+                  <span>{{value}} %</span>
             </div>
             <div class="icon">
                <i class="ion-beaker"></i>

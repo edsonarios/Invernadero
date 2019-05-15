@@ -55,8 +55,8 @@ ValBombas=0;
   NombreControlador=[]
   NumeroControlador;
 
-Controller;
-Devices;
+Controller= [];
+Devices= [];
 public urlSocket: string;
 socket;
 
@@ -78,9 +78,9 @@ constructor(
     this._controlService.ObtenerControladores(localStorage.getItem('user_inv_id')).subscribe(
       response =>{
         this.Controller2 = response
-        console.log("arduino")
-        console.log(this.Controller2)
-        console.log("arduino")
+        //console.log("arduino")
+       // console.log(this.Controller2)
+       // console.log("arduino")
 
         //this.datos = response
         if (Array.isArray(response)) {
@@ -95,7 +95,7 @@ constructor(
                           var aux2="aaa"
                       
                           sw=0
-                          console.log(response);
+                         console.log(response);
                           if (Array.isArray(response)) {
                             response.forEach(m => {
                               this.uuid.push(aux)
@@ -130,19 +130,19 @@ constructor(
                           }
                         //console.log("aux2")
                          // console.log(aux2)
-                         console.log("Este es el dato Sensores: ");
-                         console.log(this.SensorTH);
-                         console.log(this.Sensoruuid);
+                        // console.log("Este es el dato Sensores: ");
+                        // console.log(this.SensorTH);
+                        // console.log(this.Sensoruuid);
 
-                          console.log("Este es el dato Tanque: ");
-                         console.log(this.SensorTanque);
-                         console.log(this.TanqueUuid);
+                         // console.log("Este es el dato Tanque: ");
+                        // console.log(this.SensorTanque);
+                        // console.log(this.TanqueUuid);
 
-                         console.log("Este es el dato: Agua");
-                         console.log(this.SensorAgua);
-                         console.log(this.AguaUuid);
+                        // console.log("Este es el dato: Agua");
+                        // console.log(this.SensorAgua);
+                         //console.log(this.AguaUuid);
                           
-                          console.log("Este es el dato: Flujo");
+                         console.log("Este es el dato: Flujo");
                          console.log(this.SensorFlujoBomba);
                          console.log(this.FlujoBombaUuid);
                         },
@@ -195,6 +195,7 @@ ngOnInit(){
                   //Entra en un loop buscando el sensor de flujo que tenga el mismo valor que la bomba N
                       //console.log(this.Devices[i][0][j]['descripcionPin']);
                       var cadena= this.Devices[i][0][j]['descripcionPin'];
+
                          var sw=0
 
     
@@ -204,8 +205,7 @@ ngOnInit(){
                   response =>{
                     if (Array.isArray(response)) {
                       response.forEach(m => {
-            
-                      this._sensorService.metricsUuid("arduino").subscribe(
+                      this._sensorService.metricsUuid(response[0]['uuid']).subscribe(
                         response =>{
                           aux=m.uuid
 
@@ -214,7 +214,7 @@ ngOnInit(){
                           sw=0
                           if (Array.isArray(response)) {
                             response.forEach(m => {
-                              
+                             // console.log("---->"+m.type.substring(13).toLowerCase()+"==== "+cadena.toLowerCase());
                               if((m.type.substring(13)).toLowerCase()==(cadena).toLowerCase()){
                                
                                 this.FlujoMetrics.push(m.type);
@@ -253,9 +253,9 @@ ngOnInit(){
                  this.FlujoMectricsController.push(this.FlujoMetrics);
                  this.FlujoMectricsControllerUuid.push(this.FlujoMetricsUuid);
               }      
-            
-              console.log(this.FlujoMectricsController);
-              console.log(this.FlujoMectricsControllerUuid);
+              //console.log("el flujo final");
+             // console.log(this.FlujoMectricsController);
+              //console.log(this.FlujoMectricsControllerUuid);
 
     },
     error=>{

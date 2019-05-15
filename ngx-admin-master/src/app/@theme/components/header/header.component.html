@@ -4,7 +4,8 @@
   <div class="logo-containter">
     <a (click)="toggleSidebar()" href="#" class="navigation">
       <i class="nb-menu"></i></a>
-   <img src="assets/images/Logo Patelecom.png" class="logo">
+  
+    <img src="assets/images/logo_ecofresh.png" class="logo">
   </div>
 
 </div>
@@ -19,14 +20,17 @@
     <nb-action >
       <nb-user [nbContextMenu]="userMenu" [name]="user?.name" [picture]="user?.picture"></nb-user>
     </nb-action>
+
     <nb-action icon="nb-notifications"  badgeText="{{notifications.length}}"
                  badgeStatus="danger" [nbPopover]="templateRef" nbPopoverPlacement="bottom">
     </nb-action>
     <ng-template #templateRef>
-  
     <div *ngFor="let n of notifications ; let i=index" >
       ({{notifications[i]['createdAt'].substring(11,19)}})-<label class="text-info">{{notifications[i]['titulo']}}</label><br>
       <span style="padding-top: 0px;padding-bottom: 0px;"> {{notifications[i]['cuerpo']}}</span><hr>
+    </div>
+    <div *ngIf="notifications.length==0">
+      <span class="text-success">No hay Notificaciones</span>
     </div>
   
 </ng-template>

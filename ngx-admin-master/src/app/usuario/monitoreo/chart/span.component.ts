@@ -9,6 +9,7 @@ import { Invernadero } from '../../../../model/invernadero'
 @Component({
   selector: 'ngx-span-flujo',
   template: `
+  <span class="parameter-value text-info" *ngIf="valueFlujoBomba!=1&&valueFlujoBomba!=0">- - -</span>
   <span class="parameter-value text-success" *ngIf="valueFlujoBomba==1">SI</span>
   <span class="parameter-value text-danger" *ngIf="valueFlujoBomba==0">NO</span>
   `,
@@ -31,10 +32,10 @@ valueFlujoBomba;
      private theme: NbThemeService,
    ) {
 
-    console.log("==============");
-    console.log(this.type);
-    console.log(this.uuid);
-    console.log("================");
+   // console.log("==============");
+    //console.log(this.type);
+   // console.log(this.uuid);
+    //console.log("================");
 
     this.socket = io(GLOBAL.urlSocket)
 

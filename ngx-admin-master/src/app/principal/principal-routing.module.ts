@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'Inicio',
+    redirectTo: 'Login',
     pathMatch: 'full',
   }],
 }];

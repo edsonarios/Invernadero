@@ -13,7 +13,7 @@ import { ControladorService } from '../../../service/controladores.service';
  animations: [fundido]
 })
 export class HorariosComponent {
-public	horario;
+public	horario = [];
   public bombas;
   public Controller;
   public socket;

@@ -45,7 +45,7 @@ constructor(private router:Router,
 	this.userService.obtenerUsuarios().subscribe(
 			response =>{
 				this.Usuarios=response;
-				//console.log(this.Usuarios);
+				console.log(response.status);
 				if(this.Usuarios.length>0){
 					this.hiddenUser='true';
 				}
@@ -54,7 +54,6 @@ constructor(private router:Router,
 				console.log(<any>error)
 			}
 			);
-
 	this.userService.obtenerTesters().subscribe(
 			response =>{
 				this.Testers=response;

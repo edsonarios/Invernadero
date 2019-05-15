@@ -29,7 +29,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Reporte',
     icon: 'ion-ios-compose',
     link: '/Usuario/Reporte',
-    //hidden: true,
+    hidden: true,
   },
   {
     title: 'Info Invernadero',
