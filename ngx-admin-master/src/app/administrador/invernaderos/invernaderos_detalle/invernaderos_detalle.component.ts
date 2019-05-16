@@ -46,10 +46,10 @@ export class InvernaderosDetalleComponent {
   Pines=2;
 
 public inv: Invernadero;
-  public details;
-  public Controller;
-  public Devices;
-  public Devices2;
+  public details=[];
+  public Controller=[];
+  public Devices=[];
+  public Devices2=[];
 	
 
 

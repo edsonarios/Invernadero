@@ -24,8 +24,8 @@
     <nb-action icon="nb-notifications"  badgeText="{{notifications.length}}"
                  badgeStatus="danger" [nbPopover]="templateRef" nbPopoverPlacement="bottom">
     </nb-action>
-    <ng-template #templateRef>
-    <div *ngFor="let n of notifications ; let i=index" >
+    <ng-template class="notif" #templateRef>
+    <div class="notif" *ngFor="let n of notifications ; let i=index" >
       ({{notifications[i]['createdAt'].substring(11,19)}})-<label class="text-info">{{notifications[i]['titulo']}}</label><br>
       <span style="padding-top: 0px;padding-bottom: 0px;"> {{notifications[i]['cuerpo']}}</span><hr>
     </div>

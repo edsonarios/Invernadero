@@ -15,7 +15,8 @@ import { fundido } from '../../../animation';
 })
 export class InvernaderosEditarComponent {
 	public inv: Invernadero;
-    public details;
+  
+    public details=[];
 	//datos de el usuario
   public departamento;
   public ubicacion;

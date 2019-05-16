@@ -35,6 +35,7 @@ public Devices;
 public idInvernadero=localStorage.getItem('user_inv_id');
 
 public inv: Invernadero;
+public Invernadero:Invernadero;
 public minuto;
 public segundo;
   uuid="arduino"
@@ -42,9 +43,9 @@ public segundo;
   socket;
   public urlSocket:string;
  
-  public TempMax;
-  public TempMin;
-  public TempMedia;
+  public TempMax=0;
+  public TempMin=0;
+  public TempMedia=0;
 
   public estado;
   public estado2;
@@ -76,9 +77,9 @@ constructor(
           this.minuto=this.inv[0]['tiempoFuncionMotor'].substring(3,5);
            this.segundo=this.inv[0]['tiempoFuncionMotor'].substring(6,8);
             
-            this.TempMax=this.inv[0]['tempMaxima'];
-            this.TempMedia=this.inv[0]['tempMedia'];
-            this.TempMin=this.inv[0]['tempMinima'];
+            this.TempMax=parseInt(this.inv[0]['tempMaxima']);
+            this.TempMedia=parseInt(this.inv[0]['tempMedia']);
+            this.TempMin=parseInt(this.inv[0]['tempMinima']);
             
 
            this.minuto=parseInt(this.minuto);
@@ -126,26 +127,34 @@ constructor(
     );
 	
 }
+
 BtnCtrlTemp(btn,acction){
+
+//Temperatura Maxima
 	if (btn=='Max') {
 		if(acction=="Up"){
-			this.TempMax=(parseInt(this.TempMax))+1;
+			this.TempMax=(this.TempMax)+1;
+      this.inv[0]['tempMaxima']=this.TempMax+"";
 		}
 		else{
-			if(this.TempMax>this.TempMedia+1){
-			this.TempMax=(parseInt(this.TempMax))-1;
+			if( this.TempMax>this.TempMedia+1){
+			this.TempMax=(this.TempMax)-1;
+       this.inv[0]['tempMaxima']=this.TempMax+"";
 		}
 		}
 	}
+  // Temperatura media
 	if (btn=='Media') {
 		if(acction=="Up"){
 			if (this.TempMedia<this.TempMax-1) {
 				this.TempMedia=this.TempMedia+1;
+        this.inv[0]['tempMedia']=this.TempMedia+"";
 			}
 		}
 		else{
 			if (this.TempMedia>this.TempMin+1) {
 				this.TempMedia=this.TempMedia-1;
+        this.inv[0]['tempMedia']=this.TempMedia+"";
 			}
 			
 		}
@@ -155,14 +164,25 @@ BtnCtrlTemp(btn,acction){
 		if(acction=="Up"){
 			if (this.TempMin<this.TempMedia-1) {
 				this.TempMin=this.TempMin+1;
+        this.inv[0]['tempMinima']=this.TempMin+"";
 			}
 			
 		}
 		else{
 			this.TempMin=this.TempMin-1;
+      this.inv[0]['tempMinima']=this.TempMin+"";
 		}
 	}
-	
+	   
+this.Invernadero=new Invernadero (this.inv[0]['id'],this.inv[0]['departamento'],this.inv[0]['ubicacion'],this.inv[0]['provincia'],this.inv[0]['tempMaxima'],this.inv[0]['tempMinima'],this.inv[0]['tempMedia'],this.inv[0]['tiempoIntermitencia'],this.inv[0]['usuarioId'],this.inv[0]['tiempoFuncionMotor'],this.inv[0]['tiempoPausa'],this.inv[0]['logo']);
+     this.invService.editarInvernadero(this.Invernadero).subscribe(
+      response =>{
+
+      },
+      error =>{
+        console.log(<any>error)
+      }
+    );
 }
 
 Abrir(uuid, nroPin1,nroPin2,estado1,estado2,estado3,estado4,posI,posJ,position){

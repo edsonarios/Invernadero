@@ -6,7 +6,10 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-
+nb-popover{
+  background-color: red;
+  overflow: scroll;
+}
   .left {
     display: flex;
     width: 100%;

@@ -217,3 +217,18 @@ Pendiente por agregar-revisar
 	- Css init
 	- Module init
 	- Draw Components 
+
+Github Comandos
+
+> mkdir Invernadero
+> CD invernadero
+> git init
+> git remote add origin https://github.com/edsonarios/Invernadero.git
+
+> git fetch origin
+> git merge origin/master
+
+> git fetch origin
+> git add -A
+> git comit -m "Nuevo commit"
+> git push origin master
