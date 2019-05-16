@@ -6,8 +6,13 @@
  const { parsePayload } = require('../mod-mqtt/utils')
 
  var ports = [
+  /*{ id: "A", port: "COM5" },//MEGA
+  { id: "B", port: "COM16" }, //Agua
+  { id: "C", port: "COM6" } //Proximidad
+  */
   { id: "A", port: "/dev/ttyUSB0" },//MEGA
   { id: "B", port: "/dev/ttyUSB3" }, //Proximidad
+  //{ id: "C", port: "/dev/ttyUSB1" } //Agua
 ];
 
  //Entrada de variable para los sensores de temperatura
@@ -37,9 +42,12 @@
 
 
  //iniciamos cliente mqtt
+ //const client = mqtt.connect('mqtt://173.212.235.89')
  const client = mqtt.connect(`mqtt://${IP}`)
  const clientLocal = mqtt.connect(`mqtt://${IP}`)
- 
+ //const client = mqtt.connect(`mqtt://192.168.0.25`)
+ //const clientLocal = mqtt.connect(`mqtt://192.168.0.25`)
+
   client.subscribe('actuador')
   client.subscribe('actuador2')
   client.subscribe('update')
@@ -220,11 +228,26 @@ port2.on('error',function(err){
       if(clasePin[i-1]==1){
         
         switch(i){
-
+/*          case 15:agent.addMetric(descripcion[i-1], function getRss () {
+                    return temp[i-1]
+                  })
+                  A0.on("change", function() {
+                    //temp[i-1] = A0.value
+                    temp[i-1] = A0.value
+                    })
+                  break
+*/
         }
       }
       if(clasePin[i-1]==3){
-
+        
+        /*switch(i){
+          case 15:A0.on("change", function() {
+                    //temp[i-1] = A0.value+20
+                    
+                    })
+                  break
+        }*/
       }
     }
     
@@ -290,10 +313,10 @@ port2.on('error',function(err){
                 if(clasePin[i]==1){
                    if(pulsesFlow[i]>10){
                       temp[i] = 1
-                      //console.log("hay flujo : ",i,pulsesFlow[i])
+                      console.log("hay flujo : ",i,pulsesFlow[i])
                    }else{
                       temp[i] = 0
-                      //console.log("no hay flujo : ",i,pulsesFlow[i])
+                      console.log("no hay flujo : ",i,pulsesFlow[i])
                    }
                    pulsesFlow[i]=0
                 }
@@ -306,7 +329,43 @@ port2.on('error',function(err){
 
         /////////////////////////////////////////////////////////////////////////////////
 
-      /////////////////////////////////////////////////////////////////////////////////
+///VENTANA GIROS //////////////////////////////////////////////////////////////////////////////
+        /* this.pinMode(21, five.Pin.INPUT);
+         //para pin 7
+         this.analogWrite(7, 80);
+         var pulses2 = 0;
+         this.digitalRead(21, function(value) {
+           // send the pin status to flowSignal helper
+           flowSignal2(value);
+           //console.log(value);
+         });
+ 
+         setInterval(function() {
+           var litres = 0;
+           
+           if(pulses2>5){
+             litres=1
+           }else{
+             litres=0
+           }
+           
+         }, 10000);
+ 
+         function flowSignal2 (value) {
+           if (value === 0) {
+             return;
+           }
+           if (value === 1) {
+             pulses2 ++;
+             console.log("pulsos2",pulses2)
+           }
+           
+         }
+ */
+/////////////////////////////////////////////////////////////////////////////////
+
+
+        /////////////////////////////////////////////////////////////////////////////////
         this.loop(intervalAutomatization, () => {
     
       
@@ -482,7 +541,6 @@ port2.on('error',function(err){
             }
     
           }
-          
         })
     
         //LOOP DE RIEGO pregunta cada 60 segundos
@@ -511,24 +569,8 @@ port2.on('error',function(err){
                 var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1517522290000}`
                 client.publish("actuador", payload)
                 clientLocal.publish("actuador", payload)
-                
-                //For para enviar notificaciones de flujo de bomba
+    
                 setTimeout(function() {
-                  for (let i = 0; i < totalPinesMega; i++) {
-                    if(estado[i]==1){
-                      if(clasePin[i]==1){
-                        if(descripcion[i].toLowerCase().indexOf(idBomba.descripcionPin)>=0){
-                          if(temp[i]==0){
-                            notificacion(`Precaucion ${idBomba.descripcionPin}`,`${idBomba.descripcionPin} no existe flujo`)
-                          }
-                        }
-                      }
-                    }
-                    
-                  }
-                }, 7000)
-
-              setTimeout(function() {
                   hAux[i]=false
                   var idBomba =  ObtPines.find(m => m.id === hPinId[i])
                   var HoraYFecha = new Date()
@@ -549,21 +591,6 @@ port2.on('error',function(err){
             
     
             
-            
-          }
-          //For para enviar notificaciones de temperatura
-          for (let i = totalPinesMega; i < estado.length; i++) {
-    
-            if(estado[i]==1){
-              if(clasePin[i]==1){
-                if(descripcion[i].toLowerCase().indexOf('sensor temperatura')>=0){
-                  if(temp[i]>40){
-                    notificacion(`Precaucion ${descripcion[i]}`,`${descripcion[i]} a mas de 40°, , Revisar el sistema...!!!`)
-                    break;
-                  }
-                }
-              }
-            }
             
           }
     
@@ -734,6 +761,27 @@ port2.on('error',function(err){
     });
     // MULTIPLE BOARD FIN ////////////////////////////////////////////////////////////////
 
+// SENSOR DE AGUA //////////////////////////////////////////////////////////////////////////////
+     //this.each(function(board) {
+      //if (board.id === "C") {
+      /////////////////////////////////////////////////////////////////////
+/*
+      var thermometer1 = new five.Thermometer({
+        controller: "DS18B20",
+        pin: 10,
+        board:board
+      });
+    
+      thermometer1.on("change", function() {
+        //console.log(this.celsius + "°C");
+        temp[74]=thermometer1.celsius;
+        //temp[74]=this.celsius;
+        // console.log("0x" + this.address.toString(16));
+      });
+*/
+      /////////////////////////////////////////////////////////////////////
+      //}
+    //});
 // SENSOR DE PROXIMIDAD //////////////////////////////////////////////////////////////////////////////
     this.each(function(board) {
       if (board.id === "B") {
@@ -751,8 +799,44 @@ port2.on('error',function(err){
         proximidadDato1 =this.cm
         temp[81]=(((proximidadTanque1-proximidadDato1)/100)*100).toFixed(2)
         //temp[81]=this.cm
+        //console.log("The obstruction has moved.");
+      });
+/*
+      var proximity2 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 11,
+        board:board
+      });
+      //95 es 100% - 15 es 0%
+      var proximidadDato2 = 0
+      var proximidadMaximo2 = 95
+      var proximidadMinimo2 = 15
+      proximity2.on("change", function() {
+        proximidadDato2 =this.cm
+        proximidadDato2 -=proximidadMinimo2
+        temp[78]=((proximidadDato2/(proximidadMaximo2-proximidadMinimo2))*100).toFixed(2)
+        //temp[78]=this.cm
+        //console.log("The obstruction has moved.");
       });
 
+      var proximity3 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 10,
+        board:board
+      });
+
+      //95 es 100% - 15 es 0%
+      var proximidadDato3 = 0
+      var proximidadMaximo3 = 95
+      var proximidadMinimo3 = 15
+      proximity3.on("change", function() {
+        proximidadDato3 =this.cm
+        proximidadDato3 -=proximidadMinimo3
+        temp[79]=((proximidadDato3/(proximidadMaximo3-proximidadMinimo3))*100).toFixed(2)
+        //temp[79]=this.cm
+        //console.log("The obstruction has moved.");
+      });*/
+      /////////////////////////////////////////////////////////////////////
       }
     });
 

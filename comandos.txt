@@ -578,3 +578,12 @@ on/off 	polaridad
 
 1 PIN PARA TRANSFORMADOR
 ////////////////
+
+Abrir consola 
+Verificar que pm2 no este iniciado en controlino 
+    sudo pm2 ls 
+Si esta iniciado controlino 
+    sudo pm2 stop controlino
+Luego iniciar el programa en modo consola 
+    cd Invernadero/Raspberry/Arduino 
+    node controlino.js 
