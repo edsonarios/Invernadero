@@ -17,7 +17,6 @@ module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
     return HistorialSensorModel.findAll({
       attributes: [ 'type' ],
       group: [ 'type' ],
-      order: [[ 'id', 'DESC' ]],
       include: [{
         attributes: [],
         model: ControladorModel,
