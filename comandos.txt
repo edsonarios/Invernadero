@@ -460,7 +460,7 @@ teamviewer VPS
 Iniciar frontEnd
     ng serve --host 0.0.0.0
 Iniciar en modo produccion
-    ng build
+    ng build --prod
 
 5BQQFA3SK2JN
 

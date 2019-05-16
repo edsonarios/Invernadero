@@ -10,14 +10,14 @@
   { id: "B", port: "COM16" }, //Agua
   { id: "C", port: "COM6" } //Proximidad
   */
-  { id: "A", port: "/dev/ttyUSB0" },//MEGA
-  { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
+  { id: "A", port: "/dev/ttyACM0" },//MEGA
+  //{ id: "B", port: "/dev/ttyUSB2" }, //Proximidad
   //{ id: "C", port: "/dev/ttyUSB1" } //Agua
 ];
 
  //Entrada de variable para los sensores de temperatura
- var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
- var sensorCOM2 = '/dev/ttyUSB3' // sensor ds
+ //var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
+ //var sensorCOM2 = '/dev/ttyUSB3' // sensor ds
  //var sensorCOM = '/dev/ttyUSB3'
 
  //configuramos nuestra placa arduino en una variable
@@ -25,12 +25,12 @@
  
  //Inicializamos el agente
  //const agentID = "arduino"
- const agentID = "alvaronuñezcastilloalvaro@user"
+ const agentID = "edson@edson"
  const ModAgent = require('../mod-agent')
  const sendDatos = 4000
  const intervalAutomatization = sendDatos
- //const IP = '192.168.0.19'
  const IP = '173.212.204.188'
+ //const IP = 'localhost'
  //host para la api
  const Host = `http://${IP}:3000/`
  //const Host = `http://192.168.0.25:3000/`
@@ -101,122 +101,8 @@ horarios()
   
 // mensaje que se muestra por consola informandonos de que la placa esta lista
  console.log("Placa lista.")
-
+ 
 // SENSORES //////////////////////////////////////////////////////////////////////////////////
-///Serial comunication
-
-const Serialport1=require('serialport');
-//parsers ver lectura
-const Readline1=Serialport1.parsers.Readline;
-const port1=new Serialport1(sensorCOM1,{baudRate:9600});
-const parser1=port1.pipe(new Readline1({
-    delimeter:'\r\n'
-}));
-parser1.on('open ',function(){
-    console.log('coneccion is opend');
-});
-parser1.on('data',function(data){
-  console.log(data)
-  var a=""
-  var b=0
-    if(dthSw==1){
-      
-      for (let i = 0; i < data.length; i++) {
-        if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
-          b=parseFloat(a)
-          if(!isNaN(b)){
-            SensoresDTH.push(parseFloat(a))  
-          }else{
-            SensoresDTH.push(-1)
-          }
-          
-          //console.log(parseFloat(a))
-          a=""
-        }else{
-            a+=data.charAt(i)
-        }
-      }
-      dthSw=0
-    }else{
-        var j=0
-        for (let i = 0; i < data.length; i++) {
-          
-          if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
-            SensoresDTH[j]=parseFloat(a)
-            //console.log(SensoresDTH[j])
-            if(!isNaN(SensoresDTH[j])){
-              temp[j+totalPinesMega] = SensoresDTH[j]
-            }
-            a=""
-            j++
-          }else{
-              a+=data.charAt(i)
-          }
-        }
-    }
-    //console.log(SensoresDTH)
-});
-port1.on('error',function(err){
-    console.log(err);
-});
-
-//////////////////////////////////////////////////////////////////////////////////////
-const Serialport2=require('serialport');
-//parsers ver lectura
-const Readline2=Serialport2.parsers.Readline;
-const port2=new Serialport2(sensorCOM2,{baudRate:9600});
-const parser2=port2.pipe(new Readline2({
-    delimeter:'\r\n'
-}));
-parser2.on('open ',function(){
-    console.log('coneccion is opend');
-});
-parser2.on('data',function(data){
-  console.log(data)
-  var a=""
-  var b=0
-  
-    if(dthSw==1){
-      
-      for (let i = 0; i < data.length; i++) {
-        if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
-          b=parseFloat(a)
-          if(!isNaN(b)){
-            SensoresDS.push(parseFloat(a))  
-          }else{
-            SensoresDS.push(-1)
-          }
-          
-          //console.log(parseFloat(a))
-          a=""
-        }else{
-            a+=data.charAt(i)
-        }
-      }
-      dthSw=0
-    }else{
-        var j=0
-        for (let i = 0; i < data.length; i++) {
-          
-          if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
-            SensoresDS[j]=parseFloat(a)
-            //console.log(SensoresDTH[j])
-            if(!isNaN(SensoresDS[j])){
-              temp[j+totalPinesMega+SensoresDTH.length] = SensoresDS[j]
-            }
-            a=""
-            j++
-          }else{
-              a+=data.charAt(i)
-          }
-        }
-    }
-    //console.log(SensoresDS)
-  });
-port2.on('error',function(err){
-    console.log(err);
-});
-
 
   ///////////////////////////////////////////////////////////////////////////////////
   //console.log("este es estado lc")
@@ -252,19 +138,21 @@ port2.on('error',function(err){
     }
     
   }
-
+var nuevoSensor = 10
   //PARA SENSORES DTH, seran pines analogicos falsos ////////////////////////////////////////////////////////////////////////////////
   // En el sistema empieza en A16, y en arduino empieza en 70
-  for (let i = 54; i < estado.length; i++) {
+  for (let i = 0; i < estado.length; i++) {
     if(estado[i]==1){
       if(clasePin[i]==1){
         agent.addMetric(descripcion[i], function getRss () {
-          return temp[i]
+            return temp[i]
+            //return nuevoSensor
         })
       }
     }
   }
 
+  temp[16]=15
   //AGENTE CONECTADO
     agent.connect()
 
@@ -284,87 +172,12 @@ port2.on('error',function(err){
         this.pinMode(8, five.Pin.PWM);
         this.pinMode(9, five.Pin.PWM);
         this.pinMode(10, five.Pin.PWM);
-        //this.pinMode(11, five.Pin.PWM);
-        //this.pinMode(12, five.Pin.PWM);
-//21
-        ///FLUJO DE AGUA 1//////////////////////////////////////////////////////////////////////////////
-        for (let i = 54; i < totalPinesMega; i++) {
-          if(estado[i]==1){
-             if(clasePin[i]==1){
-                this.pinMode(i, five.Pin.INPUT);
-                this.digitalRead(i, function(value) {
-                // send the pin status to flowSignal helper
-                flowSignal(i,value);
-                //console.log(i,value);
-                });
-                //console.log(i)
-             }
-          }
-        }
-       function flowSignal (i,value) {
-          if (value === 1) {
-             pulsesFlow[i]++;
-          }
-       }
+        var A0 = new five.Sensor("A0")
 
-       setInterval(function() {
-          for (let i = 53; i <totalPinesMega; i++) {
-             if(estado[i]==1){
-                if(clasePin[i]==1){
-                   if(pulsesFlow[i]>10){
-                      temp[i] = 1
-                      console.log("hay flujo : ",i,pulsesFlow[i])
-                   }else{
-                      temp[i] = 0
-                      console.log("no hay flujo : ",i,pulsesFlow[i])
-                   }
-                   pulsesFlow[i]=0
-                }
-                
-              }
-
-          }
-
-        }, 1000);
-
-        /////////////////////////////////////////////////////////////////////////////////
-
-///VENTANA GIROS //////////////////////////////////////////////////////////////////////////////
-        /* this.pinMode(21, five.Pin.INPUT);
-         //para pin 7
-         this.analogWrite(7, 80);
-         var pulses2 = 0;
-         this.digitalRead(21, function(value) {
-           // send the pin status to flowSignal helper
-           flowSignal2(value);
-           //console.log(value);
-         });
- 
-         setInterval(function() {
-           var litres = 0;
-           
-           if(pulses2>5){
-             litres=1
-           }else{
-             litres=0
-           }
-           
-         }, 10000);
- 
-         function flowSignal2 (value) {
-           if (value === 0) {
-             return;
-           }
-           if (value === 1) {
-             pulses2 ++;
-             console.log("pulsos2",pulses2)
-           }
-           
-         }
- */
-/////////////////////////////////////////////////////////////////////////////////
-
-
+        A0.on("change", function() {
+          temp[14] = A0.value
+          
+          })
         /////////////////////////////////////////////////////////////////////////////////
         this.loop(intervalAutomatization, () => {
     
@@ -759,96 +572,7 @@ port2.on('error',function(err){
 /////////////////////////////////////////////////////////////////////////////////
       }
     });
-    // MULTIPLE BOARD FIN ////////////////////////////////////////////////////////////////
 
-// SENSOR DE AGUA //////////////////////////////////////////////////////////////////////////////
-     //this.each(function(board) {
-      //if (board.id === "C") {
-      /////////////////////////////////////////////////////////////////////
-/*
-      var thermometer1 = new five.Thermometer({
-        controller: "DS18B20",
-        pin: 10,
-        board:board
-      });
-    
-      thermometer1.on("change", function() {
-        //console.log(this.celsius + "°C");
-        temp[74]=thermometer1.celsius;
-        //temp[74]=this.celsius;
-        // console.log("0x" + this.address.toString(16));
-      });
-*/
-      /////////////////////////////////////////////////////////////////////
-      //}
-    //});
-// SENSOR DE PROXIMIDAD //////////////////////////////////////////////////////////////////////////////
-    this.each(function(board) {
-      if (board.id === "B") {
-      /////////////////////////////////////////////////////////////////////
-      
-      var proximity1 = new five.Proximity({
-        controller: "HCSR04",
-        pin: 12,
-        board:board
-      });
-
-      var proximidadDato1 = 0
-      var proximidadTanque1 = 120
-      proximity1.on("change", function() {
-        proximidadDato1 =this.cm
-        temp[81]=(((proximidadTanque1-proximidadDato1)/100)*100).toFixed(2)
-        //temp[81]=this.cm
-        //console.log("The obstruction has moved.");
-      });
-/*
-      var proximity2 = new five.Proximity({
-        controller: "HCSR04",
-        pin: 11,
-        board:board
-      });
-      //95 es 100% - 15 es 0%
-      var proximidadDato2 = 0
-      var proximidadMaximo2 = 95
-      var proximidadMinimo2 = 15
-      proximity2.on("change", function() {
-        proximidadDato2 =this.cm
-        proximidadDato2 -=proximidadMinimo2
-        temp[78]=((proximidadDato2/(proximidadMaximo2-proximidadMinimo2))*100).toFixed(2)
-        //temp[78]=this.cm
-        //console.log("The obstruction has moved.");
-      });
-
-      var proximity3 = new five.Proximity({
-        controller: "HCSR04",
-        pin: 10,
-        board:board
-      });
-
-      //95 es 100% - 15 es 0%
-      var proximidadDato3 = 0
-      var proximidadMaximo3 = 95
-      var proximidadMinimo3 = 15
-      proximity3.on("change", function() {
-        proximidadDato3 =this.cm
-        proximidadDato3 -=proximidadMinimo3
-        temp[79]=((proximidadDato3/(proximidadMaximo3-proximidadMinimo3))*100).toFixed(2)
-        //temp[79]=this.cm
-        //console.log("The obstruction has moved.");
-      });*/
-      /////////////////////////////////////////////////////////////////////
-      }
-    });
-
-    
-    //Funcion que cambia el numero de pin si lo requiera (Controlino si requiere cambio de pin)
-    function cambioPines(pin){
-      
-      if(pin==12){return pin=13}
-      
-      return pin 
-            
-    }
 
     
 })

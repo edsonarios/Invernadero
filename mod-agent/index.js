@@ -16,7 +16,7 @@ const options = {
   agentID: "admi",
   mqtt: {
     host: 'mqtt://173.212.204.188'
-    //host: 'mqtt://173.212.204.188'
+    //host: 'mqtt://localhost'
   }
 }
 

@@ -7,6 +7,10 @@ const chalk = require('chalk')
 const db = require('mod-db')
 const request = require('request-promise-native')
 
+//Para notificacion
+const IP = '173.212.204.188'
+const Host = `http://${IP}:3000/`
+ 
 const { parsePayload } = require('./utils')
 
 const backend = {
@@ -46,7 +50,9 @@ server.on('clientDisconnected', async (client) => {
   if (agent) {
     // Mark Agent as Disconnected
     agent.connected = false
-
+    //Enviando notificacion de dispositivo desconectado
+    notificacion(agent.uuid,"Raspberry OFF","Precaucion Raspberry Desconectado")
+    
     try {
       await Agent.createOrUpdate(agent.invernaderoId,agent)
     } catch (e) {
@@ -223,3 +229,25 @@ function handleError (err) {
 process.on('uncaughtException', handleFatalError)
 process.on('unhandledRejection', handleFatalError)
 
+//NOTIFICACION
+async function notificacion(agentID, title, body){
+  
+  const options = {
+    method: 'GET',
+    url: Host+`api/postNotificacion/${agentID}/${title}/${body}`,
+    //url: `http://173.212.235.89:3000/api/obtenerPines/${agentID}`,
+    json: true
+  }
+  
+  let result
+  
+  try {
+    result = await request(options)
+  } catch (e) {
+    this.error = e.error.error
+    return
+  }
+  console.log(result,title,body)
+
+
+}
