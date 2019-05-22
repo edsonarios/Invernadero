@@ -532,6 +532,7 @@ password: LP53a77tB5
 
 INGRESAR SSH RED LOCAL
 ssh -R 52698:127.0.0.1:52698 root@192.168.0.27
+ssh root@192.168.0.27
 
 DESCARGAR EN EL SERVIDOR PARA USAR CON CODE
     wget -O /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
@@ -567,6 +568,8 @@ rm -rf *
 cd /root/Invernadero/Production/dist 
 cp -r * /var/www/html/
 
+Desde Windows
+ssh root@173.212.204.188
 
 ////////////////////////////////////////////////////////////////////////////////
 VENTANAS

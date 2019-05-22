@@ -30,7 +30,7 @@ var thermometer = new five.Thermometer({
       });
 */
 ////////////////////////////////////////////////////////////////////////////////////////
-      var proximity = new five.Proximity({
+      /*var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12
         
@@ -44,7 +44,7 @@ var thermometer = new five.Thermometer({
     
       proximity.on("change", function() {
         console.log("The obstruction has moved.");
-      });
+      });*/
 ////////////////////////////////////////////////////////////////////////////////////////
 //notificacion("Error bomba 3", "bomba no encendida")
 })

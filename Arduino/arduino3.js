@@ -6,26 +6,24 @@
  const { parsePayload } = require('../mod-mqtt/utils')
 
  var ports = [
-  { id: "A", port: "/dev/ttyUSB0" },//MEGA
-  { id: "B", port: "/dev/ttyUSB3" }, //Proximidad
+  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "B", port: "/dev/ttyUSB0" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
  var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
  var sensorCOM2 = '/dev/ttyUSB2' // sensor ds
- //var sensorCOM = '/dev/ttyUSB3'
 
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
  
  //Inicializamos el agente
- //const agentID = "arduino"
- const agentID = "alvaronuñezcastilloalvaro@user"
  const ModAgent = require('../mod-agent')
+ const agentID = "alvaronuñezcastilloalvaro@user"
  const sendDatos = 4000
+ const IP = '173.212.204.188'
  const intervalAutomatization = sendDatos
  //const IP = '192.168.0.19'
- const IP = '173.212.204.188'
  //host para la api
  const Host = `http://${IP}:3000/`
  //const Host = `http://192.168.0.25:3000/`
@@ -111,9 +109,11 @@ parser1.on('data',function(data){
   console.log(data)
   var a=""
   var b=0
+  //If para determinar el tamaño del array de este serial, solo pasara la primera vez al inicio del programa
     if(dthSw==1){
-      
+      //for para separar la cadena dato por dato    
       for (let i = 0; i < data.length; i++) {
+        //en una variable vacia, va uniendo la cadena hasta encontrar espacio vacio o final de linea
         if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
           b=parseFloat(a)
           if(!isNaN(b)){
@@ -129,7 +129,8 @@ parser1.on('data',function(data){
         }
       }
       dthSw=0
-    }else{
+      //una vez ya se tiene el tamaño total del array, ya solo es actualizar el dato de cada puesto del array
+    }else{ 
         var j=0
         for (let i = 0; i < data.length; i++) {
           
@@ -250,8 +251,7 @@ port2.on('error',function(err){
     // MULTIPLE BOARD////////////////////////////////////////////////////////////////
     this.each(function(board) {
       if (board.id === "A") {
-        
-        //Se debe instanciar todos los pines del dispositivo
+        //Se debe instanciar todos los pines PWM
         this.pinMode(2, five.Pin.PWM);
         this.pinMode(3, five.Pin.PWM);
         this.pinMode(4, five.Pin.PWM);
