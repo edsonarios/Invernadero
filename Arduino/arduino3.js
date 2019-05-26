@@ -19,9 +19,9 @@
  
  //Inicializamos el agente
  const ModAgent = require('../mod-agent')
- const agentID = "alvaronuñezcastilloalvaro@user"
+ const agentID = "EcofreshEcofreshEcofreshecofresh@user"
  const sendDatos = 4000
- const IP = '173.212.204.188'
+ const IP = '3.16.149.141'
  const intervalAutomatization = sendDatos
  //const IP = '192.168.0.19'
  //host para la api
@@ -85,7 +85,7 @@ var TiEsperaInactividad = 120
 conf()
 findInvbyContr()
 horarios()
-
+notificacion("Error bomba 2", "bomba no encendida")
 // funcion que se ejecuta cuando la placa ya esta lista
  board.on("ready", function() {
   
@@ -252,7 +252,7 @@ port2.on('error',function(err){
     this.each(function(board) {
       if (board.id === "A") {
         //Se debe instanciar todos los pines PWM
-        this.pinMode(2, five.Pin.PWM);
+        /*this.pinMode(2, five.Pin.PWM);
         this.pinMode(3, five.Pin.PWM);
         this.pinMode(4, five.Pin.PWM);
         this.pinMode(5, five.Pin.PWM);
@@ -260,7 +260,7 @@ port2.on('error',function(err){
         this.pinMode(7, five.Pin.PWM);
         this.pinMode(8, five.Pin.PWM);
         this.pinMode(9, five.Pin.PWM);
-        this.pinMode(10, five.Pin.PWM);
+        this.pinMode(10, five.Pin.PWM);*/
         //this.pinMode(11, five.Pin.PWM);
         //this.pinMode(12, five.Pin.PWM);
 //21
@@ -607,29 +607,9 @@ port2.on('error',function(err){
               console.log("\x1b[37m",payload)
               
               //ejecuta acciones en los pines
-              if(payload.actuador.type >1 && payload.actuador.type <=10){
-                
-                if(payload.actuador.value==1){
-                  if(switchPWM==1){
-                    this.analogWrite(pinPWM, 255);
-                  }
-                  
-                  potencia=0
-                  switchPWM=1
-                  pinPWM=payload.actuador.type
-                }else{
-                
-                  switchPWM=0
-                  potencia=0
-                  this.analogWrite(payload.actuador.type, payload.actuador.value);
-                }
-                
-                
-              }
-              if(payload.actuador.type >10){
-                //this.analogWrite(payload.actuador.type, payload.actuador.value);
-                this.digitalWrite(payload.actuador.type,payload.actuador.value)
-              }
+              //this.analogWrite(payload.actuador.type, payload.actuador.value);
+              this.digitalWrite(payload.actuador.type,payload.actuador.value)
+              
               
               
               
@@ -752,6 +732,7 @@ port2.on('error',function(err){
         temp[81]=(((proximidadTanque1-proximidadDato1)/100)*100).toFixed(2)
         //temp[81]=this.cm
       });
+/////////////////////////////////////////////////////////////////////
 
       }
     });

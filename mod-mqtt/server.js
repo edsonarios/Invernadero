@@ -8,7 +8,7 @@ const db = require('mod-db')
 const request = require('request-promise-native')
 
 //Para notificacion
-const IP = '173.212.204.188'
+const IP = '3.16.149.141'
 const Host = `http://${IP}:3000/`
  
 const { parsePayload } = require('./utils')

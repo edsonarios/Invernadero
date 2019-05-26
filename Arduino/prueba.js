@@ -8,11 +8,11 @@
  })
 
  //const IP = 'localhost'
- const IP = '173.212.204.188'
+ const IP = '3.16.149.141'
   //host para la api
  const Host = `http://${IP}:3000/`
- const agentID = "edson@edson"
- 
+ const agentID = "EcofreshEcofreshEcofreshecofresh@user"
+ notificacion("Error bomba 3", "bomba no encendida")
  // funcion que se ejecuta cuando la placa ya esta lista
  board.on("ready", function() {
 // mensaje que se muestra por consola informandonos de que la placa esta lista
@@ -30,7 +30,7 @@ var thermometer = new five.Thermometer({
       });
 */
 ////////////////////////////////////////////////////////////////////////////////////////
-      /*var proximity = new five.Proximity({
+    /*  var proximity = new five.Proximity({
         controller: "HCSR04",
         pin: 12
         
