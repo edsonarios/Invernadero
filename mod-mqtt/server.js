@@ -79,6 +79,11 @@ server.on('published', async (packet, client) => {
 
   switch (packet.topic) {
     case 'agent/connected':
+        var payload = parsePayload(packet.payload)
+        if (payload) {
+          notificacion(payload.agent.uuid,"Raspberry ON","Raspberry en Funcionamiento")
+        }
+        break
     case 'agent/disconnected':
       debug(`Payload: ${packet.payload}`)
       break
@@ -89,7 +94,7 @@ server.on('published', async (packet, client) => {
       
       if (payload) {
         payload.agent.connected = true
-        notificacion(payload.agent.uuid,"Raspberry ON","Raspberry en Funcionamiento")
+        
         let agent
         try {
           
