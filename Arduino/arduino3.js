@@ -85,7 +85,7 @@ var TiEsperaInactividad = 120
 conf()
 findInvbyContr()
 horarios()
-notificacion("Error bomba 2", "bomba no encendida")
+//notificacion("Error bomba 2", "bomba no encendida")
 // funcion que se ejecuta cuando la placa ya esta lista
  board.on("ready", function() {
   
@@ -488,6 +488,10 @@ port2.on('error',function(err){
         //LOOP DE RIEGO pregunta cada 60 segundos
         this.loop(60000, () => {
           //console.log("\x1b[32m","Iniciando Automatizacion Riego")
+          var date2 = new Date()
+          if(date2.getHours()==7 && date2.getMinutes()==30){
+            notificacion("Sistema en Funcionamiento", "Notificacion de sistema en correcto funcionamiento a horas 7:30 a.m.")
+          }
           for (let i = 0; i < hId.length; i++) {
             var H=parseInt(hIni[i].substring(0,2))
             var M=parseInt(hIni[i].substring(3,5))

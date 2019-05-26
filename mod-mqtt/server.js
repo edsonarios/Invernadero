@@ -89,7 +89,7 @@ server.on('published', async (packet, client) => {
       
       if (payload) {
         payload.agent.connected = true
-
+        notificacion(payload.agent.uuid,"Raspberry ON","Raspberry en Funcionamiento")
         let agent
         try {
           
