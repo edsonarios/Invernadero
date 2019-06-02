@@ -32,6 +32,7 @@
    interval: sendDatos,
    agentID: agentID,
  })
+ var pulsacionesFlow=10
 
 
  //iniciamos cliente mqtt
@@ -234,8 +235,9 @@ port2.on('error',function(err){
   //PARA SENSORES DTH, seran pines analogicos falsos ////////////////////////////////////////////////////////////////////////////////
   // En el sistema empieza en A16, y en arduino empieza en 70
   for (let i = 54; i < estado.length; i++) {
-    if(estado[i]==1){
+    if(estado[i]==1 && i!=63 && i!=61 && i!=62){
       if(clasePin[i]==1){
+        console.log("este son agent :",i)
         agent.addMetric(descripcion[i], function getRss () {
           return temp[i]
         })
@@ -286,9 +288,9 @@ port2.on('error',function(err){
 
        setInterval(function() {
           for (let i = 53; i <totalPinesMega; i++) {
-             if(estado[i]==1){
+             if(estado[i]==1 && i!=55 && i!=63 && i!=60 && i!=61 && i!=62){
                 if(clasePin[i]==1){
-                   if(pulsesFlow[i]>10){
+                   if(pulsesFlow[i]>pulsacionesFlow){
                       temp[i] = 1
                       //console.log("hay flujo : ",i,pulsesFlow[i])
                    }else{
@@ -297,10 +299,30 @@ port2.on('error',function(err){
                    }
                    pulsesFlow[i]=0
                 }
-                
               }
-
           }
+          if(pulsesFlow[55]>pulsacionesFlow && pulsesFlow[63]>pulsacionesFlow ){
+            temp[55]=1
+            //temp[63]=1
+          }else{
+            temp[55]=0
+            //temp[63]=0
+          }
+
+          if(pulsesFlow[60]>pulsacionesFlow && pulsesFlow[61]>pulsacionesFlow && pulsesFlow[62]>pulsacionesFlow ){
+            temp[60]=1
+            //temp[61]=1
+            //temp[62]=1
+          }else{
+            temp[60]=0
+            //temp[61]=0
+            //temp[62]=0
+          }
+          pulsesFlow[55]=0
+          pulsesFlow[63]=0
+          pulsesFlow[61]=0
+          pulsesFlow[62]=0
+          pulsesFlow[63]=0
 
         }, 1000);
 

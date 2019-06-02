@@ -1,5 +1,7 @@
 ﻿INVERNADERO
-//hi 
+VPS IP: 
+167.86.119.191
+password: tFLJsJcpj5P
 // Instalar postgres en ubuntu
 sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
 Reiniciar postgres
@@ -462,7 +464,7 @@ Iniciar frontEnd
 Iniciar en modo produccion
     ng build --prod
 
-5BQQFA3SK2JN
+pR67RBDfu3H927
 
 --------------------------------------------------------
 API MUY IMPORTANTE
