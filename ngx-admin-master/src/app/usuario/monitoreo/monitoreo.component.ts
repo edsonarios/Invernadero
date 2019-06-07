@@ -20,6 +20,17 @@ import { fundido } from '../../animation';
 })
 export class MonitoreoComponent implements OnInit{
 
+DatoSensor=  [
+            {'Flujo':'sensor Flujo bomba 6'},
+            {'Flujo':'sensor Flujo bomba 5'},
+            {'Flujo':'sensor Flujo bomba 4'},
+            {'Flujo':'sensor Flujo bomba Oxi 7'},
+            {'Flujo':'sensor Flujo bomba 3'},
+            {'Flujo':'sensor Flujo bomba 2'},
+            {'Flujo':'sensor Flujo bomba 1'},
+            {'Flujo':'sensor Flujo bomba Oxi 8'},
+            {'Flujo':'sensor Flujo bomba Oxi 9'},
+            {'Flujo':'sensor Flujo bomba Oxi 10'}];
 
 ValBombas=0;
   
@@ -51,11 +62,11 @@ ValBombas=0;
   UltActualizacion=[];
   valor = []
 
-  Controller2;
+  Controller2=[];
   NombreControlador=[]
   NumeroControlador;
 
-Controller= [];
+Controller = [];
 Devices= [];
 public urlSocket: string;
 socket;
@@ -95,7 +106,7 @@ constructor(
                           var aux2="aaa"
                       
                           sw=0
-                         console.log(response);
+                         //console.log(response);
                           if (Array.isArray(response)) {
                             response.forEach(m => {
                               this.uuid.push(aux)
@@ -144,7 +155,11 @@ constructor(
                           
                          console.log("Este es el dato: Flujo");
                          console.log(this.SensorFlujoBomba);
-                         console.log(this.FlujoBombaUuid);
+                        // console.log(this.FlujoBombaUuid);
+                        console.log(" DEVICES : ");
+                        console.log(this.Devices[0][0]);
+                        console.log(" Flujo Sensores : ");
+                        console.log(this.DatoSensor);
                         },
                         error =>{
                          // console.log(<any>error)
@@ -185,6 +200,7 @@ ngOnInit(){
     );
 
 //RECOGE TODOS LOS DISPOSITIVOS VINCULADOS A ESTE INVERNADERO
+
   this.pinService.MostrarPinesActuadores(localStorage.getItem('user_inv_id')).subscribe(
     response=>{
       this.Devices=response;
@@ -238,22 +254,18 @@ ngOnInit(){
                          console.log(<any>error)
                         }
                       );
-                      
-          
           })
-        }
-     
-        
+        }       
       },
       error =>{
        // console.log(<any>error)
       }
     );
                 }
-                 this.FlujoMectricsController.push(this.FlujoMetrics);
-                 this.FlujoMectricsControllerUuid.push(this.FlujoMetricsUuid);
+                // this.FlujoMectricsController.push(this.FlujoMetrics);
+                // this.FlujoMectricsControllerUuid.push(this.FlujoMetricsUuid);
               }      
-              //console.log("el flujo final");
+             // console.log("el flujo final");
              // console.log(this.FlujoMectricsController);
               //console.log(this.FlujoMectricsControllerUuid);
 
