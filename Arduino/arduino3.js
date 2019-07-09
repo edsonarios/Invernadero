@@ -797,7 +797,7 @@ port2.on('error',function(err){
     this.each(function(board) {
       if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
-      /*
+      
       var proximity1 = new five.Proximity({
         controller: "HCSR04",
         pin: 12,
@@ -808,10 +808,38 @@ port2.on('error',function(err){
       var proximidadTanque1 = 120
       proximity1.on("change", function() {
         proximidadDato1 =this.cm
-        temp[81]=(((proximidadTanque1-proximidadDato1)/100)*100).toFixed(2)
+        temp[88]=(((proximidadTanque1-proximidadDato1)/100)*100).toFixed(2)
         //temp[81]=this.cm
-      });*/
-/////////////////////////////////////////////////////////////////////
+      });
+      /////////////////////////////////////////////////////////////////////
+      var proximity2 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 11,
+        board:board
+      });
+
+      var proximidadDato2 = 0
+      var proximidadTanque2 = 120
+      proximity2.on("change", function() {
+        proximidadDato2 =this.cm
+        temp[89]=(((proximidadTanque2-proximidadDato2)/100)*100).toFixed(2)
+        //temp[81]=this.cm
+      });
+      /////////////////////////////////////////////////////////////////////
+      var proximity3 = new five.Proximity({
+        controller: "HCSR04",
+        pin: 10,
+        board:board
+      });
+//90
+      var proximidadDato3 = 0
+      var proximidadTanque3 = 90
+      proximity3.on("change", function() {
+        proximidadDato3 =this.cm-30
+        temp[90]=(((proximidadTanque3-proximidadDato3)/100)*100).toFixed(2)
+        //temp[81]=this.cm
+      });
+      /////////////////////////////////////////////////////////////////////
 
       }
     });
