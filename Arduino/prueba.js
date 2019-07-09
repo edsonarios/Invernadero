@@ -4,7 +4,7 @@
  const request = require('request-promise-native')
  //configuramos nuestra placa arduino en una variable
  var board = new five.Board({
-    port: "/dev/ttyUSB1"
+    //port: "/dev/ttyUSB1"
  })
 
  //const IP = 'localhost'

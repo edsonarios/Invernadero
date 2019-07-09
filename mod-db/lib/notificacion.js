@@ -1,4 +1,6 @@
 'use strict'
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 module.exports = function setupNotificacion (NotificacionModel, UsuarioModel) {
   async function create (id, notificacion) {
@@ -31,6 +33,42 @@ module.exports = function setupNotificacion (NotificacionModel, UsuarioModel) {
       }
     })
   }
+  async function findLastFive (usuarioId) {
+    return NotificacionModel.findAll({
+      where: {
+        usuarioId,
+        titulo:{
+          [Op.notLike]:"funcionamiento"
+        }
+      },
+      limit: 5,
+      order: [[ 'createdAt', 'DESC' ]],
+      raw: true
+    })
+  }
+  async function findFuncionamiento(usuarioId){
+    return NotificacionModel.findAll({
+      where: {
+        usuarioId,
+        titulo:{
+          [Op.like]:"funcionamiento"
+        }
+      },
+      order: [[ 'createdAt', 'DESC' ]],
+    })
+  }
+  async function findError(usuarioId){
+    return NotificacionModel.findAll({
+      where: {
+        usuarioId,
+        titulo:{
+          [Op.notLike]:"funcionamiento"
+        }
+        
+      },
+      order: [[ 'createdAt', 'DESC' ]],
+    })
+  }
   
   async function destroyAll(id){
     return await NotificacionModel.destroy({
@@ -51,6 +89,9 @@ module.exports = function setupNotificacion (NotificacionModel, UsuarioModel) {
     create,
     updateNotificacion,
     findAll,
+    findLastFive,
+    findFuncionamiento,
+    findError,
     destroyAll,
     destroy
   }

@@ -1,7 +1,23 @@
-﻿INVERNADERO
+﻿RELOJ 
+apt-get install tty-clock
+tty-clock -sc
+
+INVERNADERO
 VPS IP: 
 167.86.119.191
 password: tFLJsJcpj5P
+sshpass -p tFLJsJcpj5P ssh root@167.86.119.191
+pm2 restart Invernadero
+nvm i 8.11.2
+npm i @angular/cli@6.0.8
+
+CAMBIAR LA HORA A BOLIVIA
+ln -sf /usr/share/zoneinfo/America/La_Paz /etc/localtime
+
+ANYDESK
+909348350
+patelecom.srl
+
 // Instalar postgres en ubuntu
 sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
 Reiniciar postgres
@@ -592,3 +608,12 @@ Si esta iniciado controlino
 Luego iniciar el programa en modo consola 
     cd Invernadero/Raspberry/Arduino 
     node controlino.js 
+
+TAREAS
+- Cambiar hora servidor 
+- notificaciones
+- riego constante aunque pierda la hora de inicio 
+- doble funcionamiento servidor-local
+
+
+

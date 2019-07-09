@@ -6,8 +6,8 @@
  const { parsePayload } = require('../mod-mqtt/utils')
 
  var ports = [
-  { id: "A", port: "/dev/ttyUSB3" },//MEGA
-  { id: "B", port: "/dev/ttyUSB0" }, //Proximidad
+  { id: "A", port: "/dev/ttyACM0" },//MEGA
+  //{ id: "B", port: "/dev/ttyUSB0" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
@@ -19,9 +19,10 @@
  
  //Inicializamos el agente
  const ModAgent = require('../mod-agent')
- const agentID = "EcofreshEcofreshEcofreshecofresh@user"
+ const agentID = "arduino"
  const sendDatos = 4000
- const IP = '3.16.149.141'
+ //const IP = '167.86.119.191'
+ const IP = 'localhost'
  const intervalAutomatization = sendDatos
  //const IP = '192.168.0.19'
  //host para la api
@@ -62,6 +63,8 @@ var switchPWM=0
 var pinPWM=0
 var dth=0
 var dthSw=1
+//variable que controla si ya se envio notificacion antes de los spams
+var swHorarioBomba=0
 //numero de posicion son los numeros de pines 
 // 0 inactivo 1 activo
 let estado = []
@@ -346,13 +349,13 @@ port2.on('error',function(err){
                 if(clasePin[i]==3){
                   if(temp[i]>=0 && temp[i]<300){
                     Auxtemp[i]=0
-                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1517522290000}`
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1617522290000}`
                     client.publish("update", payload)
                     //console.log(payload)
                   }
                   if(temp[i]>400){
                     Auxtemp[i]=1
-                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1517522290000}`
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1617522290000}`
                     client.publish("update", payload)
                     //console.log(payload)
                   }
@@ -509,11 +512,16 @@ port2.on('error',function(err){
     
         //LOOP DE RIEGO pregunta cada 60 segundos
         this.loop(60000, () => {
+          var bombas=[]
+          var pos=[]
           //console.log("\x1b[32m","Iniciando Automatizacion Riego")
           var date2 = new Date()
+          
+          //if de notificacion, enviada 1 vez al dia
           if(date2.getHours()==7 && date2.getMinutes()==30){
             notificacion("Sistema en Funcionamiento", "Notificacion de sistema en correcto funcionamiento a horas 7:30 a.m.")
           }
+
           for (let i = 0; i < hId.length; i++) {
             var H=parseInt(hIni[i].substring(0,2))
             var M=parseInt(hIni[i].substring(3,5))
@@ -534,26 +542,23 @@ port2.on('error',function(err){
                 console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Encendiendo bomba : "+idBomba.descripcionPin)
                 
                 //encender bomba
-                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1517522290000}`
+                var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1617522290000}`
                 client.publish("actuador", payload)
                 clientLocal.publish("actuador", payload)
+                //controla si ya se envio notificaciones
                 
-                //For para enviar notificaciones de flujo de bomba
-                setTimeout(function() {
+                  //For para guardar las bombas encendidas para su posterior notificacion con los sensores de flujo
                   for (let i = 0; i < totalPinesMega; i++) {
                     if(estado[i]==1){
                       if(clasePin[i]==1){
                         if(descripcion[i].toLowerCase().indexOf(idBomba.descripcionPin)>=0){
-                          if(temp[i]==0){
-                            notificacion(`Precaucion ${idBomba.descripcionPin}`,`${idBomba.descripcionPin} no existe flujo`)
-                          }
+                          bombas.push(idBomba.descripcionPin)
+                          pos.push(i)
                         }
                       }
                     }
-                    
                   }
-                }, 7000)
-
+                
               setTimeout(function() {
                   hAux[i]=false
                   var idBomba =  ObtPines.find(m => m.id === hPinId[i])
@@ -564,19 +569,43 @@ port2.on('error',function(err){
                   
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Apagando bomba : "+idBomba.descripcionPin)
                   //apagar bomba
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1517522290000}`
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1617522290000}`
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
-    
-                }, duracion)
+                }, (duracion))
     
               }
             }
             
-    
-            
-            
+            //Spamea el encendido de la bomba, por si se pierde la hora exacta, entonces reinicia la accion
+            var duracion = parseInt(hDur[i].substring(3,5))
+            if(H==date.getHours() && date.getMinutes()>M && date.getMinutes()<(M+duracion)){
+              
+              var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+  
+              var HoraYFecha = new Date()
+              var Hora = HoraYFecha.getHours()
+              var Minuto = HoraYFecha.getMinutes()
+              var Segundos = HoraYFecha.getSeconds()
+              //console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" ReEncendiendo bomba : "+idBomba.descripcionPin)
+              
+              //encender bomba
+              var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1417522290000}`
+              client.publish("actuador", payload)
+              clientLocal.publish("actuador", payload)
+            }
           }
+          //For para enviar las notificaciones
+            setTimeout(function() {
+              for (let i = 0; i < bombas.length; i++) {
+                if(temp[pos[i]]==0 || temp[pos[i]]==-1){
+                  notificacion(`Precaucion ${bombas[i]}`,`${bombas[i]} no existe flujo`)
+                }
+              }
+              bombas=[]
+              pos=[]
+            }, 10000)
+            
           //For para enviar notificaciones de temperatura
           for (let i = totalPinesMega; i < estado.length; i++) {
     
@@ -631,6 +660,30 @@ port2.on('error',function(err){
               
               console.log("\x1b[37m",Hora+":"+Minuto +":"+Segundos)
               console.log("\x1b[37m",payload)
+              var accion =""
+              //if q determina como guardara la accion en la BD si es automatico o el usuario lo hiso
+              //1617522290000=sistema(automatico)
+              //1417522290000=spam de una accion, no se debe guardar
+              //cualquier otro es "usuario" y se guarda
+              if(payload.timestamp==1617522290000){
+                accion="sistema"
+              }else{
+                accion="usuario"
+              }
+              if(payload.timestamp!=1417522290000){
+                for (let i = 0; i < estado.length; i++) {
+                  
+                  if(payload.actuador.type==nroPin[i]){
+                    if(payload.actuador.value==1){
+                      //console.log("si")
+                      notificacion(`funcionamiento`,`${descripcion[i]} ON, ${accion}`)
+                    }else{
+                      //console.log("si")
+                      notificacion(`funcionamiento`,`${descripcion[i]} OFF, ${accion}`)
+                    }
+                  }
+                }
+              }
               
               //ejecuta acciones en los pines
               //this.analogWrite(payload.actuador.type, payload.actuador.value);
@@ -649,13 +702,13 @@ port2.on('error',function(err){
                     if(payload.actuador.type+""==nroPin[j]+""){
                       for (let k = 0; k < idPin.length; k++) {
                         if(depende[j]==idPin[k] ){
-                          var payload1 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296904}`
+                          var payload1 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1617522290000}`
                             client.publish("actuador", payload1)
                             //clientLocal.publish("actuador", payload1)
                             //console.log(payload1)
                         }
                         if(depende[j]==depende[k] && descripcion[k].indexOf('finalOn')<0 && descripcion[k].indexOf('finalOff')<0){
-                          var payload2 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296905}`
+                          var payload2 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1617522290000}`
                             client.publish("actuador", payload2)
                             //clientLocal.publish("actuador", payload2)
                         }
@@ -686,13 +739,13 @@ port2.on('error',function(err){
               for (let i = 54; i < idPin.length; i++) {
                 if(clasePin[i]==3 && estado[i]==1){
                   if(temp[i]>600){
-                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1517522296903}`
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":1},"timestamp":1617522290000}`
                     client.publish("update", payload)
                     //clientLocal.publish("update", payload)
                     //console.log(payload)
                   }
                   if(temp[i]>=0 && temp[i]<400 ){
-                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1517522296904}`
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${nroPin[i]}","value":0},"timestamp":1617522290000}`
                     client.publish("update", payload)
                     //clientLocal.publish("update", payload)
                     //console.log(payload)
@@ -744,7 +797,7 @@ port2.on('error',function(err){
     this.each(function(board) {
       if (board.id === "B") {
       /////////////////////////////////////////////////////////////////////
-      
+      /*
       var proximity1 = new five.Proximity({
         controller: "HCSR04",
         pin: 12,
@@ -757,7 +810,7 @@ port2.on('error',function(err){
         proximidadDato1 =this.cm
         temp[81]=(((proximidadTanque1-proximidadDato1)/100)*100).toFixed(2)
         //temp[81]=this.cm
-      });
+      });*/
 /////////////////////////////////////////////////////////////////////
 
       }
@@ -948,7 +1001,7 @@ async function encenderVentilador(idP, nroP,pos){
       var Minuto = HoraYFecha.getMinutes()
       var Segundos = HoraYFecha.getSeconds()
       console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Encendiendo ventilador : "+descripcion[j])
-      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522290000}`
+      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1617522290000}`
       client.publish("actuador", payload)
       clientLocal.publish("actuador", payload)
     }
@@ -969,7 +1022,7 @@ async function encenderVentilador(idP, nroP,pos){
         var Segundos = HoraYFecha.getSeconds()
         
         console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Descanso ventilador : "+descripcion[j])
-        var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":0},"timestamp":1517522290000}`
+        var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":0},"timestamp":1617522290000}`
         client.publish("actuador", payload)
         clientLocal.publish("actuador", payload)
       }
@@ -1016,14 +1069,14 @@ async function abrirPuertas(idP, nroP, pos){
                   console.log("tiempo actividad :"+TiEsperaInactividad)
                   //PIN ABRIR
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522290000}`
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1617522290000}`
                   
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
                   
                   //PIN POLARIDAD
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Encendiendo motor : "+descr)
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1517522290000}`
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1617522290000}`
                   
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
@@ -1036,7 +1089,7 @@ async function abrirPuertas(idP, nroP, pos){
                       var Segundos = HoraYFecha.getSeconds()
                       
                       console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Error, final de carrera no detectado, deteniendo motor : "+descripcion[j])
-                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":0},"timestamp":1517522290000}`
+                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":0},"timestamp":1617522290000}`
                       client.publish("actuador", payload)
                       clientLocal.publish("actuador", payload)
 
@@ -1103,14 +1156,14 @@ async function cerrarPuertas(idP, nroP, pos){
                   console.log("tiempo actividad :"+TiEsperaInactividad)
                    //PIN ABRIR
                    console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
-                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522290000}`
+                   var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1617522290000}`
                    
                    client.publish("actuador", payload)
                    clientLocal.publish("actuador", payload)
                    
                    //PIN POLARIDAD
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Encendiendo motor : "+descr)
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1517522290000}`
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":1},"timestamp":1617522290000}`
                   //console.log(payload)
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
@@ -1123,7 +1176,7 @@ async function cerrarPuertas(idP, nroP, pos){
                     var Segundos = HoraYFecha.getSeconds()
                     
                    console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - deteniendo motor : "+descr)
-                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":0},"timestamp":1517522290000}`
+                    var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nPin},"value":0},"timestamp":1617522290000}`
                     client.publish("actuador", payload)
                     clientLocal.publish("actuador", payload)
                     
@@ -1176,7 +1229,7 @@ async function abrirPuertas2(idP, nroP, pos){
                   var Segundos = HoraYFecha.getSeconds()
                   console.log("tiempo actividad :"+TiEsperaInactividad)
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - encendiendo motor : "+descripcion[j]);
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1517522290000}`
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":1},"timestamp":1617522290000}`
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
                   
@@ -1186,7 +1239,7 @@ async function abrirPuertas2(idP, nroP, pos){
                     //pasado X segundos no detecta final de carrera y apaga el motor
                     setTimeout(function() {
                       //Actualiza variable de sensorId pero del 2do pin para cambiar su valor a 1 que es abierto
-                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":0},"timestamp":1}`
+                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":0},"timestamp":1617522290000}`
                       sensorId[j2]=1
                       client.publish("actuador2", payload)
                       var HoraYFecha = new Date()
@@ -1195,7 +1248,7 @@ async function abrirPuertas2(idP, nroP, pos){
                       var Segundos = HoraYFecha.getSeconds()
                       
                       console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Abriendo - Deteniendo motor : "+descripcion[j])
-                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":0},"timestamp":1517522290000}`
+                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j]},"value":0},"timestamp":1617522290000}`
                       client.publish("actuador", payload)
                       clientLocal.publish("actuador", payload)
 
@@ -1249,7 +1302,7 @@ async function cerrarPuertas2(idP, nroP, pos){
                   var Segundos = HoraYFecha.getSeconds()
                   console.log("tiempo actividad :"+TiEsperaInactividad)
                   console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - encendiendo motor : "+descripcion[j]);
-                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":1},"timestamp":1517522290000}`
+                  var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":1},"timestamp":1617522290000}`
                   client.publish("actuador", payload)
                   clientLocal.publish("actuador", payload)
                   
@@ -1259,7 +1312,7 @@ async function cerrarPuertas2(idP, nroP, pos){
                     //pasado X segundos no detecta final de carrera y apaga el motor
                     setTimeout(function() {
                       //Actualiza variable de sensorId pero del 2do pin para cambiar su valor a 1 que es abierto
-                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":0},"timestamp":1517522290000}`
+                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":0},"timestamp":1617522290000}`
                       sensorId[j2]=0
                       client.publish("actuador2", payload)
                       
@@ -1269,7 +1322,7 @@ async function cerrarPuertas2(idP, nroP, pos){
                       var Segundos = HoraYFecha.getSeconds()
                       
                       console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Cerrando - Deteniendo motor : "+descripcion[j])
-                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":0},"timestamp":1517522290000}`
+                      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[j2]},"value":0},"timestamp":1617522290000}`
                       client.publish("actuador", payload)
                       clientLocal.publish("actuador", payload)
 
@@ -1305,7 +1358,7 @@ async function finalCarrera(pin,value,pos) {
     
       if(value>600){
         if(Auxtemp[pos]==1){
-          var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${pin}","value":1},"timestamp":1517522296903}`
+          var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${pin}","value":1},"timestamp":1617522290000}`
           client.publish("control", payload)
           client.publish("update", payload)
           clientLocal.publish("control", payload)
@@ -1316,7 +1369,7 @@ async function finalCarrera(pin,value,pos) {
       }
       if(value>=0 && value<400 ){
         if(Auxtemp[pos]==0){
-          var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${pin}","value":0},"timestamp":1517522296904}`
+          var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":"${pin}","value":0},"timestamp":1617522290000}`
           client.publish("control", payload)
           client.publish("update", payload)
           clientLocal.publish("control", payload)

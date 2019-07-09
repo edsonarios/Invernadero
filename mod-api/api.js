@@ -62,22 +62,22 @@ api.use('*', async (req, res, next) => {
 api.get('/datosPrueba',async (req,res)=>{
   //añade un nuevo usuario
   const varUs = await Usuario.createOrUpdate({
-    nombre: 'usuario', 
-    ap_paterno: 'ap_paterno',
-    ap_materno: 'ap_materno',
+    nombre: 'nomPrueba', 
+    ap_paterno: 'paternoPrueba',
+    ap_materno: 'maternoPrueba',
     tipo: 'user',
     direccion: 'dir3',
     telefono: 6663,
-    correo:'usuario@usuario',
+    correo:'prueba@prueba',
     password:'1234',
     conectado:'false',
     change:'0000'
   }) 
   //añade un nuevo invernadero segun un usuario
   const varIn = await Invernadero.create(varUs.id, {
-    departamento: 'Oruro',
-    ubicacion: 'Laja',
-    provincia: 'aquinomas',
+    departamento: 'Prueba',
+    ubicacion: 'Prueba',
+    provincia: 'Prueba',
     tempMaxima: '',
     tempMedia: '',
     tempMinima: '',
@@ -1562,37 +1562,38 @@ api.get('/postNotificacion/:uuid/:title/:body', async (req, res) => {
   var SERVER_API_KEY='AAAA_mbOYVk:APA91bGgUEkx19pOnVuveK4PGZn3rnbx1rPydrjp7riA349i9qSI8zLNoObLlW8bl8vuZqMWI2VDy78Z3JB7HDzDeVbvtD6rR0VbNQLRcYgp34xkuRNi5Z4aeOWJM0gwwuEfBXqsvdZd';//put your api key here
   var fcmCli= new FCM(SERVER_API_KEY);
 
-  //de henry
-  //e0j1Nu-huBI:APA91bErzIWUzaGerjNWxD9GplvXUrWBVbaq_itNlelElDg4MimVILVCkItfIvE-yFXIZKP_KRN0_6tI-30BTjdAjsliP5i3l9gtiHvFnR2TXX-I726C63MdAPACdLqU9AU7EjVKb0cP
-  if (Array.isArray(token)) {
-    token.forEach(m => {
-      //console.log(m.token)
-              var payloadOK = {
-                to: m.token,
-                priority: 'high',
-                content_available: true,
-                notification: { //Notificacion
-                    title: title,                    //TITULO
-                    body: body,                 //CUERPO
-                    sound : "default", badge: "1"                       //EXTRAS
-                }
+  if(title!="funcionamiento"){
+    
+    if (Array.isArray(token)) {
+      token.forEach(m => {
+        //console.log(m.token)
+                var payloadOK = {
+                  to: m.token,
+                  priority: 'high',
+                  content_available: true,
+                  notification: { //Notificacion
+                      title: title,                    //TITULO
+                      body: body,                 //CUERPO
+                      sound : "default", badge: "1"                       //EXTRAS
+                  }
+                };
+              var callbackLog = function (sender, err, res) {
+                console.log(sender,uuid)
               };
-            var callbackLog = function (sender, err, res) {
-              console.log(sender,uuid)
-            };
-          
-            function sendOK()
-            {
-                fcmCli.send(payloadOK,function(err,res){
-                    callbackLog('sendOK',err,res);
-                });
-            }
-            sendOK();
             
+              function sendOK()
+              {
+                  fcmCli.send(payloadOK,function(err,res){
+                      callbackLog('sendOK',err,res);
+                  });
+              }
+              sendOK();
+              
 
-    })
+      })
+    }
   }
-
+  
   res.send({message: "Notificacion Enviada"})  
  
 
@@ -1605,6 +1606,27 @@ api.post('/getNotificaciones', async (req, res, next) => {
   
  res.send(varInv)
 }) 
+
+api.post('/getNotificacionesLast5', async (req, res, next) => {
+  var params = req.body
+  const varInv = await Notificacion.findLastFive(params.id)
+   
+ res.send(varInv)
+})
+
+api.post('/getNotificacionesError', async (req, res, next) => {
+  var params = req.body
+  const varInv = await Notificacion.findError(params.id)
+   
+ res.send(varInv)
+})
+
+api.post('/getNotificacionesFuncionamiento', async (req, res, next) => {
+  var params = req.body
+  const varInv = await Notificacion.findFuncionamiento(params.id)
+   
+ res.send(varInv)
+})
 
 
 
