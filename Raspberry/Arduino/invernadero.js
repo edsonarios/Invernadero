@@ -7,20 +7,22 @@
  const { parsePayload } = require('../mod-mqtt/utils')
 
  var ports = [
-  { id: "A", port: "/dev/ttyACM0" },//MEGA
-  //{ id: "B", port: "/dev/ttyUSB0" }, //Proximidad
+  //{ id: "A", port: "/dev/ttyACM0" },//MEGA
+  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
  var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
- var sensorCOM2 = '/dev/ttyUSB2' // sensor ds
+ var sensorCOM2 = '/dev/ttyUSB0' // sensor ds
 
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
  
  //Inicializamos el agente
  const ModAgent = require('../mod-agent')
- const agentID = "arduino"
+ //const agentID = "arduino"
+ const agentID = "ecofreshecofreshecofreshecofresh@user"
  const sendDatos = 4000
  const IP = '167.86.119.191'
  const IPlocal = 'localhost'
@@ -79,7 +81,18 @@ let accion =[]
 let descripcion =[]
 //Varios
 let tempMaxima, tempMedia, tempMinima, tiempoIntermitencia, temp=[], Auxtemp=[],sensorId=[],idPin=[],nroPin=[], descansoVentilador=[], estadoPuertas=[], depende=[],tiempoMotorAuxi=[],tiempoMotor=[],swPuertas=[],swMotor=[],swPuertas2=[]
-let tiempoPausa, tiempoFuncionMotor, hId=[],hIni=[],hDur=[],hPinId=[],hAux=[],ObtPines
+let tiempoPausa, tiempoFuncionMotor, hId=[],hIni=[],hDur=[],hPinId=[],hAux=[]
+
+///// RESPALDO /////////////////////////////////////////////////////////////
+let ObtPines2=require('./pinesR')
+let controlador2=require('./controladorR')
+let horario2=require('./horarioR')
+let ObtPines=[]
+let controlador=[]
+let horario=[]
+//console.log("este es respaldo-----------------------------------------------------")
+console.log(controlador)
+//console.log("termina--------------------------------------------------------------")
 //se espera cada 30 segundos para la siguiente puerta o ventana
 var TiempoPausa = 30000
 //variable que determina en que tiempo se empezaran a abrir puertas y ventas, y en cada iteracion se va sumando 30 segundos
@@ -516,7 +529,7 @@ port2.on('error',function(err){
         //LOOP DE RIEGO pregunta cada 60 segundos
         this.loop(60000, () => {
           
-          commando()
+          
           
           var bombas=[]
           var pos=[]
@@ -600,6 +613,22 @@ port2.on('error',function(err){
               client.publish("actuador", payload)
               clientLocal.publish("actuador", payload)
             }
+            //spamea el apagado de bomba hasta 2 minutos despues
+            if(H==date.getHours() && (date.getMinutes()==(M+duracion) || date.getMinutes()==(M+duracion+1))){
+              
+              var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+  
+              var HoraYFecha = new Date()
+              var Hora = HoraYFecha.getHours()
+              var Minuto = HoraYFecha.getMinutes()
+              var Segundos = HoraYFecha.getSeconds()
+              //console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" ReApagando bomba : "+idBomba.descripcionPin)
+              
+              //encender bomba
+              var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1417522290000}`
+              client.publish("actuador", payload)
+              clientLocal.publish("actuador", payload)
+            }
           }
           //For para enviar las notificaciones
             setTimeout(function() {
@@ -627,7 +656,7 @@ port2.on('error',function(err){
             }
             
           }
-    
+          commando()
         })
     
         this.loop(400, () => {
@@ -899,8 +928,10 @@ async function conf(){
     ObtPines = await request(options)
   } catch (e) {
     this.error = e.error.error
-    return
+    ObtPines=ObtPines2
+    //return
   }
+  
   //console.log(ObtPines)
   
   //itera sobre todo el json para colocar cada valor del pin en un array diferente
@@ -940,7 +971,7 @@ async function conf(){
 }
 //Funcion que instancia los parametros de temperatura y tiempointermitencia
 async function findInvbyContr(){
- 
+ console.log(controlador)
   const options = {
     method: 'GET',
     url: Host+`api/findInvbyContr/${agentID}`,
@@ -948,18 +979,18 @@ async function findInvbyContr(){
     json: true
   }
   
-  let result
-  
   try {
-    result = await request(options)
+    controlador = await request(options)
   } catch (e) {
+    
     this.error = e.error.error
-    return
+    controlador=controlador2
+    //return
   }
   
   //itera sobre todo el json para colocar cada valor del pin en un array diferente
-  if (Array.isArray(result)) {
-    result.forEach(m => {
+  if (Array.isArray(controlador)) {
+    controlador.forEach(m => {
       tempMaxima=m.tempMaxima
       tempMedia=m.tempMedia
       tempMinima=m.tempMinima
@@ -984,7 +1015,8 @@ async function findInvbyContr(){
       TiempoFuncionMotor=  time
     })
   }
-  //console.log(result)
+  
+  console.log(controlador)
   
 }
 async function horarios(){
@@ -996,17 +1028,19 @@ async function horarios(){
     json: true
   }
   
-  let result
+  //let result
   
   try {
-    result = await request(options)
+    horario = await request(options)
   } catch (e) {
     this.error = e.error.error
-    return
+    horario=horario2
+    //return
   }
-  
-  if (Array.isArray(result)) {
-    result.forEach(m => {
+  //console.log("este es el nuevo-------------------------------------------------")
+  //console.log(horario)
+  if (Array.isArray(horario)) {
+    horario.forEach(m => {
       hId.push(m.id)
       hIni.push(m.horaInicio)
       hDur.push(m.duracion)
@@ -1014,7 +1048,7 @@ async function horarios(){
       hAux.push(false)
     })
   }
-  console.log(hIni)
+  //console.log(hIni)
   
 }
 async function notificacion(title, body){

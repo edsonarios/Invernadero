@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "departamento": "La Paz 1",
+        "ubicacion": "La Paz",
+        "provincia": "La Paz",
+        "tempMaxima": "35",
+        "tempMedia": "20",
+        "tempMinima": "10",
+        "tiempoIntermitencia": "00:03:00",
+        "tiempoPausa": "00:00:10",
+        "tiempoFuncionMotor": "00:03:00",
+        "logo": "cjaGydwij7hF5PmTJQqFEsag.png",
+        "createdAt": "2019-06-02T21:22:27.842Z",
+        "updatedAt": "2019-06-02T21:22:27.842Z",
+        "usuarioId": 2
+    }
+]

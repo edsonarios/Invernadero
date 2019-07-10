@@ -8,12 +8,13 @@
 
  var ports = [
   { id: "A", port: "/dev/ttyACM0" },//MEGA
-  //{ id: "B", port: "/dev/ttyUSB0" }, //Proximidad
+  //{ id: "A", port: "/dev/ttyUSB3" },//MEGA
+  //{ id: "B", port: "/dev/ttyUSB2" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
  var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
- var sensorCOM2 = '/dev/ttyUSB2' // sensor ds
+ var sensorCOM2 = '/dev/ttyUSB0' // sensor ds
 
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -764,6 +765,55 @@ port2.on('error',function(err){
               }
                
             }
+          }
+          
+        
+        })
+
+        clientLocal.on('message', (topic, payload) => {
+        
+          payload = parsePayload(payload)
+          
+          if(payload.agent.uuid==agentID){
+            //console.log(payload)
+            if(topic=="actuador"){
+              payload.actuador.type = parseInt(payload.actuador.type)
+              this.digitalWrite(payload.actuador.type,payload.actuador.value)
+    
+              
+            }
+    
+            //if que sirve para detener el motor de una puerta o ventana si ya detecta el final de carrera
+            if(swww==1){
+              if(topic=="control"){
+                if(payload.actuador.value==1 ){
+                  for (let j = 54; j < idPin.length; j++) {
+                    
+                    if(payload.actuador.type+""==nroPin[j]+""){
+                      for (let k = 0; k < idPin.length; k++) {
+    
+                        if(depende[j]==idPin[k] ){
+                          var payload1 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296904}`
+                            //client.publish("actuador", payload1)
+                            clientLocal.publish("actuador", payload1)
+                        }
+                        if(depende[j]==depende[k] && descripcion[k].indexOf('finalOn')<0 && descripcion[k].indexOf('finalOff')<0){
+                          var payload2 = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${nroPin[k]},"value":0},"timestamp":1517522296905}`
+                            //client.publish("actuador", payload2)
+                            clientLocal.publish("actuador", payload2)
+                        }
+                        
+                      }
+                      
+                    }
+      
+                  }
+                }
+                
+              }
+            }
+          
+    
           }
           
         
