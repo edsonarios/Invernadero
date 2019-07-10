@@ -610,10 +610,10 @@ Luego iniciar el programa en modo consola
     node controlino.js 
 
 TAREAS
-- Cambiar hora servidor 
-- notificaciones
-- riego constante aunque pierda la hora de inicio 
+- notificaciones - colocar fecha a las peticiones   REALIZADO
+- riego constante aunque pierda la hora de inicio (error detencion de riego constante)
 - doble funcionamiento servidor-local
+- reiniciar el sistema de la pc automaticamente cuando haya conexion a la pc    REALIZADO 
 
 
 

@@ -6,8 +6,8 @@
       "watch"       : true
     },
     {
-        "name"        : "controlino",
-        "script"      : "./Arduino/controlino.js",
+        "name"        : "Invernadero",
+        "script"      : "./Arduino/invernadero.js",
         "watch"       : true
     }
     ]

@@ -22,6 +22,8 @@ const config = require('./config')
 
 const api = asyncify(express.Router())
 
+const moment = require("moment")
+
 //parseado a json todos los bodys
 api.use(bodyParser.urlencoded({extended:false}))
 api.use(bodyParser.json())
@@ -1606,7 +1608,7 @@ api.post('/getNotificaciones', async (req, res, next) => {
   
  res.send(varInv)
 }) 
-
+ 
 api.post('/getNotificacionesLast5', async (req, res, next) => {
   var params = req.body
   const varInv = await Notificacion.findLastFive(params.id)
@@ -1616,16 +1618,33 @@ api.post('/getNotificacionesLast5', async (req, res, next) => {
 
 api.post('/getNotificacionesError', async (req, res, next) => {
   var params = req.body
-  const varInv = await Notificacion.findError(params.id)
-   
- res.send(varInv)
+  const obj = await Notificacion.findError(params.id)
+  var ojbAr=[]
+  if (Array.isArray(obj)) {
+    obj.forEach(m => {
+      if(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha)){
+        ojbAr.push(m)
+      }
+      //console.log(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha))
+    })
+  }
+ res.send(ojbAr)
 })
 
 api.post('/getNotificacionesFuncionamiento', async (req, res, next) => {
   var params = req.body
-  const varInv = await Notificacion.findFuncionamiento(params.id)
-   
- res.send(varInv)
+  const obj = await Notificacion.findFuncionamiento(params.id)
+  var ojbAr=[]
+  if (Array.isArray(obj)) {
+    obj.forEach(m => {
+      //moment('2015-10-20').isBetween('2015-10-19', '2015-10-25');
+      if(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha)){
+        ojbAr.push(m)
+      }
+      //console.log(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha))
+    })
+  }
+ res.send(ojbAr)
 })
 
 

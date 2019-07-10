@@ -11,9 +11,11 @@
     "async-mqtt": "^2.2.1",
     "fcm-node": "^1.4.0",
     "johnny-five": "^0.13.1",
+    "moment": "^2.24.0",
     "plotly": "^1.0.6",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.7"
+    "request-promise-native": "^1.0.7",
+    "shelljs": "^0.8.3"
   },
   "devDependencies": {},
   "author": "",
