@@ -24,6 +24,7 @@
     "defaults": "^1.0.3",
     "inquirer": "^4.0.1",
     "minimist": "^1.2.0",
+    "moment": "^2.24.0",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.27.0"

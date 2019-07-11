@@ -628,6 +628,30 @@ api.post('/borrarSensor', async (req, res, next) => {
   res.send(m)
 })
 
+api.post('/eraseSensorByDate', async (req, res, next) => {
+  
+  const params = req.body 
+  let obj = await HistorialSensor.findAllByUuid(params.uuid)
+  let er=[]
+  if (Array.isArray(obj)) {
+    obj.forEach(m => {
+      //if(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.date)){
+      if(moment(moment(m.createdAt).format("YYYY-MM-DD")).isBetween(moment(obj[0].createdAt).format("YYYY-MM-DD"), params.date)){
+        //moment('2015-10-20').isBetween('2015-10-19', '2015-10-25');
+        er.push(m) 
+      }
+    })
+  } 
+  var cont=0
+  if (Array.isArray(er)) {
+    er.forEach(m => { 
+      HistorialSensor.deleteSensorbyDate(m.id,obj[0].controladorId)
+      cont++
+    })
+  }
+  res.send(`${cont} datos eliminados`)
+})
+
 //borra todos los pines de un controlador especifico
 api.post('/deletePines', async (req, res, next) => {
   
@@ -832,21 +856,22 @@ api.get('/agent/:uuid', async (req, res, next) => {
 
 api.get('/metrics/:uuid', async (req, res, next) => {
   const { uuid } = req.params
-
   debug(`request to /metrics/${uuid}`)
 
-  let metrics = []
-  try {
-    metrics = await HistorialSensor.findByAgentUuid(uuid)
-  } catch (e) {
-    return next(e)
+  const result  = await Pines.findNameSensorsUuid(uuid)
+  let result2=[]
+  
+  if (Array.isArray(result)) {
+    result.forEach(m => {
+      result2.push({"type":m.descripcionPin})
+    }) 
   }
-
-  if (!metrics || metrics.length === 0) {
+  console.log(result2)
+  if (!result || result.length === 0) {
     return next(new Error(`Metrics not found for agent with uuid ${uuid}`))
   }
 
-  res.send(metrics)
+  res.send(result2)
 })
 
 api.get('/metrics/:uuid/:type', async (req, res, next) => {

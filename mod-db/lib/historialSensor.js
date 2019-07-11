@@ -1,4 +1,5 @@
 'use strict'
+const moment = require("moment")
 
 module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
   async function create (uuid, metric) {
@@ -24,6 +25,21 @@ module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
           uuid
         }
       }],
+      raw: true
+    })
+  }
+
+  async function findAllByUuid (uuid) {
+    return HistorialSensorModel.findAll({
+      attributes: [ 'id','createdAt','controladorId' ],
+      include: [{
+        attributes: [],
+        model: ControladorModel,
+        where: {
+          uuid
+        }
+      }],
+      order: [[ 'createdAt', 'ASC' ]],
       raw: true
     })
   }
@@ -64,6 +80,14 @@ module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
       }
     });
   }
+  async function deleteSensorbyDate (id,controladorId) {
+    return HistorialSensorModel.destroy({
+      where: {
+        id:id,
+        controladorId
+      }
+    });
+  }
   
   async function modifySensor (type, controladorId, historialSensor) {
    
@@ -82,8 +106,10 @@ module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
   return {
     create,
     findByAgentUuid,
+    findAllByUuid,
     findByTypeAgentUuid,
     deleteSensor,
+    deleteSensorbyDate,
     modifySensor,
     deleteSensorContr
   }

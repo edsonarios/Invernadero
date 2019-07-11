@@ -9,6 +9,7 @@ const request = require('request-promise-native')
 
 //Para notificacion
 const IP = '167.86.119.191'
+//const IP = 'localhost'
 const Host = `http://${IP}:3000/`
  
 const { parsePayload } = require('./utils')
@@ -129,15 +130,21 @@ server.on('published', async (packet, client) => {
         for (let metric of payload.metrics) {
           
           let m
-
-          try {
-            m = await Metric.create(agent.uuid, metric)
-
-            } catch (e) {
-            return handleError(e)
+          var sw=0
+          if(metric.type.indexOf('Flujo')>=0){sw=1}
+          if(metric.type.indexOf('Tanque')>=0){sw=1}
+          if(sw==0){
+            try {  
+              m = await Metric.create(agent.uuid, metric)
+  
+              } catch (e) {
+              return handleError(e)
+            }
+  
+            debug(`Metric ${m.id} saved on agent ${agent.uuid}`)
           }
+          
 
-          debug(`Metric ${m.id} saved on agent ${agent.uuid}`)
         }
         
       }

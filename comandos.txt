@@ -27,9 +27,13 @@ Reiniciar Redis
 Reiniciar apache
     /etc/init.d/apache2 restart
 
-CAMBIAR IPS
+PRODUCCION SERVIDOR CAMBIAR IPS
 mod-agent - index
 ngx-admin-master    server.js
+
+PC - CAMBIAR IP
+Raspberry/mod-agent - index
+Raspberr/Arduino - invernadero.js
 
 UUID CONTROLINO 30
 controlino.js

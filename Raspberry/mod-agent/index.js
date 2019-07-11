@@ -15,8 +15,8 @@ const options = {
   interval: 5000,
   agentID: "admi",
   mqtt: {
-    host: 'mqtt://167.86.119.191'
-    //host: 'mqtt://173.212.235.89'
+    //host: 'mqtt://167.86.119.191'
+    host: 'mqtt://localhost'
   }
 }
 

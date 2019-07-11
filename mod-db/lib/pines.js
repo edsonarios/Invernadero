@@ -225,6 +225,25 @@ module.exports = function setupControlador (PinesModel, ControladorModel) {
       }
     })
   }
+  async function findNameSensorsUuid (uuid) {
+    return PinesModel.findAll({
+      attributes: [ 'descripcionPin'],
+      where:{
+        estado:1,
+        descripcionPin: {[op.like]: 'sensor%'}
+      },
+      
+      order: [[ 'id', 'ASC' ]],
+      include: [{
+        attributes: [],
+        model: ControladorModel,
+        where: {
+          uuid
+        }
+      }],
+      raw: true
+    })
+  }
 
   return {
     create,
@@ -245,6 +264,7 @@ module.exports = function setupControlador (PinesModel, ControladorModel) {
     findByAllDepende,
     findOnePin,
     findActuadorActive,
-    findFinalCarrera
+    findFinalCarrera,
+    findNameSensorsUuid
   }
 }
