@@ -7,6 +7,7 @@ import { CuentasComponent } from './cuentas/cuentas.component';
 import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 import { ControlManualComponent } from './control_manual/control_manual.component';
 import { HorariosComponent } from './horarios/horarios.component';
+import { NotificacionesComponent } from '../tester/notificaciones/notificaciones.component';
 
 const routes: Routes = [{
   path: '',
@@ -25,6 +26,9 @@ const routes: Routes = [{
     },{
       path: 'Horarios',
       component: HorariosComponent,
+    },{
+      path: 'Notificaciones',
+      component: NotificacionesComponent,
     },
     {
       path: '',

@@ -11,7 +11,7 @@ export class HorarioService{
 	constructor(private _http: Http){
 		this.url = GLOBAL.url;
 	}
-	
+	//
 	adicionarNuevaHora(idBomba,horaIni,dur){
 		let headers= new Headers({'Content-Type':'application/json'});
 		console.log('ID DE LA BOMBA :');

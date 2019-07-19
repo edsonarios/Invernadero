@@ -52,6 +52,7 @@ export class UserService{
 
 		return this._http.post(this.url+'getNotificaciones',params, {headers:headers})
 		.map(res => res.json())
+		
 	}
 
 	detalleUsuario(iduser){

@@ -13,6 +13,7 @@ import { PruebaModule } from './Prueba/prueba.module';
 
 import { UsuarioRoutingModule } from './usuario-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
+import { NotificacionesModule } from './notificaciones/notificaciones.module';
 
 
 const PAGES_COMPONENTS = [
@@ -27,6 +28,7 @@ const PAGES_COMPONENTS = [
     InfoModule,
     MonitoreoModule,
     HorariosModule,
+    NotificacionesModule,
     ControlManualModule,
 
     PruebaModule,

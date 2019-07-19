@@ -1,7 +1,7 @@
 import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
-   {
+  {
     title: 'MENU',
     group: true,
   },
@@ -24,6 +24,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Horarios',
     icon: 'ion-ios-time',
     link: '/Usuario/Horarios',
+  },
+  {
+    title: 'Notificaciones-User',
+    icon: 'ion-ios-email',
+    link: '/Usuario/Notificaciones',
   },
   {
     title: 'Reporte',
@@ -70,7 +75,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       link: '/Usuario/Monitoreo/Camaras',
     },
     ],
-  }, 
+  },
   {
     title: 'Control Manual',
     icon: 'ion-gear-b',
@@ -84,7 +89,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
        link: '/Usuario/Control/Horarios',
     },
     ],
-   
+
   },
   {
     title: 'Reporte',

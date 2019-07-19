@@ -1,0 +1,82 @@
+<span align="center">
+  <h1>Notificaciones</h1>
+</span>
+<!-- 
+<div [@fadeIn] *ngFor="let n of notificationsE ; let i=index">
+
+  hola
+  <h3>{{notificationsE[i]['titulo']}}-{{notificationsE[i]['cuerpo']}}</h3>
+
+</div> -->
+
+
+<!-- NOTIFICACIONES ERROR -->
+<div class="row">
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>
+        <span align="center">
+          <h3>Notificaciones de Fallo</h3>
+        </span>
+      </nb-card-header>
+      <nb-card-body>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><b>Fecha</b></th>
+              <th><b>Hora</b></th>
+              <th><b>Titulo</b></th>
+              <th><b>Mensaje</b></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>YYYY/MM/DD</td>
+              <td>HH:MM:SS</td>
+              <td>TITULO DE PRUEBA</td>
+              <td>MENSAJE DE PRUEBA</td>
+            </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+      <nb-card-footer>
+
+      </nb-card-footer>
+    </nb-card>
+  </div>
+
+  <!-- NOTIFICACIONES FUNCIONAMIENTO -->
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>
+        <span align="center">
+          <h3>Notificaciones de Funcionamiento</h3>
+        </span>
+      </nb-card-header>
+      <nb-card-body>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><b>Fecha</b></th>
+              <th><b>Hora</b></th>
+              <th><b>Titulo</b></th>
+              <th><b>Mensaje</b></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+      <nb-card-footer>
+
+      </nb-card-footer>
+    </nb-card>
+  </div>
+
+</div>

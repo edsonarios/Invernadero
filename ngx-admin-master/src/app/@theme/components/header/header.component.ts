@@ -8,17 +8,19 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { filter } from 'rxjs/operators/filter';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { NotificationService} from '../../../../service/notificaciones.service';
+
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
-    providers: [UserService],
+    providers: [UserService,NotificationService],
 })
 export class HeaderComponent implements OnInit {
+  
  status=localStorage.getItem('role');
 
   @Input() position = 'normal';
-
   notifications = [];
 public usuario: User;
 
@@ -31,6 +33,7 @@ tag = 'my-context-menu';
               private menuService: NbMenuService,
             private userService: UserService,
               private analyticsService: AnalyticsService,
+              private notiService: NotificationService,
               private router:Router) {
 
 
@@ -57,7 +60,7 @@ tag = 'my-context-menu';
   ngOnInit() {
 
    this.usuario = new User(localStorage.getItem('user_id'),'','','','','','','','','','');
- this.userService.Notifications(this.usuario).subscribe(
+  this.userService.Notifications(this.usuario).subscribe(
       response =>{
         this.notifications=response;
         //console.log("estas son las notificaciones del usuario ID: "+localStorage.getItem('user_id'));
@@ -67,7 +70,7 @@ tag = 'my-context-menu';
         
       }
     );
-
+ 
  // Agrega los nombres
        if (this.status==null) {
         this.user={ name: 'Nelson Richard Cori Sirpa', picture: 'assets/images/nick.jpg' };

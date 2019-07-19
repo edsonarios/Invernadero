@@ -1,4 +1,4 @@
-import { Component , OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MENU_ITEMS } from './tester-menu';
 @Component({
@@ -11,15 +11,15 @@ import { MENU_ITEMS } from './tester-menu';
   `,
 
 })
-export class TesterComponent implements OnInit{
+export class TesterComponent implements OnInit {
   menu = MENU_ITEMS;
-constructor(
-		private router:Router
+  constructor(
+    private router: Router
 
-		){}
-ngOnInit(){
-  
-}
+  ) { }
+  ngOnInit() {
+
+  }
 
 
 

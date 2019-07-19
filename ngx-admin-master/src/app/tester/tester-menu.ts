@@ -21,10 +21,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/Tester/Control_Manual'
   }, 
   {
+    title: 'Notificaciones-Tester',
+    icon: 'ion-ios-email',
+    link: '/Tester/Notificaciones'
+  },
+  {
     title: 'Horarios',
     icon: 'ion-ios-time',
     link: '/Tester/Horarios'
   }, 
+  
    
   
 ];

@@ -7,10 +7,9 @@ import { MonitoreoModule } from './monitoreo/monitoreo.module';
 import { ControlManualModule } from './control_manual/control_manual.module';
 import { HorariosModule } from './horarios/horarios.module';
 
-
-
 import { TesterRoutingModule } from './tester-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
+import { NotificacionesModule } from './notificaciones/notificaciones.module';
 
 
 const PAGES_COMPONENTS = [
@@ -24,6 +23,7 @@ const PAGES_COMPONENTS = [
     CuentasModule,
     MonitoreoModule,
     ControlManualModule,
+    NotificacionesModule,
     HorariosModule
     
   ],
