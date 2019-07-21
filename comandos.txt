@@ -5,14 +5,29 @@ tty-clock -sc
 INVERNADERO
 VPS IP: 
 167.86.119.191
-password: tFLJsJcpj5P
-sshpass -p tFLJsJcpj5P ssh root@167.86.119.191
+password: 2e3aOVr}j5*7Pd3%
+sshpass -p Kgey1j4ql16UPDWT ssh root@167.86.119.191
+Kgey1j4ql16UPDWT
+tFLJsJcpj5P
+
 pm2 restart Invernadero
 nvm i 8.11.2
 npm i @angular/cli@6.0.8
 
 CAMBIAR LA HORA A BOLIVIA
 ln -sf /usr/share/zoneinfo/America/La_Paz /etc/localtime
+
+BORRAR TODOS LOS SENSORES DE UNA FECHA PARA ABAJO
+POST: /eraseSensorByDate
+date:
+uuid:
+borrara desde la fecha para abajo
+
+BORRAR TODO DE UN SENSOR ESPECIFICO
+POST: /borrarSensor
+type:
+controladorId
+
 
 ANYDESK
 909348350
@@ -32,8 +47,8 @@ mod-agent - index
 ngx-admin-master    server.js
 
 PC - CAMBIAR IP
-Raspberry/mod-agent - index
-Raspberr/Arduino - invernadero.js
+Raspberry/mod-agent - index (ip)
+Raspberr/Arduino - invernadero.js (ip y uuid)
 
 UUID CONTROLINO 30
 controlino.js
@@ -621,3 +636,10 @@ TAREAS
 
 
 
+sensores de temperatura a 15 segundos
+independizar los sensores de flujo 
+notificacion tanque
+
+
+VPS
+Cambio de contraseña.- Longitud 16 caracteres numeros y letras(no acepta simbolos)

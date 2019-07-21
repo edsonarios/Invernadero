@@ -1,0 +1,18 @@
+[
+  {
+    "id": 2,
+    "departamento": "Oruro",
+    "ubicacion": "Laja",
+    "provincia": "aquinomas",
+    "tempMaxima": "",
+    "tempMedia": "",
+    "tempMinima": "",
+    "tiempoIntermitencia": "00:03:00",
+    "tiempoPausa": "00:00:30",
+    "tiempoFuncionMotor": "00:00:10",
+    "logo": "img.jpg",
+    "createdAt": "2019-07-10T05:11:08.138Z",
+    "updatedAt": "2019-07-10T05:11:08.138Z",
+    "usuarioId": 3
+  }
+]

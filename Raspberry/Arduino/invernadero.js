@@ -5,16 +5,17 @@
  const mqtt = require('async-mqtt')
  var shell = require('shelljs')
  const { parsePayload } = require('../mod-mqtt/utils')
+ const fs = require('fs')
 
  var ports = [
   { id: "A", port: "/dev/ttyACM0" },//MEGA
-  //{ id: "A", port: "/dev/ttyUSB3" },//MEGA
-  //{ id: "B", port: "/dev/ttyUSB2" }, //Proximidad
+  //{ id: "A", port: "/dev/ttyUSB1" },//MEGA
+  //{ id: "B", port: "/dev/ttyUSB0" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
- var sensorCOM1 = '/dev/ttyUSB1' //sensor dth
- var sensorCOM2 = '/dev/ttyUSB0' // sensor ds
+ var sensorCOM1 = '/dev/ttyUSB3' //sensor de flujo
+ var sensorCOM2 = '/dev/ttyUSB2' // sensor ds
 
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -24,8 +25,8 @@
  const agentID = "arduino"
  //const agentID = "ecofreshecofreshecofreshecofresh@user"
  const sendDatos = 4000
- const IP = 'localhost'
- //const IP = '167.86.119.191'
+ //const IP = 'localhost'
+ const IP = '167.86.119.191'
  const IPlocal = 'localhost'
  const intervalAutomatization = sendDatos
  //const IP = '192.168.0.19'
@@ -43,7 +44,7 @@
  //iniciamos cliente mqtt
  const client = mqtt.connect(`mqtt://${IP}`) 
  const clientLocal = mqtt.connect(`mqtt://${IPlocal}`)
- 
+
   client.subscribe('actuador')
   client.subscribe('actuador2')
   client.subscribe('update')
@@ -85,9 +86,9 @@ let tempMaxima, tempMedia, tempMinima, tiempoIntermitencia, temp=[], Auxtemp=[],
 let tiempoPausa, tiempoFuncionMotor, hId=[],hIni=[],hDur=[],hPinId=[],hAux=[]
 
 ///// RESPALDO /////////////////////////////////////////////////////////////
-let ObtPines2=require('./pinesR')
-let controlador2=require('./controladorR')
-let horario2=require('./horarioR')
+let ObtPines2=require('./Rpines')
+let controlador2=require('./Rcontrolador')
+let horario2=require('./Rhorario')
 let ObtPines=[]
 let controlador=[]
 let horario=[]
@@ -106,10 +107,11 @@ var TiEsperaInactividad = 120
 conf()
 findInvbyContr()
 horarios()
+
 //notificacion("Error bomba 2", "bomba no encendida")
 // funcion que se ejecuta cuando la placa ya esta lista
  board.on("ready", function() {
-  
+
 // mensaje que se muestra por consola informandonos de que la placa esta lista
  console.log("Placa lista.")
  
@@ -120,7 +122,7 @@ sensor humedad 1
 sensor temperatura almacigo
 sensor Agua
 sensor Tanque Nivel 1*/
-
+/*
  var A0 = new five.Sensor("A0")
  var A1 = new five.Sensor("A1")
  
@@ -141,7 +143,7 @@ var sen2=0
   A1.on("change", function() {
     sen2 = A1.value
   })
-
+*/
  ////////////////////////////////////////////////
 
 
@@ -793,7 +795,18 @@ port2.on('error',function(err){
             }
             //If que vuelve a mandar el valor de todos los finales de carrera al frontEnd
             if(topic=="actualizacion"){
-              restartInvernadero()
+              conf()
+              findInvbyContr()
+              horarios()
+              
+              setTimeout(function() {
+                BackFiles()
+                setTimeout(function() {
+                  console.log("aqui se reiniciara el invernadero")
+                  //restartInvernadero()
+                }, 5000)
+              }, 2000)
+              
             }
             //Se añade un nuevo horario de riego
             if(topic=="nuevoRiego"){
@@ -1067,9 +1080,13 @@ async function horarios(){
     horario = await request(options)
   } catch (e) {
     this.error = e.error.error
+    //horario2=parsePayload(horario2)
     horario=horario2
     //return
   }
+  console.log(horario)
+    console.log("----------------------------------------------------")
+    console.log(horario2)
   //console.log("este es el nuevo-------------------------------------------------")
   //console.log(horario)
   if (Array.isArray(horario)) {
@@ -1538,6 +1555,40 @@ async function commando(){
 async function restartInvernadero(){
   console.log("Reiniciando el sistema...!!!")
   shell.exec('pm2 restart Invernadero')
+}
+
+async function restartPc(){
+  console.log("Reiniciando el la pc...!!!")
+  shell.exec('reboot')
+}
+
+async function BackFiles(){
+  console.log("Guardando Archivos para Respaldo...!!!")
+  let data= JSON.stringify(ObtPines,null,2)
+  fs.writeFile('Rpines.json', data, (err) => {
+    if (err) console.log(err);
+    console.log("Successfully ObtPines Written to File.");
+  });
+
+  setTimeout(function() {
+    let data3= JSON.stringify(horario,null,2)
+      fs.writeFile('Rhorario.json', data3, (err) => {
+        if (err) console.log(err);
+        console.log("Successfully horario Written to File.");
+      });
+    setTimeout(function() {
+      let data2= JSON.stringify(controlador,null,2)
+      fs.writeFile('Rcontrolador.json', data2, (err) => {
+        if (err) console.log(err);
+        console.log("Successfully controlador Written to File.");
+      });  
+    }, 1000)
+  }, 1000)
+
+
+  
+
+
 }
 
  // mensaje que se muestra por consola mientras se espera a que se inicie la placa

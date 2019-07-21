@@ -1,4 +1,6 @@
-[
+const fs = require('fs')
+const request = require('request-promise-native')
+let a=[
     {
         "id": 1,
         "departamento": "La Paz 1",
@@ -16,3 +18,16 @@
         "usuarioId": 2
     }
 ]
+let data= JSON.stringify(a,null,2)
+
+const { parsePayload } = require('../mod-mqtt/utils')
+
+/*fs.writeFile('ver.json', data, (err) => {
+    if (err) console.log(err);
+    //console.log("Successfully Written to File.");
+  });*/
+
+  let data2=require('./ver')
+    let data3=parsePayload(data2)
+  console.log(data2[0].departamento)
+  console.log(a[0].id)
