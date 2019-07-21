@@ -15,15 +15,13 @@ module.exports = function setupControlador (ControladorModel, InvernaderoModel) 
     return updated ? ControladorModel.findOne(cond) : existingAgent
     }
   }
-  async function createOrUpdate (id, controlador) {
+  async function createOrUpdate (controlador) {
     const cond = {
       where: {
         uuid: controlador.uuid
       }
     }
-    const invernadero = await InvernaderoModel.findOne({
-      where: { id }
-    })
+
     const existingAgent = await ControladorModel.findOne(cond)
 
     if (existingAgent) {
@@ -31,12 +29,6 @@ module.exports = function setupControlador (ControladorModel, InvernaderoModel) 
       return updated ? ControladorModel.findOne(cond) : existingAgent
     }
 
-    
-    if (invernadero) {
-      Object.assign(controlador, { invernaderoId: invernadero.id })
-      const result = await ControladorModel.create(controlador)
-      return result.toJSON()
-    }
   }
 
   function findById (id) {

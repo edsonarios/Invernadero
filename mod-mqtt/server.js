@@ -55,7 +55,7 @@ server.on('clientDisconnected', async (client) => {
     notificacion(agent.uuid,"Raspberry OFF","Precaucion Raspberry Desconectado")
     
     try {
-      await Agent.createOrUpdate(agent.invernaderoId,agent)
+      await Agent.createOrUpdate(agent)
     } catch (e) {
       return handleError(e)
     }
@@ -93,13 +93,13 @@ server.on('published', async (packet, client) => {
 
       var payload = parsePayload(packet.payload)
       
-      if (payload) {
+        if (payload) {
         payload.agent.connected = true
-        
+      
         let agent
         try {
           
-          agent = await Agent.createOrUpdate(payload.agent.invernaderoId ,payload.agent)
+          agent = await Agent.createOrUpdate(payload.agent)
         } catch (e) {
           return handleError(e)
         }
@@ -125,7 +125,6 @@ server.on('published', async (packet, client) => {
             })
           })
         }
-        
         // Store Metrics
         for (let metric of payload.metrics) {
           
@@ -157,7 +156,7 @@ server.on('published', async (packet, client) => {
         try {
           
           let actuador = await Controlador.updateAccionPin(payload.agent.uuid, {
-            nroPin:payload.actuador.type+"",  
+            nroPin:payload.actuador.type+"",
             accionPin:payload.actuador.value 
             })
             

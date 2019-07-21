@@ -8,9 +8,9 @@
  const fs = require('fs')
 
  var ports = [
-  { id: "A", port: "/dev/ttyACM0" },//MEGA
-  //{ id: "A", port: "/dev/ttyUSB1" },//MEGA
-  //{ id: "B", port: "/dev/ttyUSB0" }, //Proximidad
+  //{ id: "A", port: "/dev/ttyACM0" },//MEGA
+  { id: "A", port: "/dev/ttyUSB1" },//MEGA
+  { id: "B", port: "/dev/ttyUSB0" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
@@ -22,9 +22,9 @@
  
  //Inicializamos el agente
  const ModAgent = require('../mod-agent')
- const agentID = "arduino"
- //const agentID = "ecofreshecofreshecofreshecofresh@user"
- const sendDatos = 4000
+ //const agentID = "arduino"
+ const agentID = "ecofreshecofreshecofreshecofresh@user"
+ const sendDatos = 5000
  //const IP = 'localhost'
  const IP = '167.86.119.191'
  const IPlocal = 'localhost'
@@ -93,7 +93,7 @@ let ObtPines=[]
 let controlador=[]
 let horario=[]
 //console.log("este es respaldo-----------------------------------------------------")
-console.log(controlador)
+//console.log(controlador)
 //console.log("termina--------------------------------------------------------------")
 //se espera cada 30 segundos para la siguiente puerta o ventana
 var TiempoPausa = 30000
@@ -122,7 +122,7 @@ sensor humedad 1
 sensor temperatura almacigo
 sensor Agua
 sensor Tanque Nivel 1*/
-/*
+
  var A0 = new five.Sensor("A0")
  var A1 = new five.Sensor("A1")
  
@@ -143,7 +143,7 @@ var sen2=0
   A1.on("change", function() {
     sen2 = A1.value
   })
-*/
+
  ////////////////////////////////////////////////
 
 
@@ -978,7 +978,7 @@ async function conf(){
     //return
   }
   
-  //console.log(ObtPines)
+  console.log(ObtPines)
   
   //itera sobre todo el json para colocar cada valor del pin en un array diferente
   if (Array.isArray(ObtPines)) {
@@ -1062,7 +1062,7 @@ async function findInvbyContr(){
     })
   }
   
-  //console.log(controlador)
+  console.log(controlador)
   
 }
 async function horarios(){
@@ -1084,11 +1084,7 @@ async function horarios(){
     horario=horario2
     //return
   }
-  console.log(horario)
-    console.log("----------------------------------------------------")
-    console.log(horario2)
-  //console.log("este es el nuevo-------------------------------------------------")
-  //console.log(horario)
+
   if (Array.isArray(horario)) {
     horario.forEach(m => {
       hId.push(m.id)
@@ -1098,7 +1094,7 @@ async function horarios(){
       hAux.push(false)
     })
   }
-  //console.log(hIni)
+  console.log(horario)
   
 }
 async function notificacion(title, body){

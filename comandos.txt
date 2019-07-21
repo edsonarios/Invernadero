@@ -45,6 +45,7 @@ Reiniciar apache
 PRODUCCION SERVIDOR CAMBIAR IPS
 mod-agent - index
 ngx-admin-master    server.js
+mod-mqtt - server.js (para notificaciones cambiar ip)
 
 PC - CAMBIAR IP
 Raspberry/mod-agent - index (ip)
@@ -643,3 +644,17 @@ notificacion tanque
 
 VPS
 Cambio de contraseña.- Longitud 16 caracteres numeros y letras(no acepta simbolos)
+Actualizada dependencias que git indicaba que podria tener vulnerabilidades 
+
+////////////////////////////////////////////////////////////////
+VER LOGS DE FAIL2BAN
+    cat /var/log/fail2ban.log
+
+VER IPS BANEADAS
+    iptables -L
+
+VER PUERTOS ABIERTOS 
+    netstat -ltn
+
+COMANDOS FAIL2BAN
+    fail2ban-client reload

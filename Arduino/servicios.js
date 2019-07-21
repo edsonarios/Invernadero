@@ -1,5 +1,5 @@
 var shell = require('shelljs')
-shell.exec('pm2 stop all')
+shell.exec('pm2 delete all')
 if (shell.exec('service postgresql restart').code !== 0) {
     shell.echo("\x1b[31m",'Error: postgresql restart failed');
     shell.exit(1);
