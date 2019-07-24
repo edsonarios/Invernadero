@@ -53,7 +53,7 @@ server.on('clientDisconnected', async (client) => {
     agent.connected = false
     //Enviando notificacion de dispositivo desconectado
     notificacion(agent.uuid,"Raspberry OFF","Precaucion Raspberry Desconectado")
-    
+     
     try {
       await Agent.createOrUpdate(agent)
     } catch (e) {
