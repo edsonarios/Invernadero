@@ -13,4 +13,8 @@ export class Invernadero{
 		public tiempoPausa: string,
 		public logo: string
 		){}
+
+	getId(){
+		return this.id;
+	}	
 }

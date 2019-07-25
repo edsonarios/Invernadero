@@ -1,6 +1,32 @@
-<span align="center">
-  <h1>Notificaciones</h1>
-</span>
+<div class="container">
+  <div class="starter-template">
+    <div class="row">
+      <div class="col-md-12 mt-5">
+        <h1>Notificaciones</h1>
+        <form [formGroup]="contacto" (ngSubmit)="onSubmit()">
+         
+
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="text" id="fecha" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors}" />
+            <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
+              <div *ngIf="f.fecha.errors.required">fecha</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary" (click)="obtener()">Obtener</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 
+  
+
+
+
+
 <!-- 
 <div [@fadeIn] *ngFor="let n of notificationsE ; let i=index">
 
