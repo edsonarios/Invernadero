@@ -49,19 +49,21 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th><b>Fecha</b></th>
-              <th><b>Hora</b></th>
-              <th><b>Titulo</b></th>
-              <th><b>Mensaje</b></th>
+             <th><b>Titulo</b></th>
+             <th><b>Mensaje</b></th> 
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>YYYY/MM/DD</td>
-              <td>HH:MM:SS</td>
-              <td>TITULO DE PRUEBA</td>
-              <td>MENSAJE DE PRUEBA</td>
-            </tr>
+            <th>
+            <tr *ngFor="let n of formato" >
+                  {{n.titulo}}
+            </tr> 
+            </th>
+             <th>
+            <tr *ngFor="let n of formato" >
+                  {{n.cuerpo}}
+            </tr> 
+            </th>
           </tbody>
         </table>
       </nb-card-body>

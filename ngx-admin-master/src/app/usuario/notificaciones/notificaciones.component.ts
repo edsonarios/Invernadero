@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as io from 'socket.io-client';
+import { DatosNoti } from '../../../model/datosNoti';
 import { GLOBAL } from '../../../service/global';
 import { NotificationService } from '../../../service/notificaciones.service';
 import { fundido } from '../../animation';
@@ -23,6 +23,7 @@ export class NotificacionesComponent implements OnInit {
   public notificationsV;
   public url: string;
   contacto: FormGroup;
+  formato: [DatosNoti];
   public submitted: boolean;
 
   public idInv=localStorage.getItem('user_inv_id');
@@ -76,10 +77,14 @@ export class NotificacionesComponent implements OnInit {
     this.notiE.notificationError(this.idInv,this.contacto.value)
 
     .subscribe(
-      rt => console.log(rt),
+      rt => {
+        this.formato=rt;
+        console.log(this.formato);
+      },
       er => console.log(er),
       () => console.log('terminado')
     );
+    
     console.log(this.contacto.value);
   }
 
