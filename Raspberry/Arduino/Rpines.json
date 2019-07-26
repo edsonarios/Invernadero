@@ -161,7 +161,7 @@
     "estado": 1,
     "clasePin": 2,
     "tipoPin": "digital",
-    "accionPin": 1,
+    "accionPin": 0,
     "descripcionPin": "bomba 1",
     "sensorId": -1,
     "depende": -1,

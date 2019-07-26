@@ -85,10 +85,18 @@ let descripcion =[]
 let tempMaxima, tempMedia, tempMinima, tiempoIntermitencia, temp=[], Auxtemp=[],sensorId=[],idPin=[],nroPin=[], descansoVentilador=[], estadoPuertas=[], depende=[],tiempoMotorAuxi=[],tiempoMotor=[],swPuertas=[],swMotor=[],swPuertas2=[]
 let tiempoPausa, tiempoFuncionMotor, hId=[],hIni=[],hDur=[],hPinId=[],hAux=[]
 
+var swAutoSave=0
+
 ///// RESPALDO /////////////////////////////////////////////////////////////
-let ObtPines2=require('./Rpines')
+/*let ObtPines2=require('./Rpines')
 let controlador2=require('./Rcontrolador')
-let horario2=require('./Rhorario')
+let horario2=require('./Rhorario')*/
+let dat1=fs.readFileSync('Rpines.json')
+let dat2=fs.readFileSync('Rcontrolador.json')
+let dat3=fs.readFileSync('Rhorario.json')
+let ObtPines2=JSON.parse(dat1)
+let controlador2=JSON.parse(dat2)
+let horario2=JSON.parse(dat3)
 let ObtPines=[]
 let controlador=[]
 let horario=[]
@@ -115,6 +123,23 @@ horarios()
 // mensaje que se muestra por consola informandonos de que la placa esta lista
  console.log("Placa lista.")
  
+ //if para autoguardar los datos del servidor en los archivos de respaldo
+ //si las 3 peticiones al servidor son verdaderas recien se autoguarda
+ console.log("\x1b[32m",`testing...!!!`);
+ if(swAutoSave==3){
+  BackFiles()
+  
+  console.log("\x1b[32m",`${swAutoSave}/3 exito...!!!`);
+  console.log("\x1b[32m",`${swAutoSave}/3 Conexion a internet exitosa, trabajando con el servidor.`);
+  console.log("\x1b[37m","")
+ }else{
+  console.log("\x1b[31m",`${swAutoSave}/3 falla...!!!`);
+  console.log("\033[33m",`Conexion a internet fallida, trabajando con archivos de respaldo`);
+  console.log("\x1b[37m","")
+ }
+ PrimerRiego()
+
+ 
  // PRUEBAS  ////////////////////////////////////////////////
  /*sensor Flujo bomba 1
 sensor temperatura 1
@@ -130,10 +155,10 @@ sensor Tanque Nivel 1*/
 var sen1=0
 var sen2=0
 
-  agent.addMetric("sensor temperatura 1", function getRss () {
+  agent.addMetric("sensor X temperatura 1", function getRss () {
     return sen1
   })
-  agent.addMetric("sensor humedad 1", function getRss () {
+  agent.addMetric("sensor X humedad 1", function getRss () {
     return sen2
   })
 
@@ -972,13 +997,12 @@ async function conf(){
   
   try {
     ObtPines = await request(options)
+    swAutoSave++
   } catch (e) {
     this.error = e.error.error
     ObtPines=ObtPines2
     //return
   }
-  
-  console.log(ObtPines)
   
   //itera sobre todo el json para colocar cada valor del pin en un array diferente
   if (Array.isArray(ObtPines)) {
@@ -1027,6 +1051,7 @@ async function findInvbyContr(){
   
   try {
     controlador = await request(options)
+    swAutoSave++
   } catch (e) {
     
     this.error = e.error.error
@@ -1062,7 +1087,6 @@ async function findInvbyContr(){
     })
   }
   
-  console.log(controlador)
   
 }
 async function horarios(){
@@ -1078,13 +1102,14 @@ async function horarios(){
   
   try {
     horario = await request(options)
+    swAutoSave++
   } catch (e) {
     this.error = e.error.error
     //horario2=parsePayload(horario2)
     horario=horario2
     //return
   }
-
+  
   if (Array.isArray(horario)) {
     horario.forEach(m => {
       hId.push(m.id)
@@ -1094,7 +1119,7 @@ async function horarios(){
       hAux.push(false)
     })
   }
-  console.log(horario)
+  //console.log(horario)
   
 }
 async function notificacion(title, body){
@@ -1520,6 +1545,135 @@ async function finalCarrera(pin,value,pos) {
   
 }
 
+async function PrimerRiego(){ 
+  var bombas=[]
+  var pos=[]
+  //console.log("\x1b[32m","Iniciando Automatizacion Riego")
+  var date2 = new Date()
+  
+  //if de notificacion, enviada 1 vez al dia
+  if(date2.getHours()==7 && date2.getMinutes()==30){
+    notificacion("Sistema en Funcionamiento", "Notificacion de sistema en correcto funcionamiento a horas 7:30 a.m.")
+  }
+
+  for (let i = 0; i < hId.length; i++) {
+    var H=parseInt(hIni[i].substring(0,2))
+    var M=parseInt(hIni[i].substring(3,5))
+    var date = new Date()
+    if(!hAux[i]){
+      if(H==date.getHours() && M==date.getMinutes()){
+        
+        hAux[i]=true
+
+        //convertir a milisegundos
+        var duracion = parseInt(hDur[i].substring(3,5))*60000
+        var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+
+        var HoraYFecha = new Date()
+        var Hora = HoraYFecha.getHours()
+        var Minuto = HoraYFecha.getMinutes()
+        var Segundos = HoraYFecha.getSeconds()
+        console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Encendiendo bomba : "+idBomba.descripcionPin)
+        
+        //encender bomba
+        var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1617522290000}`
+        client.publish("actuador", payload)
+        clientLocal.publish("actuador", payload)
+        //controla si ya se envio notificaciones
+        
+          //For para guardar las bombas encendidas para su posterior notificacion con los sensores de flujo
+          for (let i = 0; i < totalPinesMega; i++) {
+            if(estado[i]==1){
+              if(clasePin[i]==1){
+                if(descripcion[i].toLowerCase().indexOf(idBomba.descripcionPin)>=0){
+                  bombas.push(idBomba.descripcionPin)
+                  pos.push(i)
+                }
+              }
+            }
+          }
+        
+      setTimeout(function() {
+          hAux[i]=false
+          var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+          var HoraYFecha = new Date()
+          var Hora = HoraYFecha.getHours()
+          var Minuto = HoraYFecha.getMinutes()
+          var Segundos = HoraYFecha.getSeconds()
+          
+          console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" Apagando bomba : "+idBomba.descripcionPin)
+          //apagar bomba
+          var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1617522290000}`
+          client.publish("actuador", payload)
+          clientLocal.publish("actuador", payload)
+        }, (duracion))
+
+      }
+    }
+    
+    //Spamea el encendido de la bomba, por si se pierde la hora exacta, entonces reinicia la accion
+    var duracion = parseInt(hDur[i].substring(3,5))
+    if(H==date.getHours() && date.getMinutes()>M && date.getMinutes()<(M+duracion)){
+      
+      var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+
+      var HoraYFecha = new Date()
+      var Hora = HoraYFecha.getHours()
+      var Minuto = HoraYFecha.getMinutes()
+      var Segundos = HoraYFecha.getSeconds()
+      //console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" ReEncendiendo bomba : "+idBomba.descripcionPin)
+      
+      //encender bomba
+      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":1},"timestamp":1417522290000}`
+      client.publish("actuador", payload)
+      clientLocal.publish("actuador", payload)
+    }
+    //spamea el apagado de bomba hasta 2 minutos despues
+    if(H==date.getHours() && (date.getMinutes()==(M+duracion) || date.getMinutes()==(M+duracion+1))){
+      
+      var idBomba =  ObtPines.find(m => m.id === hPinId[i])
+
+      var HoraYFecha = new Date()
+      var Hora = HoraYFecha.getHours()
+      var Minuto = HoraYFecha.getMinutes()
+      var Segundos = HoraYFecha.getSeconds()
+      //console.log("\x1b[33m",Hora+":"+Minuto +":"+Segundos+" ReApagando bomba : "+idBomba.descripcionPin)
+      
+      //encender bomba
+      var payload = `{"agent":{"uuid":"${agentID}"},"actuador":{"type":${idBomba.nroPin},"value":0},"timestamp":1417522290000}`
+      client.publish("actuador", payload)
+      clientLocal.publish("actuador", payload)
+    }
+  }
+  //For para enviar las notificaciones
+    setTimeout(function() {
+      for (let i = 0; i < bombas.length; i++) {
+        if(temp[pos[i]]==0){
+          notificacion(`Precaucion ${bombas[i]}`,`${bombas[i]} no existe flujo`)
+        }
+      }
+      bombas=[]
+      pos=[]
+    }, 10000)
+    
+  //For para enviar notificaciones de temperatura
+  for (let i = totalPinesMega; i < estado.length; i++) {
+
+    if(estado[i]==1){
+      if(clasePin[i]==1){
+        if(descripcion[i].toLowerCase().indexOf('sensor temperatura')>=0){
+          if(temp[i]>40){
+            notificacion(`Precaucion ${descripcion[i]}`,`${descripcion[i]} a mas de 40°, , Revisar el sistema...!!!`)
+            break;
+          }
+        }
+      }
+    }
+    
+  }
+  console.log("\x1b[37m","")
+}
+
 async function commando(){ 
   var a= shell.exec('ping -c 5 167.86.119.191').stdout
   //console.log("--------------------------------------------------------------------")
@@ -1563,23 +1717,24 @@ async function BackFiles(){
   let data= JSON.stringify(ObtPines,null,2)
   fs.writeFile('Rpines.json', data, (err) => {
     if (err) console.log(err);
-    console.log("Successfully ObtPines Written to File.");
+    console.log("\x1b[32m","Successfully ObtPines Written to File.");
   });
 
   setTimeout(function() {
     let data3= JSON.stringify(horario,null,2)
       fs.writeFile('Rhorario.json', data3, (err) => {
         if (err) console.log(err);
-        console.log("Successfully horario Written to File.");
+        console.log("\x1b[32m","Successfully horario Written to File.");
       });
     setTimeout(function() {
       let data2= JSON.stringify(controlador,null,2)
       fs.writeFile('Rcontrolador.json', data2, (err) => {
         if (err) console.log(err);
-        console.log("Successfully controlador Written to File.");
+        console.log("\x1b[32m","Successfully controlador Written to File.");
+        console.log("\x1b[37m","")
       });  
-    }, 1000)
-  }, 1000)
+    }, 500)
+  }, 500)
 
 
   
