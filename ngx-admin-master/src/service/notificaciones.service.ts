@@ -21,7 +21,14 @@ export class NotificationService{
 		let headers= new Headers({'Content-Type':'application/json'});
 		return this._http.post(this.url+'getNotificacionesError',{id,fecha}, {headers:headers}) 
 		.map(res => res.json())
-		}
+	}
+
+	notificationFunci(id,fecha){
+		console.log(id, fecha);
+		let headers= new Headers({'Content-Type':'application/json'});
+		return this._http.post(this.url+'getNotificacionesFuncionamiento',{id,fecha}, {headers:headers}) 
+		.map(res => res.json())
+	}
 		
 /*
 	notificationError(datosNoti: DatosNoti){

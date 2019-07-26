@@ -24,6 +24,7 @@ export class NotificacionesComponent implements OnInit {
   public url: string;
   contacto: FormGroup;
   formato: [DatosNoti];
+  formato2: [DatosNoti];
   public submitted: boolean;
 
   public idInv=localStorage.getItem('user_inv_id');
@@ -84,8 +85,22 @@ export class NotificacionesComponent implements OnInit {
       er => console.log(er),
       () => console.log('terminado')
     );
-    
     console.log(this.contacto.value);
+  }
+
+  obtener2(){
+    console.log('identificador de usuario: '+this.idInv);
+    
+    this.notiE.notificationFunci(this.idInv,this.contacto.value)
+
+    .subscribe(
+      rt => {
+        this.formato2=rt;
+        console.log(this.formato2);
+      },
+      er => console.log(er),
+      () => console.log('terminado')
+    );
   }
 
 }

@@ -1,14 +1,14 @@
 <div class="container">
   <div class="starter-template">
     <div class="row">
-      <div class="col-md-12 mt-5">
-        <h1>Notificaciones</h1>
+      <div class="col-md-12 mt-6">
+        <h1>Notificaciones Error</h1>
         <form [formGroup]="contacto" (ngSubmit)="onSubmit()">
-         
-
           <div class="form-group">
             <label>Fecha</label>
-            <input type="text" id="fecha" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors}" />
+            <div class="col-md-12 mt-5">
+              <input type="text" id="fecha" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors}" />
+            </div>
             <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
               <div *ngIf="f.fecha.errors.required">fecha</div>
             </div>
@@ -18,23 +18,29 @@
             <button [disabled]="loading" class="btn btn-primary" (click)="obtener()">Obtener</button>
           </div>
         </form>
+        //
+      </div>
+      <div class="col-md-12 mt-6">
+        <h1>Notificaciones Funcionamiento</h1>
+        <form [formGroup]="contacto2" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Fecha</label>
+            <div class="col-md-12 mt-5">
+              <input type="text" id="fecha" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors}" />
+            </div>
+            <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
+              <div *ngIf="f.fecha.errors.required">fecha</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary" (click)="obtener2()">Obtener</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div> 
-  
-
-
-
-
-<!-- 
-<div [@fadeIn] *ngFor="let n of notificationsE ; let i=index">
-
-  hola
-  <h3>{{notificationsE[i]['titulo']}}-{{notificationsE[i]['cuerpo']}}</h3>
-
-</div> -->
-
 
 <!-- NOTIFICACIONES ERROR -->
 <div class="row">
@@ -74,6 +80,7 @@
   </div>
 
   <!-- NOTIFICACIONES FUNCIONAMIENTO -->
+<div class="row">
   <div class="col-md-6">
     <nb-card>
       <nb-card-header>
@@ -85,19 +92,21 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th><b>Fecha</b></th>
-              <th><b>Hora</b></th>
-              <th><b>Titulo</b></th>
-              <th><b>Mensaje</b></th>
+             <th><b>Titulo</b></th>
+             <th><b>Mensaje</b></th> 
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+            <th>
+            <tr *ngFor="let n of formato2" >
+                  {{n.titulo}}
+            </tr> 
+            </th>
+             <th>
+            <tr *ngFor="let n of formato2" >
+                  {{n.cuerpo}}
+            </tr> 
+            </th>
           </tbody>
         </table>
       </nb-card-body>
@@ -105,6 +114,8 @@
 
       </nb-card-footer>
     </nb-card>
+  </div>
+
   </div>
 
 </div>
