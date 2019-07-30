@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { UsuarioComponent } from './usuario.component';
 
-import { ReporteModule } from './reporte/reporte.module';
+import { ReporteModule } from './Reporte/reporte.module';
 import { InfoModule } from './info/info.module';
 import { MonitoreoModule } from './monitoreo/monitoreo.module';
 import { HorariosModule } from './horarios/horarios.module';
@@ -14,6 +14,7 @@ import { PruebaModule } from './Prueba/prueba.module';
 import { UsuarioRoutingModule } from './usuario-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { NotificacionesModule } from './notificaciones/notificaciones.module';
+import { OpcionesModule } from './OpAvanzadas/opciones.module';
 
 
 const PAGES_COMPONENTS = [
@@ -29,6 +30,8 @@ const PAGES_COMPONENTS = [
     MonitoreoModule,
     HorariosModule,
     NotificacionesModule,
+    OpcionesModule,
+    ReporteModule,
     ControlManualModule,
 
     PruebaModule,

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { UsuarioComponent } from './usuario.component';
 
-import { ReporteComponent } from './reporte/reporte.component';
+import { ReporteComponent } from './Reporte/reporte.component';
 import { InfoComponent } from './info/info.component';
 import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 import { HorariosComponent } from './horarios/horarios.component';
@@ -11,6 +11,7 @@ import { ControlManualComponent } from './control_manual/control_manual.componen
 
 import { PruebaComponent } from './Prueba/prueba.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
+import { OpcionesComponent } from './OpAvanzadas/opciones.component';
 
 const routes: Routes = [{
   path: '',
@@ -35,6 +36,10 @@ const routes: Routes = [{
     {
       path: 'Notificaciones',
       component: NotificacionesComponent,
+    },
+    {
+      path: 'OpAvanzadas',
+      component: OpcionesComponent,
     },
     {
       path: 'Monitoreo',

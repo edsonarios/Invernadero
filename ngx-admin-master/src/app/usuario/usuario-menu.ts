@@ -31,10 +31,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/Usuario/Notificaciones',
   },
   {
+    title: 'Opciones Avanzadas',
+    icon: 'ion-ios-information',
+    link: '/Usuario/OpAvanzadas',
+  },
+  {
     title: 'Reporte',
     icon: 'ion-ios-compose',
     link: '/Usuario/Reporte',
-    hidden: true,
+    //hidden: true,
   },
   {
     title: 'Info Invernadero',
