@@ -1,14 +1,14 @@
 <div class="container">
   <div class="starter-template">
     <div class="row">
-      <div class="col-md-12 mt-6">
+      <div class="col-md-6">
         <h1>Notificaciones Error</h1>
         <form [formGroup]="contacto" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Fecha</label>
-            <div class="col-md-12 mt-5">
-              <input type="text" id="fecha" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors}" />
-            </div>
+            
+              <input type="date" id="fecha" formControlName="fecha" class="form-control" />
+            
             <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
               <div *ngIf="f.fecha.errors.required">fecha</div>
             </div>
@@ -18,16 +18,15 @@
             <button [disabled]="loading" class="btn btn-primary" (click)="obtener()">Obtener</button>
           </div>
         </form>
-        //
       </div>
-      <div class="col-md-12 mt-6">
+      <div class="col-md-6">
         <h1>Notificaciones Funcionamiento</h1>
         <form [formGroup]="contacto2" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Fecha</label>
-            <div class="col-md-12 mt-5">
-              <input type="text" id="fecha" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors}" />
-            </div>
+            
+              <input type="date" id="fecha" formControlName="fecha" class="form-control" />
+            
             <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
               <div *ngIf="f.fecha.errors.required">fecha</div>
             </div>
@@ -80,7 +79,7 @@
   </div>
 
   <!-- NOTIFICACIONES FUNCIONAMIENTO -->
-<div class="row">
+
   <div class="col-md-6">
     <nb-card>
       <nb-card-header>
@@ -116,6 +115,5 @@
     </nb-card>
   </div>
 
-  </div>
+ </div>
 
-</div>

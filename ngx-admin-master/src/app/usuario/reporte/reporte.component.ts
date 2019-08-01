@@ -1,34 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../../model/user';
-import { UserService } from '../../../service/user.service';
+import { DatosNoti } from '../../../model/datosNoti';
+import { GLOBAL } from '../../../service/global';
+import { ReporteService } from '../../../service/reporte.service';
 import { fundido } from '../../animation';
+import { addSyntheticLeadingComment } from 'typescript';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TrustedHtmlString } from '@angular/core/src/sanitization/bypass';
+
 @Component({
-  selector: 'ngx-usuario-reporte',
+  selector: 'ngx-usuario-Reporte',
   styleUrls: ['./reporte.component.scss'],
   templateUrl: './reporte.component.html',
-      providers: [UserService],
- animations: [fundido]
-})
-export class ReporteComponent {
-notifications;
-public user: User;
+  providers: [ReporteService],
+  animations: [fundido],
+  
 
-constructor(
-		private router:Router,
-private userService: UserService,
-		){
-/*this.user = new User(localStorage.getItem('user_id'),'','','','','','','','','','');
- this.userService.Notifications(this.user).subscribe(
-      response =>{
-        this.notifications=response;
-        console.log("estas son las notificaciones del usuario ID: "+localStorage.getItem('user_id'));
-        console.log(this.notifications);
-      },
-      error =>{
-        
-      }
-    );*/
-}
-		
+})
+export class ReporteComponent{
+  public Controller;
+  public url: string;
+  contacto: FormGroup;
+  formato: [DatosNoti];
+  formato2: [DatosNoti];
+  public submitted: boolean;
+
+  public idInv=localStorage.getItem('user_inv_id');
+  
+
+  constructor(
+    private router: Router,
+    private notiE: ReporteService,
+    private notiV: ReporteService,
+    private formBuilder: FormBuilder
+  ) { 
+    this.submitted = true;
+
+  }
+
+
 }
