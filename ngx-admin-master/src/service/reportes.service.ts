@@ -7,7 +7,7 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 @Injectable()
-export class ReporteService{
+export class ReportesService{
 	public url: string;
 
 	

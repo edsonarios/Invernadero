@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ThemeModule } from '../../@theme/theme.module';
-import { ReporteComponent } from './reporte.component';
+import { ReportesComponent } from './reportes.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -18,9 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   declarations: [
-    ReporteComponent,
+    ReportesComponent,
   ],
   providers:[],
-  bootstrap:[ReporteComponent]
+  bootstrap:[ReportesComponent]
 })
-export class ReporteModule { }
+export class ReportesModule { }
