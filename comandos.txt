@@ -594,6 +594,44 @@ ln -s /root/Invernadero/ /root/Desktop/
 ////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////
+//////////////////  HERRAMIENTAS LINUX ALIAS     /////////////////////
+/////////////////////////////////////////////////////////
+
+Crear Alias permanente
+    echo "alias vps='ssh user@IP'" >> ~/.bash_aliases
+
+Actualizar terminal listo para utilizar nuevos alias
+sino solo cerrar terminal y abrir una nueva
+    source ~/.bash_aliases
+
+Editar Alias directo en el archivo 
+    nano ~/.bash_aliases
+
+Editar archivo de alias
+    echo "alias editAlias='nano ~/.bash_aliases'" >> ~/.bash_aliases
+Front
+    echo "alias front='cd /root/Invernadero/ngx-admin-master/ && ng serve'" >> ~/.bash_aliases
+Nueva terminal en tab
+    echo "alias tab='gnome-terminal --tab'" >> ~/.bash_aliases
+Nueva terminal para reloj sin menubar
+    echo "alias reloj1='gnome-terminal  --hide-menubar --geometry 55x11-0+900'" >> ~/.bash_aliases
+
+
+resize -s 11 55
+
+alias servicios='node /root/Invernadero/Arduino/servicios.js'
+alias reloj='tty-clock -sc'
+alias relog='source ~/.bash_aliases'
+alias api='cd /root/Invernadero/mod-api/ && npm run start-dev'
+alias mqtt='cd /root/Invernadero/mod-mqtt/ && npm run start-dev'
+alias socket='cd /root/Invernadero/ngx-admin-master/ && npm run start-dev'
+alias tab='gnome-terminal --tab'
+alias reloj1='gnome-terminal  --hide-menubar --geometry 55x11-0+900'
+alias front='cd /root/Invernadero/ngx-admin-master/ && ng serve'
+
+////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////
 //////////////////  ACTUALIZAR VPS     /////////////////////
 /////////////////////////////////////////////////////////
 

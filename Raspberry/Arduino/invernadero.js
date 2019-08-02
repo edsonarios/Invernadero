@@ -9,13 +9,13 @@
 
  var ports = [
   //{ id: "A", port: "/dev/ttyACM0" },//MEGA
-  { id: "A", port: "/dev/ttyUSB1" },//MEGA
-  { id: "B", port: "/dev/ttyUSB0" }, //Proximidad
+  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
- var sensorCOM1 = '/dev/ttyUSB3' //sensor de flujo
- var sensorCOM2 = '/dev/ttyUSB2' // sensor ds
+ var sensorCOM1 = '/dev/ttyUSB0' //sensor de flujo
+ var sensorCOM2 = '/dev/ttyUSB1' // sensor ds
 
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -58,6 +58,17 @@
   clientLocal.subscribe('actualizacion')
   clientLocal.subscribe('nuevoRiego')
   clientLocal.subscribe('control')
+
+  // CHECK PARA SENSORES DE TEMPERATURA ///////////////////////////////////////////////
+  //variable que copia los sensores de temperatura a una variable para comparar y solo funciona 1 vez al iniciar el programa
+  var swCheckSensores=0
+  //array donde se guardaran los sensores a comparar
+  let checkSensors =[]
+  var checkcont=0
+  var checkcont2=0
+  //cantidad de minutos que comparara antes de reiniciar 
+  var checkMin=10
+  //////////////////////////////////////////////////
 
 const totalPinesMega = 70
 let pulsesFlow = []
@@ -147,7 +158,7 @@ sensor humedad 1
 sensor temperatura almacigo
 sensor Agua
 sensor Tanque Nivel 1*/
-
+/*
  var A0 = new five.Sensor("A0")
  var A1 = new five.Sensor("A1")
  
@@ -168,7 +179,7 @@ var sen2=0
   A1.on("change", function() {
     sen2 = A1.value
   })
-
+*/
  ////////////////////////////////////////////////
 
 
@@ -588,7 +599,8 @@ port2.on('error',function(err){
     
         //LOOP DE RIEGO pregunta cada 60 segundos
         this.loop(60000, () => {
-          
+          //verificara cada minuto si los datos de temperatura no se estan actualizando
+          CheckSensores()
           
           
           var bombas=[]
@@ -598,7 +610,10 @@ port2.on('error',function(err){
           
           //if de notificacion, enviada 1 vez al dia
           if(date2.getHours()==7 && date2.getMinutes()==30){
-            notificacion("Sistema en Funcionamiento", "Notificacion de sistema en correcto funcionamiento a horas 7:30 a.m.")
+            notificacion("Sistema en Funcionamiento", "Notificacion  y reinicio de sistema en correcto funcionamiento a horas 7:30 a.m.")
+            setTimeout(function() {
+              restartInvernadero()
+            }, 1000)
           }
 
           for (let i = 0; i < hId.length; i++) {
@@ -820,7 +835,7 @@ port2.on('error',function(err){
             }
             //If que vuelve a mandar el valor de todos los finales de carrera al frontEnd
             if(topic=="actualizacion"){
-              conf()
+              /*conf()
               findInvbyContr()
               horarios()
               
@@ -831,6 +846,12 @@ port2.on('error',function(err){
                   //restartInvernadero()
                 }, 5000)
               }, 2000)
+              */
+             notificacion("Reinicio del Invernadero por Usuario", " Reiniciando Invernadero a peticion de usuario")
+              setTimeout(function() {
+                  restartInvernadero()
+              }, 1000)
+              
               
             }
             //Se añade un nuevo horario de riego
@@ -1686,8 +1707,12 @@ async function commando(){
     console.log("\x1b[32m","hay señal")
     shCont1=0
     if(shCont2==1){
-      restartInvernadero()
       shCont2=0
+      notificacion("Reestableciendo conexion a Internet", " Reiniciando Invernadero")
+      setTimeout(function() {
+        restartInvernadero()
+      }, 1000)
+      
     }
   }else{
     console.log("\x1b[31m","no hay señal")
@@ -1695,7 +1720,7 @@ async function commando(){
 
     
   }
-  if(shCont1==3){
+  if(shCont1==5){
     shCont2=1
     
   }
@@ -1735,12 +1760,48 @@ async function BackFiles(){
       });  
     }, 500)
   }, 500)
+}
+async function CheckSensores(){
+  console.log("Inicio Check---------------------------------")
+  if(swCheckSensores==0){
+    console.log("1ra y unica copia de sensores")
+    for (let i = 0; i < SensoresDS.length; i++) {
+      checkSensors.push(temp[i+totalPinesMega+SensoresDTH.length])
+    }
+    swCheckSensores=1
+  }
 
-
-  
+  console.log("comparando---------------------------------")
+  for (let i = 0; i < SensoresDS.length; i++) {
+    if(checkSensors[i]==temp[i+totalPinesMega+SensoresDTH.length]){
+      checkcont++
+    }
+    console.log(checkSensors[i],temp[i+totalPinesMega+SensoresDTH.length])
+  }
+  console.log("----------------------------------------------------")
+  if(checkcont==SensoresDS.length){
+    checkcont2++
+    console.log("precaucion son iguales",checkcont2)
+  }else{
+    console.log("no son iguals, respaldando nuevos datos")
+    for (let i = 0; i < SensoresDS.length; i++) {
+      checkSensors[i]=temp[i+totalPinesMega+SensoresDTH.length]
+    }
+    checkcont2=0
+  }
+  console.log("----------------------------------------------------")
+  if(checkcont2==checkMin){
+    console.log("No se actualizo nada, reiniciando")
+    notificacion("Error Sensores de Temperatura", "Los datos de los sensores de temperatura no se actualizaron por 10 minutos, el sistema se reiniciara")
+    setTimeout(function() {
+      restartInvernadero()
+    }, 1000)
+  }
+  console.log("Fin Check---------------------------------")
 
 
 }
+
 
  // mensaje que se muestra por consola mientras se espera a que se inicie la placa
  console.log("\nEsperando a que inicialice el dispositivo...")

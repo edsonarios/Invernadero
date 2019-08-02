@@ -2,12 +2,14 @@
     "apps" : [
     {
       "name"        : "mqtt",
-      "script"      : "./mod-mqtt/server.js",
+      "script"      : "server.js",
+      "cwd"         : "./mod-mqtt/",
       "watch"       : true
     },
     {
         "name"        : "Invernadero",
-        "script"      : "./Arduino/invernadero.js",
+        "script"      : "invernadero.js",
+        "cwd"         : "./Arduino/",
         "watch"       : true
     }
     ]
