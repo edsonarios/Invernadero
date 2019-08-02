@@ -1,0 +1,64 @@
+@import "../../../@theme/styles/themes";
+
+@include nb-install-component() {
+  nb-card {
+    flex-direction: row;
+    align-items: center;
+    height: 6rem;
+    overflow: visible;
+    background-color: rgb(77, 218, 49);
+
+    .icon-container {
+      height: 100%;
+      padding: 0.625rem;
+      background-color: rgb(248, 209, 101);
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 5.75rem;
+      height: 4.75rem;
+      font-size: 3.75rem;
+      border-radius: nb-theme(card-border-radius);
+      transition: width 0.4s ease;
+      transform: translate3d(0, 0, 0);
+      color: nb-theme(text-control-color);
+      background-color: rgb(248, 209, 101);
+    }
+
+    &.off {
+      color: nb-theme(text-hint-color);
+      background-color: rgb(248, 83, 83);
+      .title,
+      .icon {
+        color: nb-theme(text-hint-color);
+      }
+      box-shadow: none;
+      background-image: linear-gradient(to right, transparent, transparent);
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      @include nb-ltr(padding, 0 0.5rem 0 0.75rem);
+      @include nb-rtl(padding, 0 0.75rem 0 0.5rem);
+      border-left: 1px solid transparent;
+    }
+
+    .title {
+      margin: 0;
+    }
+
+    .status {
+      text-transform: uppercase;
+      font-family: nb-theme(text-paragraph-2-font-family);
+      font-size: nb-theme(text-paragraph-2-font-size);
+      font-weight: nb-theme(text-paragraph-2-font-weight);
+      line-height: nb-theme(text-paragraph-2-line-height);
+    }
+  }
+}

@@ -1,6 +1,8 @@
-<div>
-    OPCIONES AVANZADAS 
+<div class="col-md-12">
+    Opciones Avanzadas
 </div>
-<div>
-    we :V
+<div class="col-xxxl-3 col-md-12" *ngFor="let statusCard of statusCards">
+    <ngx-status-card [title]="statusCard.title" [type]="statusCard.type">
+        <i [ngClass]="statusCard.iconClass"></i>
+    </ngx-status-card>
 </div>
