@@ -8,9 +8,9 @@
  const fs = require('fs')
 
  var ports = [
-  { id: "A", port: "/dev/ttyACM0" },//MEGA
-  //{ id: "A", port: "/dev/ttyUSB3" },//MEGA
-  //{ id: "B", port: "/dev/ttyUSB2" }, //Proximidad
+  //{ id: "A", port: "/dev/ttyACM0" },//MEGA
+  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
@@ -22,11 +22,11 @@
  
  //Inicializamos el agente
  const ModAgent = require('../mod-agent')
- const agentID = "arduino"
- //const agentID = "ecofreshecofreshecofreshecofresh@user"
+ //const agentID = "arduino"
+ const agentID = "ecofreshecofreshecofreshecofresh@user"
  const sendDatos = 5000
- const IP = 'localhost'
- //const IP = '167.86.119.191'
+ //const IP = 'localhost'
+ const IP = '167.86.119.191'
  const IPlocal = 'localhost'
  const intervalAutomatization = sendDatos
  //const IP = '192.168.0.19'
