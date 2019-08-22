@@ -8,9 +8,9 @@
  const fs = require('fs')
 
  var ports = [
-  //{ id: "A", port: "/dev/ttyACM0" },//MEGA
-  { id: "A", port: "/dev/ttyUSB3" },//MEGA
-  { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
+  { id: "A", port: "/dev/ttyACM0" },//MEGA
+  //{ id: "A", port: "/dev/ttyUSB3" },//MEGA
+  //{ id: "B", port: "/dev/ttyUSB2" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
@@ -22,11 +22,11 @@
  
  //Inicializamos el agente
  const ModAgent = require('../mod-agent')
- //const agentID = "arduino"
- const agentID = "ecofreshecofreshecofreshecofresh@user"
+ const agentID = "arduino"
+ //const agentID = "ecofreshecofreshecofreshecofresh@user"
  const sendDatos = 5000
- //const IP = 'localhost'
- const IP = '167.86.119.191'
+ const IP = 'localhost'
+ //const IP = '167.86.119.191'
  const IPlocal = 'localhost'
  const intervalAutomatization = sendDatos
  //const IP = '192.168.0.19'
@@ -158,18 +158,19 @@ sensor humedad 1
 sensor temperatura almacigo
 sensor Agua
 sensor Tanque Nivel 1*/
-/*
+
+
+
+
  var A0 = new five.Sensor("A0")
  var A1 = new five.Sensor("A1")
- 
+ var sen1=0
+  var sen2=0
 
-var sen1=0
-var sen2=0
-
-  agent.addMetric("sensor X temperatura 1", function getRss () {
+  agent.addMetric("sensor temperatura 1", function getRss () {
     return sen1
   })
-  agent.addMetric("sensor X humedad 1", function getRss () {
+  agent.addMetric("sensor humedad 1", function getRss () {
     return sen2
   })
 
@@ -179,7 +180,7 @@ var sen2=0
   A1.on("change", function() {
     sen2 = A1.value
   })
-*/
+
  ////////////////////////////////////////////////
 
 

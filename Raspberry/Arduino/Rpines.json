@@ -1,6 +1,6 @@
 [
   {
-    "id": 105,
+    "id": 1,
     "nroPin": "0",
     "estado": 0,
     "clasePin": 2,
@@ -12,7 +12,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 106,
+    "id": 2,
     "nroPin": "1",
     "estado": 0,
     "clasePin": 2,
@@ -24,7 +24,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 107,
+    "id": 3,
     "nroPin": "2",
     "estado": 0,
     "clasePin": 2,
@@ -36,7 +36,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 108,
+    "id": 4,
     "nroPin": "3",
     "estado": 0,
     "clasePin": 2,
@@ -48,7 +48,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 109,
+    "id": 5,
     "nroPin": "4",
     "estado": 0,
     "clasePin": 2,
@@ -60,7 +60,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 110,
+    "id": 6,
     "nroPin": "5",
     "estado": 0,
     "clasePin": 2,
@@ -72,7 +72,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 111,
+    "id": 7,
     "nroPin": "6",
     "estado": 0,
     "clasePin": 2,
@@ -84,7 +84,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 112,
+    "id": 8,
     "nroPin": "7",
     "estado": 0,
     "clasePin": 2,
@@ -96,7 +96,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 113,
+    "id": 9,
     "nroPin": "8",
     "estado": 0,
     "clasePin": 2,
@@ -108,7 +108,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 114,
+    "id": 10,
     "nroPin": "9",
     "estado": 0,
     "clasePin": 2,
@@ -120,7 +120,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 115,
+    "id": 11,
     "nroPin": "10",
     "estado": 0,
     "clasePin": 2,
@@ -132,67 +132,67 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 116,
+    "id": 12,
     "nroPin": "11",
-    "estado": 0,
+    "estado": 1,
     "clasePin": 2,
     "tipoPin": "digital",
-    "accionPin": 0,
-    "descripcionPin": "",
+    "accionPin": 1,
+    "descripcionPin": "bomba 3",
     "sensorId": -1,
     "depende": -1,
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 117,
+    "id": 13,
     "nroPin": "12",
-    "estado": 0,
-    "clasePin": 2,
-    "tipoPin": "digital",
-    "accionPin": 0,
-    "descripcionPin": "",
-    "sensorId": -1,
-    "depende": -1,
-    "tiempoMotor": "00:00:00"
-  },
-  {
-    "id": 118,
-    "nroPin": "13",
     "estado": 1,
     "clasePin": 2,
     "tipoPin": "digital",
     "accionPin": 0,
+    "descripcionPin": "bomba 2",
+    "sensorId": -1,
+    "depende": -1,
+    "tiempoMotor": "00:00:00"
+  },
+  {
+    "id": 14,
+    "nroPin": "13",
+    "estado": 1,
+    "clasePin": 2,
+    "tipoPin": "digital",
+    "accionPin": 1,
     "descripcionPin": "bomba 1",
     "sensorId": -1,
     "depende": -1,
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 119,
+    "id": 15,
     "nroPin": "A0",
-    "estado": 0,
+    "estado": 1,
     "clasePin": 1,
     "tipoPin": "analogico",
     "accionPin": 0,
-    "descripcionPin": "",
+    "descripcionPin": "sensor temperatura 1",
     "sensorId": -1,
     "depende": -1,
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 120,
+    "id": 16,
     "nroPin": "A1",
-    "estado": 0,
+    "estado": 1,
     "clasePin": 1,
     "tipoPin": "analogico",
     "accionPin": 0,
-    "descripcionPin": "",
+    "descripcionPin": "sensor humedad 1",
     "sensorId": -1,
     "depende": -1,
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 121,
+    "id": 17,
     "nroPin": "A2",
     "estado": 0,
     "clasePin": 1,
@@ -204,7 +204,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 122,
+    "id": 18,
     "nroPin": "A3",
     "estado": 0,
     "clasePin": 1,
@@ -216,7 +216,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 123,
+    "id": 19,
     "nroPin": "A4",
     "estado": 0,
     "clasePin": 1,
@@ -228,7 +228,7 @@
     "tiempoMotor": "00:00:00"
   },
   {
-    "id": 124,
+    "id": 20,
     "nroPin": "A5",
     "estado": 0,
     "clasePin": 1,

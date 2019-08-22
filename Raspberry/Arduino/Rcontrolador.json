@@ -1,9 +1,9 @@
 [
   {
-    "id": 2,
-    "departamento": "Oruro",
-    "ubicacion": "Laja",
-    "provincia": "aquinomas",
+    "id": 1,
+    "departamento": "Prueba",
+    "ubicacion": "Prueba",
+    "provincia": "Prueba",
     "tempMaxima": "",
     "tempMedia": "",
     "tempMinima": "",
@@ -11,8 +11,8 @@
     "tiempoPausa": "00:00:30",
     "tiempoFuncionMotor": "00:00:10",
     "logo": "img.jpg",
-    "createdAt": "2019-07-10T05:11:08.138Z",
-    "updatedAt": "2019-07-10T05:11:08.138Z",
-    "usuarioId": 3
+    "createdAt": "2019-08-22T00:51:46.203Z",
+    "updatedAt": "2019-08-22T00:51:46.203Z",
+    "usuarioId": 2
   }
 ]

@@ -90,7 +90,7 @@ api.get('/datosPrueba',async (req,res)=>{
     
   })
   //añade un nuevo controladr (arduino), en funcion a un invernadero
-  const varContr = await Controlador.createOrUpdate(varIn.id, {
+  const varContr = await Controlador.create(varIn.id, {
     uuid: 'arduino',
     marcaC: 'arduino',
     modeloC: 'uno',
@@ -158,7 +158,7 @@ api.get('/datosRoot',async (req,res)=>{
 api.get('/pruebaControlador',async (req,res)=>{
   
   //añade un nuevo controladr (arduino), en funcion a un invernadero
-  const varContr = await Controlador.createOrUpdate(1, {
+  const varContr = await Controlador.create(1, {
     uuid: 'arduino',
     marcaC: 'Arduino3',
     modeloC: 'Controlino3',
@@ -228,7 +228,7 @@ api.post('/addControlador', async (req, res, next) => {
   
   const usuario = await Usuario.findUno(params.usuarioId)
 
-  const varContr = await Controlador.createOrUpdate(params.invernaderoId, {
+  const varContr = await Controlador.create(params.invernaderoId, {
     uuid: usuario.nombre+usuario.ap_paterno+usuario.ap_materno+usuario.correo,
     //uuid:'arddddddd', 
     marcaC: params.marcaC,
@@ -1657,6 +1657,7 @@ api.post('/getNotificacionesError', async (req, res, next) => {
 })
 
 api.post('/getNotificacionesFuncionamiento', async (req, res, next) => {
+  
   var params = req.body
   const obj = await Notificacion.findFuncionamiento(params.id)
   var ojbAr=[]
@@ -1672,6 +1673,29 @@ api.post('/getNotificacionesFuncionamiento', async (req, res, next) => {
  res.send(ojbAr)
 })
 
+//let metrics = await HistorialSensor.findByTypeAgentUuid(type, uuid)
+/*
+Parametros
+type=tipo de sensor Ej: sensor temperatura 1
+uuid=uuid del controlador Ej: arduino
+fecha=fecha Ej: 2019/08/22
+*/
+api.post('/getSensorByUuidTypeDate', async (req, res, next) => {
+  var params = req.body
+  
+  const obj = await HistorialSensor.findByTypeAgentUuid(params.type, params.uuid)
+  var ojbAr=[]
+  if (Array.isArray(obj)) {
+    obj.forEach(m => {
+      //moment('2015-10-20').isBetween('2015-10-19', '2015-10-25');
+      if(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha)){
+        ojbAr.push(m)
+      }
 
+      //console.log(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha))
+    })
+  }
+ res.send(ojbAr)
+})
 
 module.exports = api

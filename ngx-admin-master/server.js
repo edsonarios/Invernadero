@@ -21,8 +21,8 @@ const io = socketio(server)
 const agent = new ModAgent()
 const { parsePayload } = require('../mod-mqtt/utils')
 
-const client = mqtt.connect('mqtt://167.86.119.191')
-//const client = mqtt.connect('mqtt://localhost')
+//const client = mqtt.connect('mqtt://167.86.119.191')
+const client = mqtt.connect('mqtt://localhost')
 
 client.subscribe('actuador')
 client.subscribe('actuador2')
@@ -104,7 +104,7 @@ app.use((err, req, res, next) => {
 
   res.status(500).send({ error: err.message })
 })
-
+ 
 function handleFatalError (err) {
   console.error(`${chalk.red('[fatal error]')} ${err.message}`)
   console.error(err.stack)

@@ -629,6 +629,11 @@ alias tab='gnome-terminal --tab'
 alias reloj1='gnome-terminal  --hide-menubar --geometry 55x11-0+900'
 alias front='cd /root/Invernadero/ngx-admin-master/ && ng serve'
 
+
+echo "alias invernadero='cd /root/Invernadero/Raspberry/Arduino/ && node invernadero.js'" >> ~/.bash_aliases
+echo "alias pm2s='pm2 start /root/Invernadero/Invernadero.json'" >> ~/.bash_aliases
+echo "alias pm2d='pm2 delete all'" >> ~/.bash_aliases
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////

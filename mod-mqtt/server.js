@@ -8,8 +8,8 @@ const db = require('mod-db')
 const request = require('request-promise-native')
 
 //Para notificacion
-const IP = '167.86.119.191'
-//const IP = 'localhost'
+//const IP = '167.86.119.191'
+const IP = 'localhost'
 const Host = `http://${IP}:3000/`
  
 const { parsePayload } = require('./utils')
@@ -51,11 +51,23 @@ server.on('clientDisconnected', async (client) => {
   if (agent) {
     // Mark Agent as Disconnected
     agent.connected = false
+    var pines = await Controlador.findAllPinesDigitalesActuadoresActivos(agent.id)
+    if (Array.isArray(pines)) {
+      pines.forEach(m => {
+        let actuador = Controlador.updateAccionPin(agent.uuid, {
+          nroPin:m.nroPin+"",
+          accionPin:0
+          })
+      })
+    }
+    
+
+    
     //Enviando notificacion de dispositivo desconectado
     notificacion(agent.uuid,"Raspberry OFF","Precaucion Raspberry Desconectado")
      
     try {
-      await Agent.createOrUpdate(agent)
+      await Agent.update(agent)
     } catch (e) {
       return handleError(e)
     }
@@ -99,7 +111,7 @@ server.on('published', async (packet, client) => {
         let agent
         try {
           
-          agent = await Agent.createOrUpdate(payload.agent)
+          agent = await Agent.update(payload.agent)
         } catch (e) {
           return handleError(e)
         }

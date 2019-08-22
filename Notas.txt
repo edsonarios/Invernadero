@@ -1,0 +1,14 @@
+IMPORTANTE...!!!
+    ERROR GRANDE 
+    Cuando se actualiza los pines del controlador, esta utilizando el atributo nroPin, pero ya que habra varios controladores que tendran pines q se llamen lo mismo, deberia ser con con el "id" xq ese si es unico, pero en nroPin no es unico, asi q actualizara todos los pines que se llamen los mismo, y sobre todo cuando haya mas de 1 controlador, por ahora funciona porque solo hay 1 controlador, pero cuando haya 2, actualizara los 2 controladores al mismo tiempo y eso no deberia pasar
+    Los errores estan en 
+    
+    mod-db/lib/pines.js la funcion updateAccionPin() ; se debe modificar a id
+    mod-mqtt/server.js la funcion Controlador.updateAccionPin() ;
+    Raspberry/Arduino/invernadero.js todos los mqtt que usan el atributo "nroPin" , deberia ser "id" del pin 
+
+    En mod-api/api.js igual se encuentra 1 vez Pines.updateAccionPin(), pero parece que nunca se usa esta funcion en el front
+
+    Por falta de tiempo por ahora no se resuelve este errores
+
+    

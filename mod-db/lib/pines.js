@@ -244,6 +244,16 @@ module.exports = function setupControlador (PinesModel, ControladorModel) {
       raw: true
     })
   }
+  async function findAllPinesDigitalesActuadoresActivos(id){
+    return await PinesModel.findAll({
+      where:{
+        controladorId: id,
+        estado:1,
+        clasePin:[2,4],
+      },
+      order: [[ 'id', 'ASC' ]],
+    })
+  }
 
   return {
     create,
@@ -265,6 +275,7 @@ module.exports = function setupControlador (PinesModel, ControladorModel) {
     findOnePin,
     findActuadorActive,
     findFinalCarrera,
-    findNameSensorsUuid
+    findNameSensorsUuid,
+    findAllPinesDigitalesActuadoresActivos
   }
 }
