@@ -1682,9 +1682,12 @@ fecha=fecha Ej: 2019/08/22
 */ 
 api.post('/getSensorByUuidTypeDate', async (req, res, next) => {
   var params = req.body
-  var fin=moment(params.fecha, 'YYYY-MM-DD').toDate()
-  var inicio=moment(fin).subtract(1,'days').toDate()
+  var inicio=moment(params.fecha, 'YYYY-MM-DD').toDate()
+  var fin=moment(inicio).add(1,'days').toDate()
+  //fin=moment(fin).subtract(1,'days').toDate()
   const obj = await HistorialSensor.findAllByTypeAgentUuid(params.type, params.uuid,inicio,fin)
+  console.log(inicio)
+  console.log(fin)
   console.log(obj)
   res.send(obj) 
 })
