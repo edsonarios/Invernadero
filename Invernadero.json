@@ -2,17 +2,17 @@
     "apps" : [
     {
       "name"        : "mqtt",
-      "script"      : "./mod-mqtt/server.js",
+      "script"      : "/root/Invernadero/mod-mqtt/server.js",
       "watch"       : true
     },
     {
         "name"        : "api",
-        "script"      : "./mod-api/server.js",
+        "script"      : "/root/Invernadero/mod-api/server.js",
         "watch"       : true
     },
     {
       "name"        : "socket",
-      "script"      : "./ngx-admin-master/server.js",
+      "script"      : "/root/Invernadero/ngx-admin-master/server.js",
       "watch"       : true
     }
   ]

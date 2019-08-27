@@ -1,4 +1,6 @@
 'use strict'
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const moment = require("moment")
 
 module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
@@ -62,6 +64,26 @@ module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
       raw: true
     })
   }
+  async function findAllByTypeAgentUuid (type, uuid, inicio,fin) {
+    return HistorialSensorModel.findAll({
+      attributes: [ 'id', 'type', 'value', 'createdAt' ],
+      where: {
+        type,
+        createdAt: {
+          [Op.between]: [inicio,fin],
+        }
+      },
+      order: [[ 'createdAt', 'ASC' ]],
+      include: [{
+        attributes: [],
+        model: ControladorModel,
+        where: {
+          uuid
+        }
+      }],
+      raw: true
+    })
+  }
 
   
 
@@ -108,6 +130,7 @@ module.exports = function setupMetric (HistorialSensorModel, ControladorModel) {
     findByAgentUuid,
     findAllByUuid,
     findByTypeAgentUuid,
+    findAllByTypeAgentUuid,
     deleteSensor,
     deleteSensorbyDate,
     modifySensor,

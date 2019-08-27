@@ -1673,29 +1673,20 @@ api.post('/getNotificacionesFuncionamiento', async (req, res, next) => {
  res.send(ojbAr)
 })
 
-//let metrics = await HistorialSensor.findByTypeAgentUuid(type, uuid)
+//let metrics = await HistorialSensor.findAllByTypeAgentUuid(type, uuid)
 /*
 Parametros
 type=tipo de sensor Ej: sensor temperatura 1
 uuid=uuid del controlador Ej: arduino
 fecha=fecha Ej: 2019/08/22
-*/
+*/ 
 api.post('/getSensorByUuidTypeDate', async (req, res, next) => {
   var params = req.body
-  
-  const obj = await HistorialSensor.findByTypeAgentUuid(params.type, params.uuid)
-  var ojbAr=[]
-  if (Array.isArray(obj)) {
-    obj.forEach(m => {
-      //moment('2015-10-20').isBetween('2015-10-19', '2015-10-25');
-      if(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha)){
-        ojbAr.push(m)
-      }
-
-      //console.log(moment(moment(m.createdAt).format("YYYY-MM-DD")).isSame(params.fecha))
-    })
-  }
- res.send(ojbAr)
+  var fin=moment(params.fecha, 'YYYY-MM-DD').toDate()
+  var inicio=moment(fin).subtract(1,'days').toDate()
+  const obj = await HistorialSensor.findAllByTypeAgentUuid(params.type, params.uuid,inicio,fin)
+  console.log(obj)
+  res.send(obj) 
 })
 
 module.exports = api
