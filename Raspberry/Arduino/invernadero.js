@@ -9,13 +9,14 @@
 
  var ports = [
   //{ id: "A", port: "/dev/ttyACM0" },//MEGA
-  { id: "A", port: "/dev/ttyUSB3" },//MEGA
+  { id: "A", port: "/dev/ttyUSB0" },//MEGA
   { id: "B", port: "/dev/ttyUSB2" }, //Proximidad
 ];
 
  //Entrada de variable para los sensores de temperatura
- var sensorCOM1 = '/dev/ttyUSB0' //sensor de flujo
- var sensorCOM2 = '/dev/ttyUSB1' // sensor ds
+ var sensorCOM1 = '/dev/ttyUSB1' //sensor de flujo
+ var sensorCOM2 = '/dev/ttyUSB3' // sensor ds
+ var sensorCOM3 = '/dev/ttyUSB4' // sensor humedad
 
  //configuramos nuestra placa arduino en una variable
  var board = new five.Boards(ports)
@@ -74,6 +75,7 @@ const totalPinesMega = 70
 let pulsesFlow = []
 let SensoresDTH = []
 let SensoresDS = []
+let SensoresDTH2 = []
 var potencia=0
 var switchPWM=0
 var pinPWM=0
@@ -161,7 +163,7 @@ sensor Tanque Nivel 1*/
 
 
 
-
+/*
  var A0 = new five.Sensor("A0")
  var A1 = new five.Sensor("A1")
  var sen1=0
@@ -179,7 +181,7 @@ sensor Tanque Nivel 1*/
   })
   A1.on("change", function() {
     sen2 = A1.value
-  })
+  })*/
 
  ////////////////////////////////////////////////
 
@@ -288,6 +290,10 @@ parser2.on('data',function(data){
             //console.log(SensoresDTH[j])
             if(!isNaN(SensoresDS[j])){
               temp[j+totalPinesMega+SensoresDTH.length] = SensoresDS[j]
+              if(SensoresDS[j]==-127){
+                temp[j+totalPinesMega+SensoresDTH.length] = 1
+              }
+              
             }
             a=""
             j++
@@ -301,6 +307,72 @@ parser2.on('data',function(data){
 port2.on('error',function(err){
     console.log(err);
 });
+
+
+  ///////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////
+const Serialport3=require('serialport');
+//parsers ver lectura
+const Readline3=Serialport3.parsers.Readline;
+const port3=new Serialport3(sensorCOM3,{baudRate:9600});
+const parser3=port3.pipe(new Readline3({
+    delimeter:'\r\n'
+}));
+parser3.on('open ',function(){
+    console.log('coneccion is opend');
+});
+parser3.on('data',function(data){
+  console.log(data)
+  var a=""
+  var b=0
+  
+    if(dthSw==1){
+      
+      for (let i = 0; i < data.length; i++) {
+        if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
+          b=parseFloat(a)
+          if(!isNaN(b)){
+            SensoresDTH2.push(parseFloat(a))  
+          }else{
+            SensoresDTH2.push(-1)
+          }
+          
+          //console.log(parseFloat(a))
+          a=""
+        }else{
+            a+=data.charAt(i)
+        }
+      }
+      dthSw=0
+    }else{
+        var j=0
+        for (let i = 0; i < data.length; i++) {
+          
+          if(data.charCodeAt(i)==32 || data.charCodeAt(i)==13){
+            SensoresDTH2[j]=parseFloat(a)
+            //console.log(SensoresDTH[j])
+            if(!isNaN(SensoresDTH2[j])){
+              //temp[j+totalPinesMega+SensoresDTH.length+SensoresDS.length+3] = SensoresDTH2[j]
+              if(SensoresDTH2[j]!=0){
+                temp[j+totalPinesMega+SensoresDTH.length+SensoresDS.length+3] = SensoresDTH2[j]
+              }
+              
+            }
+            a=""
+            j++
+          }else{
+              a+=data.charAt(i)
+          }
+        }
+    }
+    //console.log(SensoresDS)
+  });
+port3.on('error',function(err){
+    console.log(err);
+});
+
+
+  ///////////////////////////////////////////////////////////////////////////////////
 
 
   ///////////////////////////////////////////////////////////////////////////////////
