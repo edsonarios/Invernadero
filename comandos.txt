@@ -702,3 +702,21 @@ VER PUERTOS ABIERTOS
 
 COMANDOS FAIL2BAN
     fail2ban-client reload
+
+//Ejecutar postgres en la terminal
+sudo su postgres
+psql
+
+//CREA LA BASE DE DATOS (Video 14)
+CREATE ROLE patelecom WITH LOGIN PASSWORD 'patelecom';
+CREATE DATABASE patelecom;
+GRANT ALL PRIVILEGES ON DATABASE patelecom TO patelecom;
+\quit
+
+SCRIPT PARA INSTALAR DEPENDENCIAS Back
+    redis-server
+        sudo echo "alias Iredis='sudo apt install redis-server -y;sudo/etc/init.d/redis-server restart'" >> ~/.bash_aliases
+    SERVIDOR
+        sudo echo "alias Iback='pushd $HOME/Invernadero/mod-agent/; npm install;cd ..;cd mod-api;npm install;cd ..;cd mod-db;npm install;cd ..;cd mod-mqtt;npm install;popd'" >> ~/.bash_aliases
+    LOCAL
+        sudo echo "alias Ilocal='pushd $HOME/Invernadero/Raspberry/mod-agent/; npm install;cd ..;cd mod-db;npm install;cd ..;cd mod-mqtt;npm install;cd ..;cd Arduino;npm install;popd'" >> ~/.bash_aliases
