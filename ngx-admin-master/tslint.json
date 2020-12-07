@@ -38,7 +38,6 @@
     "no-console": [
       true,
       "debug",
-      "log",
       "time",
       "timeEnd",
       "trace"

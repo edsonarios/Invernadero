@@ -1,0 +1,49 @@
+<ngx-one-column-layout>
+   <nb-menu [items]="menu"></nb-menu>
+   <router-outlet *ngIf="!exist">
+      <div class="col-md-6 offset-md-3" *ngIf="!hidden">
+         <span align="center"><h6>Seleccione su Invernadero</h6></span>
+         <nb-card>
+            <nb-card-body>
+               <div class="btn-group">
+                  <!-- <div class="" *ngFor="let n of Invenaderos; let i = index">
+                     <button
+                        class="btn btn-outline-success"
+                        (click)="GuardaID(Invenaderos[i]['id'])"
+                        *ngIf="Invenaderos[i]['id'] != dato"
+                     >
+                        {{ i + 1 }}
+                     </button>
+                     <button
+                        class="btn btn-success"
+                        (click)="GuardaID(Invenaderos[i]['id'])"
+                        *ngIf="Invenaderos[i]['id'] == dato"
+                     >
+                        {{ i + 1 }}
+                     </button>
+                  </div> -->
+                  <div
+                     class=""
+                     *ngFor="let invernadero of InvenaderosArray; let i = index"
+                  >
+                     <button
+                        class="btn btn-outline-success"
+                        (click)="GuardaID(invernadero.id)"
+                        *ngIf="invernadero.id !== idUsuario"
+                     >
+                        {{ i + 1 }}
+                     </button>
+                     <button
+                        class="btn btn-success"
+                        (click)="GuardaID(invernadero.id)"
+                        *ngIf="invernadero.id === idUsuario"
+                     >
+                        {{ i + 1 }}
+                     </button>
+                  </div>
+               </div>
+            </nb-card-body>
+         </nb-card>
+      </div>
+   </router-outlet>
+</ngx-one-column-layout>

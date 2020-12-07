@@ -1,0 +1,67 @@
+<div class="daily-forecast" *ngIf="type.substring(7, 14) == 'tempera'">
+  <div class="Title">
+    <span>{{ title }}</span>
+  </div>
+  <div class="info">
+    <div class="temperature">
+      <span>{{ value }}&deg;</span>
+    </div>
+    <div class="icon">
+      <i class="ion-leaf" *ngIf="value == 0"></i>
+      <i
+        class="ion-leaf text-success"
+        *ngIf="value >= TempMedia - 5 && value <= TempMedia + 5"
+      ></i>
+      <div class="animado2">
+        <i
+          class="ion-leaf text-warning"
+          *ngIf="value > TempMedia + 5 && value < TempMax"
+        ></i>
+      </div>
+      <div class="animado">
+        <i class="ion-leaf text-danger" *ngIf="value >= TempMax"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="daily-forecast" *ngIf="type.substring(7, 14) == 'humedad'">
+  <div class="Title">
+    <span>{{ title }}</span>
+  </div>
+  <div class="info">
+    <div class="temperature">
+      <span>{{ value }}&deg;</span>
+    </div>
+    <div class="icon">
+      <i class="ion-thermometer" *ngIf="value == 0"></i>
+      <i class="ion-thermometer text-primary" *ngIf="value != 0"></i>
+    </div>
+  </div>
+</div>
+<div class="daily-forecast" *ngIf="type.substring(7, 13) == 'Tanque'">
+  <div class="Title">
+    <span>{{ title }}</span>
+  </div>
+  <div class="info">
+    <div class="temperature">
+      <span>{{ value }} %</span>
+    </div>
+    <div class="icon">
+      <i class="ion-beaker"></i>
+    </div>
+  </div>
+</div>
+<div class="daily-forecast" *ngIf="type.substring(7, 11) == 'Agua'">
+  <div class="Title">
+    <span>{{ title }}</span>
+  </div>
+  <div class="info">
+    <div class="temperature">
+      <span>{{ value }}</span>
+    </div>
+    <div class="icon">
+      <i class="ion-waterdrop" *ngIf="value == 0"></i>
+      <i class="ion-waterdrop text-primary" *ngIf="value != 0"></i>
+    </div>
+  </div>
+</div>

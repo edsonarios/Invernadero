@@ -13,57 +13,58 @@ import { PruebaComponent } from './Prueba/prueba.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 import { OpcionesComponent } from './OpAvanzadas/opciones.component';
 
-const routes: Routes = [{
-  path: '',
-  component: UsuarioComponent,
-  children: [
-    {
-      path: 'Reporte',
-      component: ReporteComponent,
-    },
-    {
-      path: 'Info',
-      component: InfoComponent,
-    },
-    {
-      path: 'Horarios',
-      component: HorariosComponent,
-    },
-    {
-      path: 'Control_Manual',
-      component: ControlManualComponent,
-    },
-    {
-      path: 'Notificaciones',
-      component: NotificacionesComponent,
-    },
-    {
-      path: 'OpAvanzadas',
-      component: OpcionesComponent,
-    },
-    {
-      path: 'Monitoreo',
-      component: MonitoreoComponent,
-    },
-    {
-      path: 'Cuenta',
-      loadChildren: './cuenta/cuenta.module#CuentaModule',
-    },
-    {
-      path: 'Dashboard',
-      component: PruebaComponent,
-    },
-    {
+const routes: Routes = [
+   {
       path: '',
-      redirectTo: 'Dashboard',
-      pathMatch: 'full',
-    },
-  ],
-}];
+      component: UsuarioComponent,
+      children: [
+         {
+            path: 'Reporte',
+            component: ReporteComponent,
+         },
+         {
+            path: 'Info',
+            component: InfoComponent,
+         },
+         {
+            path: 'Horarios',
+            component: HorariosComponent,
+         },
+         {
+            path: 'Control_Manual',
+            component: ControlManualComponent,
+         },
+         {
+            path: 'Notificaciones',
+            component: NotificacionesComponent,
+         },
+         {
+            path: 'OpAvanzadas',
+            component: OpcionesComponent,
+         },
+         {
+            path: 'Monitoreo',
+            component: MonitoreoComponent,
+         },
+         {
+            path: 'Cuenta',
+            loadChildren: './cuenta/cuenta.module#CuentaModule',
+         },
+         {
+            path: 'Dashboard',
+            component: PruebaComponent,
+         },
+         {
+            path: '',
+            redirectTo: 'Dashboard',
+            pathMatch: 'full',
+         },
+      ],
+   },
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+   imports: [RouterModule.forChild(routes)],
+   exports: [RouterModule],
 })
-export class UsuarioRoutingModule {
-}
+export class UsuarioRoutingModule {}

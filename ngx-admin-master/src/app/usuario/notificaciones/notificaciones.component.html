@@ -6,16 +6,24 @@
         <form [formGroup]="contacto" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Fecha</label>
-            
-              <input type="date" id="fecha" formControlName="fecha" class="form-control" />
-            
+            <input
+              type="date"
+              id="fecha"
+              formControlName="fecha"
+              class="form-control"
+            />
             <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
               <div *ngIf="f.fecha.errors.required">fecha</div>
             </div>
           </div>
-
           <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary" (click)="obtener()">Obtener</button>
+            <button
+              [disabled]="loading"
+              class="btn btn-primary"
+              (click)="obtener()"
+            >
+              Obtener
+            </button>
           </div>
         </form>
       </div>
@@ -24,22 +32,32 @@
         <form [formGroup]="contacto2" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Fecha</label>
-            
-              <input type="date" id="fecha" formControlName="fecha" class="form-control" />
-            
+            <input
+              type="date"
+              id="fecha"
+              formControlName="fecha"
+              class="form-control"
+            />
+
             <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
               <div *ngIf="f.fecha.errors.required">fecha</div>
             </div>
           </div>
 
           <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary" (click)="obtener2()">Obtener</button>
+            <button
+              [disabled]="loading"
+              class="btn btn-primary"
+              (click)="obtener2()"
+            >
+              Obtener
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-</div> 
+</div>
 
 <!-- NOTIFICACIONES ERROR -->
 <div class="row">
@@ -54,27 +72,29 @@
         <table class="table table-striped">
           <thead>
             <tr>
-             <th><b>Titulo</b></th>
-             <th><b>Mensaje</b></th> 
+              <th><b>Titulo</b></th>
+              <th><b>Mensaje</b></th>
             </tr>
           </thead>
           <tbody>
             <th>
-            <tr *ngFor="let n of formato" >
-                  {{n.titulo}}
-            </tr> 
+              <tr *ngFor="let n of formato">
+                {{
+                  n.titulo
+                }}
+              </tr>
             </th>
-             <th>
-            <tr *ngFor="let n of formato" >
-                  {{n.cuerpo}}
-            </tr> 
+            <th>
+              <tr *ngFor="let n of formato">
+                {{
+                  n.cuerpo
+                }}
+              </tr>
             </th>
           </tbody>
         </table>
       </nb-card-body>
-      <nb-card-footer>
-
-      </nb-card-footer>
+      <nb-card-footer> </nb-card-footer>
     </nb-card>
   </div>
 
@@ -91,29 +111,29 @@
         <table class="table table-striped">
           <thead>
             <tr>
-             <th><b>Titulo</b></th>
-             <th><b>Mensaje</b></th> 
+              <th><b>Titulo</b></th>
+              <th><b>Mensaje</b></th>
             </tr>
           </thead>
           <tbody>
             <th>
-            <tr *ngFor="let n of formato2" >
-                  {{n.titulo}}
-            </tr> 
+              <tr *ngFor="let n of formato2">
+                {{
+                  n.titulo
+                }}
+              </tr>
             </th>
-             <th>
-            <tr *ngFor="let n of formato2" >
-                  {{n.cuerpo}}
-            </tr> 
+            <th>
+              <tr *ngFor="let n of formato2">
+                {{
+                  n.cuerpo
+                }}
+              </tr>
             </th>
           </tbody>
         </table>
       </nb-card-body>
-      <nb-card-footer>
-
-      </nb-card-footer>
+      <nb-card-footer> </nb-card-footer>
     </nb-card>
   </div>
-
- </div>
-
+</div>
