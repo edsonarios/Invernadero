@@ -5,7 +5,8 @@
   "main": "invernadero.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node invernadero.js"
+    "start": "NODE_ENV=production node invernadero.js",
+    "lint": "standard"
   },
   "dependencies": {
     "async-mqtt": "^1.0.1",
@@ -16,9 +17,9 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "shelljs": "^0.8.3",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "standard": "^16.0.3"
   },
-  "devDependencies": {},
   "author": "",
   "license": "MIT"
 }

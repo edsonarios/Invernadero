@@ -12,3 +12,4 @@ IMPORTANTE...!!!
     Por falta de tiempo por ahora no se resuelve este errores
 
     
+Error al llamar la imagen por api, por consola si funciona, pero cuando esta en servicio no funciona, solucion: firebase

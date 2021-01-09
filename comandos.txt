@@ -5,10 +5,12 @@ tty-clock -sc
 INVERNADERO
 VPS IP: 
 167.86.119.191
-password: 2e3aOVr}j5*7Pd3%
+
+usuario:        root
+ServerPassword: FVhL585Q4a9
+VNCPassword:    dFfv3DDX
+
 sshpass -p Kgey1j4ql16UPDWT ssh root@167.86.119.191
-Kgey1j4ql16UPDWT
-tFLJsJcpj5P
 
 pm2 restart Invernadero
 nvm i 8.11.2
@@ -545,7 +547,7 @@ pg_dump -U postgres -h localhost -d patelecom > invernadero.sql
     // db creada sin nada / ruta donde esta el backapp
     psql dbpropia < /home/ubuntu/invernadero.sql
     psql patelecom < /home/ubuntu/invernadero.sql
-
+<>
     VERIFICA
     psql dbpropia
     \dt //ver todas las tablas
@@ -719,4 +721,16 @@ SCRIPT PARA INSTALAR DEPENDENCIAS Back
     SERVIDOR
         sudo echo "alias Iback='pushd $HOME/Invernadero/mod-agent/; npm install;cd ..;cd mod-api;npm install;cd ..;cd mod-db;npm install;cd ..;cd mod-mqtt;npm install;popd'" >> ~/.bash_aliases
     LOCAL
-        sudo echo "alias Ilocal='pushd $HOME/Invernadero/Raspberry/mod-agent/; npm install;cd ..;cd mod-db;npm install;cd ..;cd mod-mqtt;npm install;cd ..;cd Arduino;npm install;popd'" >> ~/.bash_aliases
+        [instalar git]
+        sudo apt install git
+        [clonar repositorio]
+        git clone https://github.com/edsonarios/Invernadero.git
+        [instalar nvm]
+        wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+        
+        [alias para instalar node 8.11.2, dependencias en Raspberry/agent, mqtt, mod-db, Arduino; Ejecutar solo con "Ilocal"]
+        sudo echo "alias Ilocal='pushd $HOME/Invernadero/Raspberry/mod-agent/;nvm i 8.11.2;npm install;cd ..;cd mod-db;npm install;cd ..;cd mod-mqtt;npm install;cd ..;cd Arduino;npm install;npm i pm2 -g;popd'" >> ~/.bash_aliases
+        
+        [Permisos para los puertos de arduino]
+        sudo usermod -a -G dialout user 
+        sudo chmod a+rw /dev/ttyUSB0
